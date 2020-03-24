@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+    <ion-button slot="start" fill="clear" (click)="cerrar()">
+      <ion-icon style="color:#fff;font-size: 25px;" name="arrow-back">
+
+      </ion-icon>
+    </ion-button>
+    <ion-title>{{chat.Nombre}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ul *ngIf="sala">
+    <li *ngFor="let mensaje of sala.mensajes">
+      {{mensaje.Contenido}}
+    </li>
+  </ul>
+</ion-content>
+
+<ion-footer padding>
+  <ion-item>
+
+    <ion-textarea [(ngModel)]="msg"></ion-textarea>
+    <ion-button (click)="sendMessage()" color="success">
+      <ion-icon name="send">
+        Enviar
+      </ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-footer>
