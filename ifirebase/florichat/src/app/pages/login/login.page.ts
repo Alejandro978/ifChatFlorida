@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from 'src/app/models/usuario.model';
+
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 
@@ -11,7 +11,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  usuario: Usuario = new Usuario();
+  usuario: { email: string, contrasenya: string }
 
   constructor(private auth: AuthService, public router: Router, public toastCtrl: ToastController) { }
 
@@ -20,7 +20,7 @@ export class LoginPage implements OnInit {
   }
 
   onSubmitLogin() {
-    this.auth.login(this.usuario.email, this.usuario.password).then(res => {
+    this.auth.login(this.usuario.email, this.usuario.contrasenya).then(res => {
       this.router.navigate(['/home']);
     }).catch(err => {
       this.ejecutarToast();

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Router } from "@angular/router";
-import { Usuario } from '../models/usuario.model';
+import { Profesor } from '../models/profesor.model';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Alumno } from '../models/alumno.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,15 +30,34 @@ export class AuthService {
     });
   }
 
-  register(usuario: Usuario) {
+  registrarProfesor(profesor: Profesor) {
 
     return new Promise((resolve, reject) => {
 
-      this.angularFireAuth.auth.createUserWithEmailAndPassword(usuario.email, usuario.password).then(res => {
+      this.angularFireAuth.auth.createUserWithEmailAndPassword(profesor.email, profesor.contrasenya).then(res => {
 
-        this.db.collection('users').doc(res.user.uid).set({
-          nombre: usuario.nombre,
-          email:usuario.email,
+        this.db.collection('profesores').doc(res.user.uid).set({
+          nombre: profesor.nombre,
+          email:profesor.email,
+          uid:res.user.uid
+        })
+
+        console.log(res.user.uid);
+        resolve(res);
+      }).catch(err => reject(err));
+    });
+
+  }
+
+  registrarAlumno(alumno: Alumno) {
+
+    return new Promise((resolve, reject) => {
+
+      this.angularFireAuth.auth.createUserWithEmailAndPassword(alumno.email, alumno.contrasenya).then(res => {
+
+        this.db.collection('alumnos').doc(res.user.uid).set({
+          nombre: alumno.nombre,
+          email:alumno.email,
           uid:res.user.uid
         })
 

@@ -1,14 +1,190 @@
 <ion-header>
   <ion-toolbar color="secondary">
-    <ion-title class="center">Registro</ion-title>
+
+    <ion-button slot="start" fill="clear" (click)="volverLogin()">
+      <ion-icon style="color:#ffff" name="arrow-back"></ion-icon>
+    </ion-button>
+
+    <ion-title style="margin-right: 50px;" class="center">Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
-  <!-- TODO:Añadir imagen con el logo de la app ( FLORICHAT ) -->
-  <img class="icon" src="assets/icon/chat_icon.svg" alt="">
 
+  <ion-slides class="mainSlide">
+
+    <ion-slide>
+
+      <ion-grid fixed>
+
+        <ion-row>
+          <ion-col>
+            <h3>Seleccione Avatar</h3>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-slides [options]="avatarSlide">
+              <ion-slide *ngFor="let avatar of avatars">
+                <img class="pick-avatar" src="/assets/avatars/{{avatar.img}}"
+                  [ngClass]="{'pick-avatar-seleccionado':avatar.seleccionado}" (click)="seleccionarAvatar(avatar)">
+              </ion-slide>
+            </ion-slides>
+          </ion-col>
+        </ion-row>
+
+        <form>
+          <ion-row>
+            <ion-col>
+
+              <ion-list>
+
+                <ion-item>
+                  <ion-label>Email</ion-label>
+                  <ion-input name="password" type="password" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Contraseña</ion-label>
+                  <ion-input name="password" type="password" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Nombre</ion-label>
+                  <ion-input name="email" type="email" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Apellidos</ion-label>
+                  <ion-input name="password" type="password" required></ion-input>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button type="submit" color="tertiary" shape="round">
+                Crear profesor
+              </ion-button>
+
+
+
+            </ion-col>
+          </ion-row>
+
+        </form>
+      </ion-grid>
+
+
+
+    </ion-slide>
+
+    <ion-slide>
+
+
+      <ion-grid fixed>
+
+        <ion-row>
+          <ion-col>
+            <h3>Seleccione Avatar</h3>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-slides [options]="avatarSlide">
+              <ion-slide *ngFor="let avatar of avatars">
+                <img class="pick-avatar" src="/assets/avatars/{{avatar.img}}"
+                  [ngClass]="{'pick-avatar-seleccionado':avatar.seleccionado}" (click)="seleccionarAvatar(avatar)">
+              </ion-slide>
+            </ion-slides>
+          </ion-col>
+        </ion-row>
+
+        <form>
+          <ion-row>
+            <ion-col>
+
+              <ion-list>
+
+                <ion-item>
+                  <ion-label>Email</ion-label>
+                  <ion-input name="password" type="password" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Contraseña</ion-label>
+                  <ion-input name="password" type="password" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Nombre</ion-label>
+                  <ion-input name="email" type="email" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Apellidos</ion-label>
+                  <ion-input name="password" type="password" required></ion-input>
+                </ion-item>
+
+          
+
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button type="submit" color="tertiary" shape="round">
+                Crear Alumno
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </form>
+      </ion-grid>
+
+
+    </ion-slide>
+
+
+  </ion-slides>
+
+
+
+</ion-content>
+
+
+<ion-footer no-border>
+  <ion-toolbar>
+
+    <ion-row>
+
+      <ion-col>
+        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary">
+          Profesor
+        </ion-button>
+      </ion-col>
+
+      <ion-col>
+        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary">
+          Alumno
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+
+
+
+  </ion-toolbar>
+</ion-footer>
+
+<!-- TODO:Añadir imagen con el logo de la app ( FLORICHAT ) -->
+<!-- <img class="icon" src="assets/icon/chat_icon.svg" alt="">
   <ion-item>
     <ion-label position="floating">Nombre</ion-label>
     <ion-input type="text" [(ngModel)]="usuario.nombre" name="email"></ion-input>
@@ -23,13 +199,10 @@
     <ion-label position="floating"> Contraseña</ion-label>
     <ion-input type="password" [(ngModel)]="usuario.password" name="password"></ion-input>
   </ion-item>
-
   <br>
 
   <ion-button expand="block" color="secondary" (click)="onSubmit()">Registrarse</ion-button>
 
   <br>
 
-  <p class="center" routerLink="/login">Ya tengo cuenta</p>
-
-</ion-content>
+  <p class="center" routerLink="/login">Ya tengo cuenta</p> -->
