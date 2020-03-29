@@ -10,12 +10,17 @@
 </ion-header>
 
 <ion-content padding>
-  <ul *ngIf="sala">
-    <li *ngFor="let mensaje of sala.mensajes">
-      {{mensaje.Contenido}}
-    </li>
-  </ul>
+
+  <div *ngIf="sala">
+    <ion-card *ngFor="let mensaje of sala.mensajes">
+      <ion-card-content>
+        {{mensaje.Contenido}}
+
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>
+
 
 <ion-footer padding>
   <ion-item>

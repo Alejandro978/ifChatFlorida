@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../services/auth.service";
-import { ChatService } from "../services/chat.service";
-import { Chat } from '../models/chat.model';
+import { AuthService } from "../../services/auth.service";
+import { ChatService } from "../../services/chat.service";
+import { Chat } from '../../models/chat.model';
 import { ModalController, ActionSheetController } from '@ionic/angular';
-import { ChatModalComponent } from '../componentes/chat-modal/chat-modal.component';
-import { Mensaje } from '../models/mensaje.model';
+import { ChatModalComponent } from '../../components/chat-modal/chat-modal.component';
+import { Mensaje } from '../../models/mensaje.model';
 
 @Component({
   selector: 'app-home',

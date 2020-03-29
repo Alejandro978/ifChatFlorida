@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title class="center">Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+  <!-- TODO:Añadir imagen con el logo de la app ( FLORICHAT ) -->
+  <img class="icon" src="assets/icon/chat_icon.svg" alt="">
+
+  <ion-item>
+    <ion-label position="floating">Nombre</ion-label>
+    <ion-input type="text" [(ngModel)]="usuario.nombre" name="email"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating"> Correo electrónico</ion-label>
+    <ion-input type="text" [(ngModel)]="usuario.email" name="email"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating"> Contraseña</ion-label>
+    <ion-input type="password" [(ngModel)]="usuario.password" name="password"></ion-input>
+  </ion-item>
+
+  <br>
+
+  <ion-button expand="block" color="secondary" (click)="onSubmit()">Registrarse</ion-button>
+
+  <br>
+
+  <p class="center" routerLink="/login">Ya tengo cuenta</p>
+
+</ion-content>

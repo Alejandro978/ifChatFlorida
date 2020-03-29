@@ -12,7 +12,7 @@ import { AngularFireModule } from '@angular/fire';
 import { FireBaseConfig } from '../environments/environment';
 import { AngularFireAuthModule } from "@angular/fire/auth"
 import { AngularFirestoreModule, FirestoreSettingsToken } from "@angular/fire/firestore";
-import { ChatModalComponent } from './componentes/chat-modal/chat-modal.component';
+import { ChatModalComponent } from './components/chat-modal/chat-modal.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
