@@ -1,6 +1,8 @@
 export class Alumno {
-    email: string;
-    contrasenya: string;
-    nombre:string;
-    apellidos:string;
+    IdAlumno: string;
+    Email: string;
+    Contrasenya: string;
+    Nombre: string;
+    Apellidos: string;
+    IdRol: number;
 }

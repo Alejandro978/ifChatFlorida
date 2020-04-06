@@ -1,6 +1,8 @@
 export class Profesor {
-    email: string;
-    contrasenya: string;
-    nombre:string;
-    apellidos:string;
+    IdProfesor:string;
+    Email: string;
+    Contrasenya: string;
+    Nombre: string;
+    Apellidos: string;
+    IdRol: number;
 }
