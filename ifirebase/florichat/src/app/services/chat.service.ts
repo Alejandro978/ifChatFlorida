@@ -23,7 +23,6 @@ export class ChatService {
         //Se mapea para no obtener datos repetidos.
         const data = a.payload.doc.data() as Chat;
         data.IdChat = a.payload.doc.id;
-
         return data;
       })
     }));
