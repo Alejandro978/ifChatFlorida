@@ -17,7 +17,7 @@ export class NoLoginGuard implements CanActivate {
 
     return this.angularFireAuth.authState.pipe(map(auth => {
       if (!!auth) {
-        this.router.navigate(['/home']);
+        this.router.navigate(['/tabs']);
         return false;
       }
       else {

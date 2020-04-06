@@ -14,6 +14,8 @@ import { AngularFireAuthModule } from "@angular/fire/auth"
 import { AngularFirestoreModule, FirestoreSettingsToken } from "@angular/fire/firestore";
 import { ChatModalComponent } from './components/chat-modal/chat-modal.component';
 import { FormsModule } from '@angular/forms';
+import { IonicStorageModule } from '@ionic/storage';
+import { TabClaseModalComponent } from './pages/tabs/tab-clase/tab-clase-modal/tab-clase-modal.component';
 
 @NgModule({
   declarations: [AppComponent, ChatModalComponent],
@@ -27,7 +29,8 @@ import { FormsModule } from '@angular/forms';
     AngularFireModule.initializeApp(FireBaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    FormsModule
+    FormsModule,
+    IonicStorageModule.forRoot()
   ],
 
   providers: [
