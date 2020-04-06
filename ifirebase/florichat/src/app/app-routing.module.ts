@@ -5,12 +5,8 @@ import { NoLoginGuard } from "./guards/no-login.guard";
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'tabs', pathMatch: 'full' },
 
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule), canActivate: [AuthGuard]
-  },
   {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule), canActivate: [NoLoginGuard]
@@ -18,6 +14,10 @@ const routes: Routes = [
   {
     path: 'registro',canActivate: [NoLoginGuard],
     loadChildren: () => import('./pages/registro/registro.module').then(m => m.RegistroPageModule)
+  },
+  {
+    path: 'tabs',canActivate: [AuthGuard],
+    loadChildren: () => import('./pages/tabs/tabs.module').then( m => m.TabsPageModule)
   },
 ];
 
