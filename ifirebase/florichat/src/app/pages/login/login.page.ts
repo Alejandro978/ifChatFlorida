@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 
 import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -11,17 +13,19 @@ import { ToastController } from '@ionic/angular';
 })
 export class LoginPage implements OnInit {
 
-  usuario: { email: string, contrasenya: string }
+  // usuario: { email: string, contrasenya: string }
 
-  constructor(private auth: AuthService, public router: Router, public toastCtrl: ToastController) { }
+  email: string = 'profesor@gmail.com';
+  contrasenya: string = 'profesor';
+  constructor(private db: AngularFirestore, private storage: Storage, private auth: AuthService, public router: Router, public toastCtrl: ToastController) { }
 
   ngOnInit() {
 
   }
 
-  onSubmitLogin() {
-    this.auth.login(this.usuario.email, this.usuario.contrasenya).then(res => {
-      this.router.navigate(['/home']);
+  async onSubmitLogin() {
+    this.auth.login(this.email, this.contrasenya).then((res: any) => {
+      this.setUser(res.user.uid);
     }).catch(err => {
       this.ejecutarToast();
     });
@@ -33,5 +37,17 @@ export class LoginPage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  async setUser(uid) {
+    let userInfo: any;
+    this.getUser(uid).subscribe(userInfo => {
+      this.storage.set('userInfo', userInfo);
+      this.router.navigate(['/tabs']);
+    });
+  }
+
+  getUser(uid: string) {
+    return this.db.collection('profesores').doc(uid).valueChanges();
   }
 }

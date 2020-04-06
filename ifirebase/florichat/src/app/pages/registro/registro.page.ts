@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { Profesor } from 'src/app/models/profesor.model';
+import { IonSlides } from '@ionic/angular';
+import { Alumno } from 'src/app/models/alumno.model';
 
 @Component({
   selector: 'app-registro',
@@ -9,6 +11,10 @@ import { Profesor } from 'src/app/models/profesor.model';
   styleUrls: ['./registro.page.scss'],
 })
 export class RegistroPage implements OnInit {
+
+  @ViewChild('slideGeneral', { static: false }) slides: IonSlides;
+
+  titulo: string = "Registrar profesor";
 
   avatars = [
     {
@@ -46,22 +52,35 @@ export class RegistroPage implements OnInit {
   ];
 
   profesor: Profesor = new Profesor();
-  alumno: Profesor = new Profesor();
+  alumno: Alumno = new Alumno();
 
-
+  avatarSlideGeneral = {
+    allowTouchMove: false
+  }
   avatarSlide = {
-    slidesPerView: 3.5
+    slidesPerView: 3.5,
   }
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {
+  }
 
   ngOnInit() {
+    //Cancelamos el movimiento del slide
+    // this.slides.lockSwipes(true);
+
   }
 
-  onSubmit() {
-    this.authService.register(this.usuario).then(auth => {
-      this.router.navigate(['home']);
-      console.log(auth);
+
+  crearProfesor() {
+    this.authService.registrarProfesor(this.profesor).then(auth => {
+      this.router.navigate(['tabs']);
+
+    }).catch(err => console.log(err));
+  }
+
+  crearAlumno() {
+    this.authService.registrarAlumno(this.alumno).then(auth => {
+      this.router.navigate(['tabs']);
 
     }).catch(err => console.log(err));
   }
@@ -75,6 +94,23 @@ export class RegistroPage implements OnInit {
 
   volverLogin() {
     this.router.navigate(['login']);
+  }
 
+  registroAlumno() {
+    this.slides.lockSwipes(false);
+    this.slides.slideTo(0);
+    this.slides.lockSwipes(true);
+    this.titulo = 'Registrar profesor';
+  }
+
+  registroProfesor() {
+    this.slides.lockSwipes(false);
+    this.slides.slideTo(1);
+    this.slides.lockSwipes(true);
+    this.titulo = 'Registrar alumno'
+  }
+
+  getTitulo() {
+    return 'Prueba';
   }
 }

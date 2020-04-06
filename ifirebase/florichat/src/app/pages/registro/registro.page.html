@@ -5,15 +5,16 @@
       <ion-icon style="color:#ffff" name="arrow-back"></ion-icon>
     </ion-button>
 
-    <ion-title style="margin-right: 50px;" class="center">Registro</ion-title>
+    <ion-title style="margin-right: 50px;" class="center">{{titulo}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content padding>
 
-  <ion-slides class="mainSlide">
+  <ion-slides [options]="avatarSlideGeneral" class="mainSlide" #slideGeneral>
 
+    <!-- Creación usuario profesor -->
     <ion-slide>
 
       <ion-grid fixed>
@@ -43,22 +44,22 @@
 
                 <ion-item>
                   <ion-label>Email</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="profesor.Email" name="email" type="text" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Contraseña</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="profesor.Contrasenya" name="password" type="password" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Nombre</ion-label>
-                  <ion-input name="email" type="email" required></ion-input>
+                  <ion-input [(ngModel)]="profesor.Nombre" name="nombre" type="text" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Apellidos</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="profesor.Apellidos" name="apellidos" type="text" required></ion-input>
                 </ion-item>
 
               </ion-list>
@@ -67,8 +68,8 @@
 
           <ion-row>
             <ion-col>
-              <ion-button type="submit" color="tertiary" shape="round">
-                Crear profesor
+              <ion-button (click)="crearProfesor()" type="submit" color="tertiary" shape="round">
+                Registrar profesor
               </ion-button>
 
 
@@ -83,6 +84,7 @@
 
     </ion-slide>
 
+    <!-- Creación usuario Alumno -->
     <ion-slide>
 
 
@@ -113,25 +115,23 @@
 
                 <ion-item>
                   <ion-label>Email</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="alumno.Email" name="email" type="email" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Contraseña</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="alumno.Contrasenya" name="password" type="password" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Nombre</ion-label>
-                  <ion-input name="email" type="email" required></ion-input>
+                  <ion-input [(ngModel)]="alumno.Nombre" name="nombre" type="text" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Apellidos</ion-label>
-                  <ion-input name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="alumno.Apellidos" name="apellidos" type="text" required></ion-input>
                 </ion-item>
-
-          
 
               </ion-list>
             </ion-col>
@@ -139,8 +139,8 @@
 
           <ion-row>
             <ion-col>
-              <ion-button type="submit" color="tertiary" shape="round">
-                Crear Alumno
+              <ion-button (click)="crearAlumno()" type="submit" color="tertiary" shape="round">
+                Registrar Alumno
               </ion-button>
             </ion-col>
           </ion-row>
@@ -165,13 +165,14 @@
     <ion-row>
 
       <ion-col>
-        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary">
+        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary" (click)="registroAlumno()">
           Profesor
         </ion-button>
       </ion-col>
 
       <ion-col>
-        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary">
+        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary"
+          (click)="registroProfesor()">
           Alumno
         </ion-button>
       </ion-col>
@@ -182,27 +183,3 @@
 
   </ion-toolbar>
 </ion-footer>
-
-<!-- TODO:Añadir imagen con el logo de la app ( FLORICHAT ) -->
-<!-- <img class="icon" src="assets/icon/chat_icon.svg" alt="">
-  <ion-item>
-    <ion-label position="floating">Nombre</ion-label>
-    <ion-input type="text" [(ngModel)]="usuario.nombre" name="email"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating"> Correo electrónico</ion-label>
-    <ion-input type="text" [(ngModel)]="usuario.email" name="email"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating"> Contraseña</ion-label>
-    <ion-input type="password" [(ngModel)]="usuario.password" name="password"></ion-input>
-  </ion-item>
-  <br>
-
-  <ion-button expand="block" color="secondary" (click)="onSubmit()">Registrarse</ion-button>
-
-  <br>
-
-  <p class="center" routerLink="/login">Ya tengo cuenta</p> -->
