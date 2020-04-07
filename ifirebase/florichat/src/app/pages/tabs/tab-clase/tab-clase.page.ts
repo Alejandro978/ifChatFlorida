@@ -79,7 +79,9 @@ export class TabClasePage {
 
     this.claseService.getClasesProfesor().subscribe(listadoClases => {
       //Filtramos las clases con lodash ya que con los servicios de Firebase da muchos problemas:
-      this.filtrarClasesProfesor(listadoClases)
+      if (!!listadoClases) {
+        this.filtrarClasesProfesor(listadoClases)
+      }
     });
   }
 
@@ -87,6 +89,7 @@ export class TabClasePage {
     this.modalCtrl.create({
       component: TabClaseModalComponent,
       componentProps: {
+        idRol: this.userInfo.idRol,
         idProfesor: this.userInfo.idProfesor
       }
     }).then((modal) => {
