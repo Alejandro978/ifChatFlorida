@@ -17,8 +17,23 @@
 
 
         <ion-label>
-          <h2><b>{{clase.Nombre}}</b></h2>
-          <p>{{clase.Descripcion}}</p>
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <h2><b>{{clase.Nombre}}</b></h2>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <p>{{clase.Descripcion}}</p>
+              </ion-col>
+
+              <ion-col>
+                <p>Código Clase: {{clase.CodigoClase}}</p>
+              </ion-col>
+
+            </ion-row>
+          </ion-grid>
         </ion-label>
 
       </ion-item>
