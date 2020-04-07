@@ -40,14 +40,26 @@ export class LoginPage implements OnInit {
   }
 
   async setUser(uid) {
-    let userInfo: any;
-    this.getUser(uid).subscribe(userInfo => {
-      this.storage.set('userInfo', userInfo);
-      this.router.navigate(['/tabs']);
+    this.getProfesor(uid).subscribe(userInfo => {
+      //Si no existe en la tabla de profesores
+      if (!!userInfo) {
+        this.storage.set('userInfo', userInfo);
+        this.router.navigate(['/tabs']);
+      }
+      else {
+        this.getAlumno(uid).subscribe(userInfo => {
+          this.storage.set('userInfo', userInfo);
+          this.router.navigate(['/tabs']);
+        });
+      }
     });
   }
 
-  getUser(uid: string) {
+  getProfesor(uid: string) {
     return this.db.collection('profesores').doc(uid).valueChanges();
+  }
+
+  getAlumno(uid: string) {
+    return this.db.collection('alumnos').doc(uid).valueChanges();
   }
 }
