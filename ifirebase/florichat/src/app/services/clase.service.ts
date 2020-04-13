@@ -9,6 +9,8 @@ import { ToastController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { FirebaseFirestore, FirebaseStorage, FirebaseDatabase } from '@angular/fire';
 import { Firebase } from '@ionic-native/firebase/ngx';
+import { Alumno } from '../models/alumno.model';
+import { Profesor } from '../models/profesor.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +27,7 @@ export class ClaseService {
         //A este servicio se le llama desde un subscribe, por lo tanto siempre que hay cambios duplica la información en pantalla....
         //Se mapea para no obtener datos repetidos.
         const data = a.payload.doc.data() as Clase;
+        data.IdClase = a.payload.doc.id;
         return data;
       })
     }));
@@ -38,40 +41,56 @@ export class ClaseService {
         //A este servicio se le llama desde un subscribe, por lo tanto siempre que hay cambios duplica la información en pantalla....
         //Se mapea para no obtener datos repetidos.
         const data = a.payload.doc.data() as Clase;
+        data.IdClase = a.payload.doc.id;
         return data;
       })
     }));
   }
 
-  //Genéricos
+  async añadirAlumnoClase(alumno: Alumno, clase_id: string) {
+    alumno.clases = null;
+    this.db.collection('clases').doc(clase_id).update({
+      alumnos: firestore.FieldValue.arrayUnion(alumno),
+    });
+    this.db.collection('alumnos').doc(alumno.idAlumno).update({
+      clases: firestore.FieldValue.arrayUnion(clase_id),
+    });
 
-  crearClase(clase) {
+    const toast = await this.toastCtrl.create({
+      message: 'Se ha registrado correctamente.',
+      duration: 2000
+    });
+
+    toast.present();
+
+  }
+
+  //Genéricos
+  crearClase(clase, profesor: any) {
+    console.log(profesor);
+    
+    let nombreProfesor = profesor.nombre;
+    let cClase = clase.CodigoClase
     //TODO:Comprobar si ya existe el código clase que se intenta introducir
-    this.db.collection('clases').doc(clase.CodigoClase).set({
+    this.db.collection('clases').doc(cClase).set({
       IdProfesor: clase.IdProfesor,
       CodigoClase: clase.CodigoClase,
       Nombre: clase.Nombre,
-      Descripcion: clase.Descripcion,
+      NombreProfesor: nombreProfesor
     }).catch(err => {
       console.log(err);
     });
   }
 
 
-  async toastCreadoCorrectamente() {
-    const toast = await this.toastCtrl.create({
-      message: 'Clase creada correctamente',
-      duration: 2000
-    });
-    toast.present();
-  }
 
-  async toastCodigoUsado() {
-    const toast = await this.toastCtrl.create({
-      message: 'Código Clase en uso',
-      duration: 2000
-    });
-    toast.present();
-  }
 
+  eliminarClase(IdClase, alumno: Alumno) {
+
+    // this.db.collection('clases').doc(IdClase).delete().then(res => {
+    //   console.log(res);
+    // });
+
+
+  }
 }

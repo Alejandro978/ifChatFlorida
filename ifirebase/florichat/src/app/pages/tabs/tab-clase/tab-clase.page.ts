@@ -1,14 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from "../../../services/auth.service";
-import { ChatService } from "../../../services/chat.service";
-import { Chat } from '../../../models/chat.model';
-import { ModalController, ActionSheetController } from '@ionic/angular';
-import { ChatModalComponent } from '../../../components/chat-modal/chat-modal.component';
-import { Mensaje } from '../../../models/mensaje.model';
+import { Component,OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { ClaseService } from '../../../services/clase.service';
 import { Clase } from 'src/app/models/clase.model';
 import { Storage } from '@ionic/storage';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { RolesEnum } from '../../../models/enums/rolesEnum';
 import * as _ from 'lodash';
 import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.component';
@@ -18,27 +12,37 @@ import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.compon
   templateUrl: 'tab-clase.page.html',
   styleUrls: ['tab-clase.page.scss'],
 })
-export class TabClasePage {
+export class TabClasePage  implements OnInit {
 
   clases: Clase[] = [];
   userInfo: any;
   rolesEnum: RolesEnum = new RolesEnum();
+  prueba:any;
   constructor(
-    private storage: Storage,
+    public storage: Storage,
     private claseService: ClaseService,
     private modalCtrl: ModalController
   ) {
-    this.getInfoUsuario();
   }
-
+  async ngOnInit() {
+   
+  }
 
   async ionViewWillEnter() {
 
+    await this.getUserInfo();
     await this.getClasesByRol();
-
-
+    
+    
   }
+  async getUserInfo() {
 
+    let e =  await this.storage.get('userInfo');
+
+    this.storage.get('userInfo').then(res => {
+      this.userInfo = res;
+    });
+  }
   async getClasesByRol() {
     if (this.userInfo !== null) {
 
@@ -48,7 +52,7 @@ export class TabClasePage {
           break;
 
         case this.rolesEnum.rolAlumno:
-          console.log("Alumno");
+          await this.getClasesAlumno();
           break;
 
         default:
@@ -62,25 +66,38 @@ export class TabClasePage {
     //Se vacia para que no vengan clases duplicadas
     this.clases = [];
     listadoClases.forEach(clase => {
-      if (clase.IdProfesor === this.userInfo.idProfesor) {
-        this.clases.push(clase);
+      if (!!clase) {
+        if (clase.IdProfesor === this.userInfo.idProfesor) {
+          this.clases.push(clase);
+        }
       }
-
+    });
+  }
+  filtrarClasesAlumno(listadoClases) {
+    //Se vacia para que no vengan clases duplicadas
+    this.clases = [];
+    listadoClases.forEach((clase: Clase) => {
+      clase.alumnos.forEach(alumno => {
+        if (alumno.idAlumno === this.userInfo.idAlumno)
+          this.clases.push(clase);
+      });
     });
   }
 
-  getInfoUsuario() {
-    this.storage.get('userInfo').then(res => {
-      this.userInfo = res;
-    });
-  }
+
 
   async getClasesProfesor() {
-
     this.claseService.getClasesProfesor().subscribe(listadoClases => {
-      //Filtramos las clases con lodash ya que con los servicios de Firebase da muchos problemas:
       if (!!listadoClases) {
         this.filtrarClasesProfesor(listadoClases)
+      }
+    });
+  }
+
+  async getClasesAlumno() {
+    this.claseService.getClasesAlumno().subscribe(listadoClases => {
+      if (!!listadoClases) {
+        this.filtrarClasesAlumno(listadoClases)
       }
     });
   }
@@ -95,6 +112,15 @@ export class TabClasePage {
     }).then((modal) => {
       modal.present();
     })
+
+    this.modalCtrl.dismiss().then(e => {
+      console.log(e);
+    })
+  }
+
+  borrarClase(clase) {
+    let IdClase = clase.IdClase;
+    this.claseService.eliminarClase(IdClase, this.userInfo);
   }
 
 }

@@ -12,27 +12,31 @@
 <ion-content [fullscreen]="true">
   <ion-list>
     <ion-item-sliding *ngFor="let clase of clases">
-
       <ion-item (click)="openChat(chat)">
-
+        <ion-avatar slot="start">
+          <ion-img src="/assets/avatarsClases/av-1.png"></ion-img>
+        </ion-avatar>
 
         <ion-label>
           <ion-grid>
             <ion-row>
-              <ion-col>
+
+              <ion-col size="6">
                 <h2><b>{{clase.Nombre}}</b></h2>
               </ion-col>
-            </ion-row>
-            <ion-row>
-              <ion-col>
-                <p>{{clase.Descripcion}}</p>
-              </ion-col>
 
-              <ion-col>
+              <ion-col size="6">
+                <p>{{clase.NombreProfesor}}</p>
+              </ion-col>
+            </ion-row>
+
+
+            <ion-row>
+              <ion-col size="12">
                 <p>Código Clase: {{clase.CodigoClase}}</p>
               </ion-col>
-
             </ion-row>
+
           </ion-grid>
         </ion-label>
 
@@ -40,8 +44,12 @@
 
       <ion-item-options>
 
-        <ion-item-option color="danger" (click)="borrarChat()">
+        <ion-item-option *ngIf="userInfo.idRol === rolesEnum.rolProfesor" color="danger" (click)="borrarClase(clase)">
           <ion-icon slot="icon-only" name="trash"></ion-icon>
+        </ion-item-option>
+
+        <ion-item-option *ngIf="userInfo.idRol === rolesEnum.rolAlumno" color="success" (click)="borrarChat()">
+          <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
         </ion-item-option>
 
       </ion-item-options>

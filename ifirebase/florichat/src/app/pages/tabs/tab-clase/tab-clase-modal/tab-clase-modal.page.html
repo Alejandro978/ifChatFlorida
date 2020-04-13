@@ -9,12 +9,23 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding *ngIf="!!userInfo">
   <ion-grid fixed>
     <div *ngIf="IdRol === rolesEnum.rolProfesor">
       <ion-row>
         <ion-col>
-          <h3>Seleccione avatar para la clase</h3>
+          <h3>Seleccione avatar para la Clase</h3>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col>
+          <ion-slides [options]="avatarSlide">
+            <ion-slide *ngFor="let avatar of avatars">
+              <img class="pick-avatar" src="/assets/avatarsClases/{{avatar.img}}"
+                [ngClass]="{'pick-avatar-seleccionado':avatar.seleccionado}" (click)="seleccionarAvatar(avatar)">
+            </ion-slide>
+          </ion-slides>
         </ion-col>
       </ion-row>
 
@@ -27,11 +38,6 @@
               <ion-item>
                 <ion-label>Nombre:</ion-label>
                 <ion-input [(ngModel)]="clase.Nombre" name="nombre" type="text" required></ion-input>
-              </ion-item>
-
-              <ion-item>
-                <ion-label>Descripcion:</ion-label>
-                <ion-input [(ngModel)]="clase.Descripcion" name="contrasenya" type="text" required></ion-input>
               </ion-item>
 
               <ion-item>
@@ -58,7 +64,7 @@
     <div *ngIf="IdRol === rolesEnum.rolAlumno">
       <ion-row>
         <ion-col>
-          <h3>Introduzca el Código del a clase a la que se quiere unir:</h3>
+          <h3>Introduzca Código para unirse a una Clase</h3>
         </ion-col>
       </ion-row>
 
@@ -79,26 +85,31 @@
 
       <ion-list>
         <ion-item-sliding *ngFor="let clase of clasesFiltradas">
-
           <ion-item (click)="openChat(chat)">
-
+            <ion-avatar slot="start">
+              <ion-img src="/assets/avatarsClases/av-1.png"></ion-img>
+            </ion-avatar>
+    
             <ion-label>
               <ion-grid>
                 <ion-row>
-                  <ion-col>
+    
+                  <ion-col size="6">
                     <h2><b>{{clase.Nombre}}</b></h2>
                   </ion-col>
-                </ion-row>
-                <ion-row>
-                  <ion-col>
-                    <p>{{clase.Descripcion}}</p>
+    
+                  <ion-col size="6">
+                    <p>{{clase.NombreProfesor}}</p>
                   </ion-col>
-
-                  <ion-col>
+                </ion-row>
+    
+    
+                <ion-row>
+                  <ion-col size="12">
                     <p>Código Clase: {{clase.CodigoClase}}</p>
                   </ion-col>
-
                 </ion-row>
+    
               </ion-grid>
             </ion-label>
 
@@ -106,8 +117,8 @@
 
           <ion-item-options>
 
-            <ion-item-option color="danger" (click)="borrarChat()">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            <ion-item-option color="success" (click)="registrarUsuarioClase(clase)">
+              <ion-icon slot="icon-only" name="checkmark-circle"></ion-icon>
             </ion-item-option>
 
           </ion-item-options>
