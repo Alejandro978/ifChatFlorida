@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const alumno_model_1 = require("../models/alumno.model");
 const profesor_model_1 = require("../models/profesor.model");
+const token_1 = __importDefault(require("../classes/token"));
 const loginRoutes = express_1.Router();
 loginRoutes.post('/login', (req, res) => {
     const body = req.body;
@@ -26,9 +30,14 @@ loginRoutes.post('/login', (req, res) => {
                 //Si el alumno si existe
                 else {
                     if (alumnoDb.compararPassword(body.password)) {
+                        const tokenAlumno = token_1.default.getJwtToken({
+                            email: alumnoDb.email,
+                            nombre: alumnoDb.nombre,
+                            avatar: alumnoDb.avatar
+                        });
                         res.json({
                             ok: true,
-                            token: 'asdasdadsadsdad'
+                            token: tokenAlumno
                         });
                     }
                     else {
@@ -43,9 +52,14 @@ loginRoutes.post('/login', (req, res) => {
         //Si el profesor si existe
         else {
             if (profesorDb.compararPassword(body.password)) {
+                const tokenProfesor = token_1.default.getJwtToken({
+                    email: profesorDb.email,
+                    nombre: profesorDb.nombre,
+                    avatar: profesorDb.avatar
+                });
                 res.json({
                     ok: true,
-                    token: 'asdasdadsadsdad'
+                    token: tokenProfesor
                 });
             }
             else {

@@ -25,8 +25,13 @@ const alumnoSchema = new mongoose_1.Schema({
     },
     idRol: {
         type: Number,
-        required: [true, 'El rol es obligatorio']
-    }
+        required: [true, 'El rol es obligatorio'],
+        default: 2
+    },
+    clases: [{
+            type: String,
+            unique: true,
+        }]
 });
 alumnoSchema.method('compararPassword', function (password = '') {
     if (bcrypt_1.default.compareSync(password, this.password)) {

@@ -72,17 +72,17 @@ export class RegistroPage implements OnInit {
 
 
   crearProfesor() {
-    this.authService.registrarProfesor(this.profesor).then(auth => {
-      this.router.navigate(['tabs']);
+    // this.authService.registrarProfesor(this.profesor).then(auth => {
+    //   this.router.navigate(['tabs']);
 
-    }).catch(err => console.log(err));
+    // }).catch(err => console.log(err));
   }
 
   crearAlumno() {
-    this.authService.registrarAlumno(this.alumno).then(auth => {
-      this.router.navigate(['tabs']);
+    // this.authService.registrarAlumno(this.alumno).then(auth => {
+    //   this.router.navigate(['tabs']);
 
-    }).catch(err => console.log(err));
+    // }).catch(err => console.log(err));
   }
 
   seleccionarAvatar(avatar) {

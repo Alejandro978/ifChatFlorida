@@ -19,14 +19,14 @@ const claseSchema = new Schema({
         type: String,
         deault: 'av-4.png'
     }
-    
+
 });
 
 interface IClase extends Document {
     email: string,
     nombre: string,
     codigo: string,
-    avatar: string
+    avatar: string,
 }
 
 export const Clase = model<IClase>('Clases', claseSchema); 

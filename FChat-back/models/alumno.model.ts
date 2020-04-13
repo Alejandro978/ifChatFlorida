@@ -22,8 +22,13 @@ const alumnoSchema = new Schema({
     },
     idRol: {
         type: Number,
-        required: [true, 'El rol es obligatorio']
-    }
+        required: [true, 'El rol es obligatorio'],
+        default: 2
+    },
+    clases: [{
+        type: String,
+        unique: true,
+    }]
 });
 
 alumnoSchema.method('compararPassword', function (password: string = ''): boolean {
@@ -39,7 +44,9 @@ interface IAlumno extends Document {
     nombre: string,
     avatar: string,
     email: string,
-    password: string
+    password: string,
+    idRol: number,
+    clases: string[]
 
     compararPassword(password: string): boolean;
 

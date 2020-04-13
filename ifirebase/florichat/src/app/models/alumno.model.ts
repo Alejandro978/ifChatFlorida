@@ -1,11 +1,9 @@
 import { Clase } from './clase.model';
 
 export class Alumno {
-    idAlumno: string;
-    Email: string;
-    Contrasenya: string;
-    Nombre: string;
-    Apellidos: string;
+    email: string;
+    password: string;
+    nombre: string;
     IdRol: number;
-    clases: Clase[];
+    clases: string[];
 }

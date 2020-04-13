@@ -6,7 +6,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Alumno } from '../models/alumno.model';
 import { RolesEnum } from '../models/enums/rolesEnum';
 import { Storage } from '@ionic/storage';
-
+import { promise } from 'protractor';
 @Injectable({
   providedIn: 'root'
 })
@@ -18,7 +18,7 @@ export class AuthService {
     private storage: Storage,
     private angularFireAuth: AngularFireAuth,
     private router: Router,
-    private db: AngularFirestore
+    private db: AngularFirestore,
   ) {
   }
 
@@ -40,40 +40,28 @@ export class AuthService {
     });
   }
 
-  registrarProfesor(profesor: Profesor) {
-
-    return new Promise((resolve, reject) => {
-
-      this.angularFireAuth.auth.createUserWithEmailAndPassword(profesor.Email, profesor.Contrasenya).then(res => {
-
-        this.db.collection('profesores').doc(res.user.uid).set({
-          nombre: profesor.Nombre,
-          email: profesor.Email,
-          idRol: this.rolesEnum.rolProfesor,
-          idProfesor: res.user.uid
-        });
-
-        resolve(res);
-      }).catch(err => reject(err));
-    });
+  // registrarProfesor(profesor: Profesor) {
+  //   return new Promise(resolve => {
+  //     this.http.post()
+  //   });
 
   }
 
-  registrarAlumno(alumno: Alumno) {
+//   registrarAlumno(alumno: Alumno) {
 
-    return new Promise((resolve, reject) => {
+//     return new Promise((resolve, reject) => {
 
-      this.angularFireAuth.auth.createUserWithEmailAndPassword(alumno.Email, alumno.Contrasenya).then(res => {
+//       this.angularFireAuth.auth.createUserWithEmailAndPassword(alumno.Email, alumno.Contrasenya).then(res => {
 
-        this.db.collection('alumnos').doc(res.user.uid).set({
-          nombre: alumno.Nombre,
-          email: alumno.Email,
-          idRol: this.rolesEnum.rolAlumno,
-          idAlumno: res.user.uid
-        });
-        resolve(res);
-      }).catch(err => reject(err));
-    });
+//         this.db.collection('alumnos').doc(res.user.uid).set({
+//           nombre: alumno.Nombre,
+//           email: alumno.Email,
+//           idRol: this.rolesEnum.rolAlumno,
+//           idAlumno: res.user.uid
+//         });
+//         resolve(res);
+//       }).catch(err => reject(err));
+//     });
 
-  }
-}
+//   }
+// }

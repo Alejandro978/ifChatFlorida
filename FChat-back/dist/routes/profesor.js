@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const profesor_model_1 = require("../models/profesor.model");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const token_1 = __importDefault(require("../classes/token"));
 const profesorRoutes = express_1.Router();
 profesorRoutes.post('/create', (req, res) => {
     const profesor = {
@@ -17,9 +18,14 @@ profesorRoutes.post('/create', (req, res) => {
     };
     profesor_model_1.Profesor.create(profesor).then(profesorDb => {
         //Si se consigue crear el usuario , la respuesta userDB será devuelta:
+        const tokenProfesor = token_1.default.getJwtToken({
+            email: profesorDb.email,
+            nombre: profesorDb.nombre,
+            avatar: profesorDb.avatar
+        });
         res.json({
             ok: true,
-            user: profesorDb
+            token: tokenProfesor
         });
     }).catch(err => {
         res.json({

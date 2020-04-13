@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { Alumno } from "../models/alumno.model";
 import { Profesor } from "../models/profesor.model";
+import Token from "../classes/token";
 
 
 
@@ -33,9 +34,16 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
                 //Si el alumno si existe
                 else {
                     if (alumnoDb.compararPassword(body.password)) {
+
+                        const tokenAlumno = Token.getJwtToken({
+                            email: alumnoDb.email,
+                            nombre: alumnoDb.nombre,
+                            avatar: alumnoDb.avatar
+                        });
+
                         res.json({
                             ok: true,
-                            token: 'asdasdadsadsdad'
+                            token: tokenAlumno
                         });
                     }
                     else {
@@ -50,9 +58,16 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
         //Si el profesor si existe
         else {
             if (profesorDb.compararPassword(body.password)) {
+
+                const tokenProfesor = Token.getJwtToken({
+                    email: profesorDb.email,
+                    nombre: profesorDb.nombre,
+                    avatar: profesorDb.avatar
+                });
+
                 res.json({
                     ok: true,
-                    token: 'asdasdadsadsdad'
+                    token: tokenProfesor
                 });
             }
             else {
