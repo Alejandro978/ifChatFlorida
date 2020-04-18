@@ -27,7 +27,6 @@ const alumnoSchema = new Schema({
     },
     clases: [{
         type: String,
-        unique: true,
     }]
 });
 

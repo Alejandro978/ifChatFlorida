@@ -7,6 +7,8 @@ import claseRoutes from './routes/clase';
 
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
+import cors from 'cors';
+
 const server = new Server();
 
 //Middleware se ejecuta siempre antes de lanzar la petición a una de las 'Rutas de la app'
@@ -21,7 +23,8 @@ server.app.use('/alumno', alumnoRoutes);
 server.app.use('/clase', claseRoutes);
 server.app.use('/login', loginRoutes);
 
-
+//Configurar cors
+server.app.use(cors({ origin: true, credentials: true }));
 
 //Conectar bbdd
 mongoose.connect('mongodb://localhost:27017/florichat', {

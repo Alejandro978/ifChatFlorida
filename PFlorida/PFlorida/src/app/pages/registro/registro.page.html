@@ -1,0 +1,147 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+
+    <ion-button slot="start" fill="clear" (click)="volverLogin()">
+      <ion-icon style="color:#ffff" name="arrow-back"></ion-icon>
+    </ion-button>
+
+    <ion-title style="margin-right: 50px;" class="center">{{titulo}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-slides [options]="avatarSlideGeneral" class="mainSlide" #slideGeneral>
+
+    <!-- Creación usuario profesor -->
+    <ion-slide>
+
+      <ion-grid fixed>
+
+        <!-- Avatar selector  -->
+        <app-avatar-selector (avatarSelected)="avatarSelected = $event "></app-avatar-selector>
+
+        <form>
+          <ion-row>
+            <ion-col>
+
+              <ion-list>
+
+                <ion-item>
+                  <ion-label>Email</ion-label>
+                  <ion-input [(ngModel)]="profesor.email" name="email" type="text" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Contraseña</ion-label>
+                  <ion-input [(ngModel)]="profesor.password" name="password" type="password" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Nombre</ion-label>
+                  <ion-input [(ngModel)]="profesor.nombre" name="nombre" type="text" required></ion-input>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button (click)="crearProfesor()" type="submit" color="tertiary" shape="round">
+                Registrar profesor
+              </ion-button>
+
+
+
+            </ion-col>
+          </ion-row>
+
+        </form>
+      </ion-grid>
+
+
+
+    </ion-slide>
+
+    <!-- Creación usuario Alumno -->
+    <ion-slide>
+
+
+      <ion-grid fixed>
+
+        <!-- Avatar selector -->
+        <app-avatar-selector (avatarSelected)="avatarSelected = $event "></app-avatar-selector>
+
+        <form>
+          <ion-row>
+            <ion-col>
+
+              <ion-list>
+
+                <ion-item>
+                  <ion-label>Email</ion-label>
+                  <ion-input [(ngModel)]="alumno.email" name="email" type="email" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Contraseña</ion-label>
+                  <ion-input [(ngModel)]="alumno.password" name="password" type="password" required></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label>Nombre</ion-label>
+                  <ion-input [(ngModel)]="alumno.nombre" name="nombre" type="text" required></ion-input>
+                </ion-item>
+
+              </ion-list>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col>
+              <ion-button (click)="crearAlumno()" type="submit" color="tertiary" shape="round">
+                Registrar Alumno
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </form>
+      </ion-grid>
+
+
+    </ion-slide>
+
+
+  </ion-slides>
+
+
+
+</ion-content>
+
+
+<ion-footer no-border>
+  <ion-toolbar>
+
+    <ion-row>
+
+      <ion-col>
+        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary" (click)="registroAlumno()">
+          Profesor
+        </ion-button>
+      </ion-col>
+
+      <ion-col>
+        <ion-button shape="round" expand="full" size="small" fill="outline" color="tertiary"
+          (click)="registroProfesor()">
+          Alumno
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+
+
+
+  </ion-toolbar>
+</ion-footer>

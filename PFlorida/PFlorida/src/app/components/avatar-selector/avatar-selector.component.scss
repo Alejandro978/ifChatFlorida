@@ -1,0 +1,21 @@
+ion-content {
+    //TODO:Cambiar color
+    --background:#dae1e4;
+}
+ion-card{
+    --background:#ffffff;
+}
+
+img {
+    width: 120px;
+}
+
+.pick-avatar {
+    width: 80px;
+    opacity: 0.3;
+}
+
+.pick-avatar-seleccionado {
+    transition: opacity 0.5s linear;
+    opacity: 1 !important;
+}

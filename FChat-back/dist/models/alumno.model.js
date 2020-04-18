@@ -30,7 +30,6 @@ const alumnoSchema = new mongoose_1.Schema({
     },
     clases: [{
             type: String,
-            unique: true,
         }]
 });
 alumnoSchema.method('compararPassword', function (password = '') {
