@@ -11,7 +11,7 @@ const claseSchema = new mongoose_1.Schema({
         required: [true, 'El nombre es obligatorio']
     },
     codigo: {
-        type: Number,
+        type: String,
         required: [true, 'El rol es obligatorio'],
         unique: true,
     },

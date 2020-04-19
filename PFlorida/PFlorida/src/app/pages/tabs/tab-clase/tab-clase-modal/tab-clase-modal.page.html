@@ -9,58 +9,58 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding *ngIf="!!userInfo">
-  <!-- <ion-grid fixed>
-    <div *ngIf="IdRol === rolesEnum.rolProfesor">
+<ion-content padding>
+  <ion-grid fixed>
+    <!-- <div *ngIf="IdRol === rolesEnum.rolProfesor"> -->
+    <ion-row>
+      <ion-col>
+        <h3>Seleccione avatar para la Clase</h3>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <ion-slides [options]="avatarSlide">
+          <ion-slide *ngFor="let avatar of avatars">
+            <img class="pick-avatar" src="/assets/avatarsClases/{{avatar.img}}"
+              [ngClass]="{'pick-avatar-seleccionado':avatar.seleccionado}" (click)="seleccionarAvatar(avatar)">
+          </ion-slide>
+        </ion-slides>
+      </ion-col>
+    </ion-row>
+
+    <form>
       <ion-row>
         <ion-col>
-          <h3>Seleccione avatar para la Clase</h3>
+
+          <ion-list>
+
+            <ion-item>
+              <ion-label>Nombre:</ion-label>
+              <ion-input [(ngModel)]="clase.nombre" name="nombre" type="text" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Código Clase:</ion-label>
+              <ion-input [(ngModel)]="clase.codigo" name="contrasenya" type="text" required></ion-input>
+            </ion-item>
+
+
+
+          </ion-list>
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row style="text-align: center;">
         <ion-col>
-          <ion-slides [options]="avatarSlide">
-            <ion-slide *ngFor="let avatar of avatars">
-              <img class="pick-avatar" src="/assets/avatarsClases/{{avatar.img}}"
-                [ngClass]="{'pick-avatar-seleccionado':avatar.seleccionado}" (click)="seleccionarAvatar(avatar)">
-            </ion-slide>
-          </ion-slides>
+          <ion-button (click)="crearClase()" type="submit" color="tertiary" shape="round">
+            Crear clase
+          </ion-button>
         </ion-col>
       </ion-row>
-
-      <form>
-        <ion-row>
-          <ion-col>
-
-            <ion-list>
-
-              <ion-item>
-                <ion-label>Nombre:</ion-label>
-                <ion-input [(ngModel)]="clase.Nombre" name="nombre" type="text" required></ion-input>
-              </ion-item>
-
-              <ion-item>
-                <ion-label>Código Clase:</ion-label>
-                <ion-input [(ngModel)]="clase.CodigoClase" name="contrasenya" type="text" required></ion-input>
-              </ion-item>
-
-
-
-            </ion-list>
-          </ion-col>
-        </ion-row>
-
-        <ion-row style="text-align: center;">
-          <ion-col>
-            <ion-button (click)="crearClase()" type="submit" color="tertiary" shape="round">
-              Crear clase
-            </ion-button>
-          </ion-col>
-        </ion-row>
-      </form>
-    </div>
-
+    </form>
+    <!-- </div> -->
+    <!-- 
     <div *ngIf="IdRol === rolesEnum.rolAlumno">
       <ion-row>
         <ion-col>
@@ -129,7 +129,7 @@
     </div>
 
 
-
-  </ion-grid> -->
+-->
+  </ion-grid>
 
 </ion-content>

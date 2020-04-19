@@ -12,6 +12,7 @@ export class TabsPage implements OnInit {
 
   ngOnInit() {
     console.log("asd");
+    this.router.navigate(['/tabs/clase']);
     
   }
 

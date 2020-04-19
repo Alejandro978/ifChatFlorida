@@ -8,7 +8,7 @@ import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.compon
 
 
 @NgModule({
-  entryComponents:[TabClaseModalComponent],
+  entryComponents: [TabClaseModalComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,6 +20,6 @@ import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.compon
       }
     ])
   ],
-  declarations: [TabClasePage,TabClaseModalComponent]
+  declarations: [TabClasePage, TabClaseModalComponent],
 })
 export class TabClasePageModule { }

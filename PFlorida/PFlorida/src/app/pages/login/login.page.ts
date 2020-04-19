@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ToastController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -8,13 +10,42 @@ import { Router } from '@angular/router';
 })
 export class LoginPage implements OnInit {
 
-  constructor(private router: Router) { }
+  loginUser = {
+    email: 'profesor@gmail.com',
+    password: 'profesor'
+  }
+  email: string;
+  password: string;
+
+  constructor(private navCtrl: NavController, private auth: AuthService, private toastCtrl: ToastController) { }
 
   ngOnInit() {
   }
 
   onSubmitLogin() {
     console.log("aqui");
-    this.router.navigate(['/tabs']);
+
+
+    this.auth.login(this.loginUser.email, this.loginUser.password).then(res => {
+      if (res) {
+
+        this.navCtrl.navigateRoot('/tabs', { animated: true });
+      }
+      else {
+        this.toastUnsuccess();
+
+      }
+    });
+
   }
+
+  async toastUnsuccess() {
+    const toast = await this.toastCtrl.create({
+      message: 'Usuario / Contraseña incorrectos.',
+      duration: 2000
+    });
+
+    toast.present();
+  }
+
 }

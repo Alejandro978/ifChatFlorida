@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonSlides, ToastController } from '@ionic/angular';
-import { Profesor } from '../../../models/profesor.model';
-import { Alumno } from '../../../models/alumno.model';
+import { Profesor } from '../../models/profesor.model';
+import { Alumno } from '../../models/alumno.model';
 import { AlumnoService } from "../../services/alumno-services.service";
 import { ProfesorService } from "../../services/profesor-services.service";
 

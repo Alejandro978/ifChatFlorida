@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../..//environments/environment';
-import { Alumno } from 'src/models/alumno.model';
+import { Alumno } from '../models/alumno.model';
 
 const URL = environment.url
 @Injectable({

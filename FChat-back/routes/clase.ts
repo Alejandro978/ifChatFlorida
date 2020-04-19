@@ -6,6 +6,7 @@ import { Clase } from "../models/clase.model";
 const claseRoutes = Router();
 
 claseRoutes.post('/create', (req: Request, res: Response) => {
+    console.log(req);
 
     const clase = {
         email: req.body.email,
@@ -31,6 +32,47 @@ claseRoutes.post('/create', (req: Request, res: Response) => {
 
 
 });
+
+claseRoutes.get('/getClasesByEmail', (req: Request, res: Response) => {
+
+    let email: any = req.headers.email;
+
+    Clase.find({ email: email }, (err, listadoClases) => {
+        if (err) throw err;
+        console.log(listadoClases);
+
+        let listadoClasesDevolver: any[] = [];
+        //Se mapean las clases
+        listadoClases.forEach(clases => {
+
+            const clase = {
+                email: clases.email,
+                nombre: clases.nombre,
+                avatar: clases.avatar,
+                codigo: clases.avatar
+            };
+
+            listadoClasesDevolver.push(clase);
+
+        });
+
+
+        if (!listadoClases) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existen clases para este profesor.'
+            })
+        }
+        else {
+            res.json({
+                ok: true,
+                data: listadoClasesDevolver
+            });
+        }
+    });
+});
+
+
 
 
 export default claseRoutes;

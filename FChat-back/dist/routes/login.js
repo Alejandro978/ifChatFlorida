@@ -37,7 +37,9 @@ loginRoutes.post('/login', (req, res) => {
                         });
                         res.json({
                             ok: true,
-                            token: tokenAlumno
+                            token: tokenAlumno,
+                            user: body,
+                            idRol: '2'
                         });
                     }
                     else {
@@ -59,7 +61,9 @@ loginRoutes.post('/login', (req, res) => {
                 });
                 res.json({
                     ok: true,
-                    token: tokenProfesor
+                    token: tokenProfesor,
+                    user: body,
+                    idRol: '1'
                 });
             }
             else {

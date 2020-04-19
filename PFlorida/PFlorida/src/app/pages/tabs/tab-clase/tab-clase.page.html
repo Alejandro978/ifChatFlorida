@@ -8,9 +8,8 @@
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content [fullscreen]="true">
-  <!-- <ion-list>
+  <ion-list>
     <ion-item-sliding *ngFor="let clase of clases">
       <ion-item (click)="openChat(chat)">
         <ion-avatar slot="start">
@@ -22,18 +21,18 @@
             <ion-row>
 
               <ion-col size="6">
-                <h2><b>{{clase.Nombre}}</b></h2>
+                <h2><b>{{clase.nombre}}</b></h2>
               </ion-col>
 
               <ion-col size="6">
-                <p>{{clase.NombreProfesor}}</p>
+                <p>{{clase.email}}</p>
               </ion-col>
             </ion-row>
 
 
             <ion-row>
               <ion-col size="12">
-                <p>Código Clase: {{clase.CodigoClase}}</p>
+                <p>Código Clase: {{clase.codigo}}</p>
               </ion-col>
             </ion-row>
 
@@ -43,12 +42,11 @@
       </ion-item>
 
       <ion-item-options>
-
-        <ion-item-option *ngIf="userInfo.idRol === rolesEnum.rolProfesor" color="danger" (click)="borrarClase(clase)">
+        <ion-item-option *ngIf="idRol === rolesEnum.rolProfesor" color="danger" >
           <ion-icon slot="icon-only" name="trash"></ion-icon>
         </ion-item-option>
 
-        <ion-item-option *ngIf="userInfo.idRol === rolesEnum.rolAlumno" color="success" (click)="borrarChat()">
+        <ion-item-option *ngIf="idRol === rolesEnum.rolAlumno" color="success">
           <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
         </ion-item-option>
 
@@ -62,6 +60,6 @@
     <ion-fab-button color="medium">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-  </ion-fab> -->
+  </ion-fab>
 
 </ion-content>

@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController, NavParams, ToastController } from "@ionic/angular";
+import { Component, OnInit, Input } from '@angular/core';
+import { ToastController, ModalController } from "@ionic/angular";
+import { Clase } from '../../../../models/clase.model';
+import { ClaseService } from '../../../../services/clase.service';
+import { Storage } from '@ionic/storage';
+import { RolesEnum } from '../../../../models/enums/rolesEnum';
+
+
 
 
 @Component({
@@ -8,8 +14,10 @@ import { ModalController, NavParams, ToastController } from "@ionic/angular";
   styleUrls: ['./tab-clase-modal.component.scss'],
 })
 export class TabClaseModalComponent implements OnInit {
+  @Input() userInfo: any;
+  @Input() idRol: any;
+  clase: Clase = new Clase();
 
- 
   avatars = [
     {
       img: 'av-1.png',
@@ -29,17 +37,70 @@ export class TabClaseModalComponent implements OnInit {
     slidesPerView: 3.5,
   }
 
+
+
+  rolesEnum: RolesEnum = new RolesEnum();
+
   constructor(
-   
+    private claseService: ClaseService,
+    private toastCtrl: ToastController,
+
+    private modalCtrl: ModalController
   ) {
-    
+
   }
 
-  ngOnInit() {
+  async ngOnInit() {
 
-   
+    // if (this.idRol === this.rolesEnum.rolProfesor) {
+
+    this.seleccionarAvatar(this.avatars[0]);
+
+    // }
+
+  }
+  crearClase() {
+    this.clase.email = this.userInfo.email;
+    this.claseService.crearClase(this.clase).then(res => {
+      if (res) {
+        this.toastSuccess();
+        this.modalCtrl.dismiss(true);
+      }
+      else {
+        this.toastUnsuccess();
+
+      }
+    })
   }
 
- 
+
+
+  seleccionarAvatar(avatar) {
+    //Se desseleccionan todos los Avatares para seleccionar al que se hizo click
+    this.avatars.forEach(av => av.seleccionado = false);
+    //De esta manera se modificará al avatar que está apuntando en el array
+    avatar.seleccionado = true;
+
+    this.clase.avatar = avatar.img;
+  }
+
+
+  async toastSuccess() {
+    const toast = await this.toastCtrl.create({
+      message: 'Clase creada con existo.',
+      duration: 2000
+    });
+
+    toast.present();
+  }
+
+  async toastUnsuccess() {
+    const toast = await this.toastCtrl.create({
+      message: 'VAYA! Este Código clase ya está siendo utilizado, introduzca otro!.',
+      duration: 2000
+    });
+    toast.present();
+
+  }
 
 }
