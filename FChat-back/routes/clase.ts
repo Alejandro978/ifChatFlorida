@@ -39,7 +39,6 @@ claseRoutes.get('/getClasesByEmail', (req: Request, res: Response) => {
 
     Clase.find({ email: email }, (err, listadoClases) => {
         if (err) throw err;
-        console.log(listadoClases);
 
         let listadoClasesDevolver: any[] = [];
         //Se mapean las clases
@@ -67,6 +66,40 @@ claseRoutes.get('/getClasesByEmail', (req: Request, res: Response) => {
             res.json({
                 ok: true,
                 data: listadoClasesDevolver
+            });
+        }
+    });
+
+
+
+});
+
+
+claseRoutes.get('/getClasesByCodigo', (req: Request, res: Response) => {
+
+    let codigo: any = req.headers.codigo;
+    let clase: any;
+    Clase.findOne({ codigo: codigo }, (err, resClase: any) => {
+        if (err) throw err;
+        if (!!resClase) {
+            clase = {
+                email: resClase.email,
+                nombre: resClase.nombre,
+                avatar: resClase.avatar,
+                codigo: resClase.codigo
+            };
+        }
+
+        if (!clase) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existen clases con este código.'
+            })
+        }
+        else {
+            res.json({
+                ok: true,
+                data: clase
             });
         }
     });

@@ -7,7 +7,6 @@ const express_1 = require("express");
 const alumno_model_1 = require("../models/alumno.model");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const token_1 = __importDefault(require("../classes/token"));
-const autenticacion_1 = require("../middlewares/autenticacion");
 const alumnoRoutes = express_1.Router();
 //Crear alumno
 alumnoRoutes.post('/create', (req, res) => {
@@ -42,23 +41,37 @@ alumnoRoutes.post('/create', (req, res) => {
     });
 });
 //Añadir clases al alumno:
-alumnoRoutes.put('/update', autenticacion_1.verificaToken, (req, res) => {
+alumnoRoutes.put('/update', (req, res) => {
     //Si verificaToken es correcto req.usuario obtendrá los datos del usuario logeado
     // res.json({
     //     ok: true,
     //     alumno: req.usuario
     // });
-    alumno_model_1.Alumno.updateOne({ email: req.body.email, clases: { $ne: req.body.codigo } }, { $push: { clases: [req.body.codigo] } }, function (err, result) {
-        if (err) {
-            res.json({
-                ok: false,
-                mensaje: err
+    //Si
+    //Se comprueba si el usuario ya tiene el código clase registrado:
+    alumno_model_1.Alumno.find({ email: req.body.email, clases: req.body.codigo }, function (err, result) {
+        //Si es 0 no la tiene registrada por lo que la registrará
+        if (result.length === 0) {
+            alumno_model_1.Alumno.updateOne({ email: req.body.email, clases: { $ne: req.body.codigo } }, { $push: { clases: [req.body.codigo] } }, function (err, result) {
+                if (err) {
+                    res.json({
+                        ok: false,
+                        mensaje: err
+                    });
+                }
+                else {
+                    res.json({
+                        ok: true,
+                        mensaje: 'Clase registrada con exito'
+                    });
+                }
             });
         }
+        //Si ya está creada la clase
         else {
             res.json({
-                ok: true,
-                mensaje: 'Clase creada con exito'
+                ok: false,
+                mensaje: 'Ya esta registrado a esta Clase...'
             });
         }
     });

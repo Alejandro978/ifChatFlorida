@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ToastController, ModalController } from "@ionic/angular";
+import { ToastController, ModalController, AlertController } from "@ionic/angular";
 import { Clase } from '../../../../models/clase.model';
 import { ClaseService } from '../../../../services/clase.service';
 import { Storage } from '@ionic/storage';
@@ -17,7 +17,8 @@ export class TabClaseModalComponent implements OnInit {
   @Input() userInfo: any;
   @Input() idRol: any;
   clase: Clase = new Clase();
-
+  claseFiltrada: Clase = null;
+  codigoClase: string;
   avatars = [
     {
       img: 'av-1.png',
@@ -38,19 +39,21 @@ export class TabClaseModalComponent implements OnInit {
   }
 
 
+  clases: Clase[] = [];
 
   rolesEnum: RolesEnum = new RolesEnum();
 
   constructor(
     private claseService: ClaseService,
     private toastCtrl: ToastController,
-
+    private alertCtrl: AlertController,
     private modalCtrl: ModalController
   ) {
 
   }
 
   async ngOnInit() {
+    console.log(this.idRol);
 
     // if (this.idRol === this.rolesEnum.rolProfesor) {
 
@@ -101,6 +104,23 @@ export class TabClaseModalComponent implements OnInit {
     });
     toast.present();
 
+  }
+
+  cerrar() {
+    this.modalCtrl.dismiss(false);
+  }
+
+  async consultarAsignacionClaseAlumno() {
+    this.claseService.getClasesByCodigoClase(this.codigoClase).then((res: any) => {
+
+      if (res.data) {
+        this.claseFiltrada = res.data;
+        console.log(this.claseFiltrada);
+      }
+      else {
+        console.log("asdasd");
+      }
+    });
   }
 
 }

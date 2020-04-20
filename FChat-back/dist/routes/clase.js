@@ -29,7 +29,6 @@ claseRoutes.get('/getClasesByEmail', (req, res) => {
     clase_model_1.Clase.find({ email: email }, (err, listadoClases) => {
         if (err)
             throw err;
-        console.log(listadoClases);
         let listadoClasesDevolver = [];
         //Se mapean las clases
         listadoClases.forEach(clases => {
@@ -51,6 +50,34 @@ claseRoutes.get('/getClasesByEmail', (req, res) => {
             res.json({
                 ok: true,
                 data: listadoClasesDevolver
+            });
+        }
+    });
+});
+claseRoutes.get('/getClasesByCodigo', (req, res) => {
+    let codigo = req.headers.codigo;
+    let clase;
+    clase_model_1.Clase.findOne({ codigo: codigo }, (err, resClase) => {
+        if (err)
+            throw err;
+        if (!!resClase) {
+            clase = {
+                email: resClase.email,
+                nombre: resClase.nombre,
+                avatar: resClase.avatar,
+                codigo: resClase.codigo
+            };
+        }
+        if (!clase) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existen clases con este código.'
+            });
+        }
+        else {
+            res.json({
+                ok: true,
+                data: clase
             });
         }
     });

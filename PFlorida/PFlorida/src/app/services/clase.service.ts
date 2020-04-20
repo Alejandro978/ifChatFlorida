@@ -46,4 +46,20 @@ export class ClaseService {
     });
   }
 
+
+  getClasesByCodigoClase(codigo: string) {
+    let data: any = { codigo };
+    return new Promise(resolve => {
+      this.http.get(`${URL}/clase/getClasesByCodigo`, { headers: data }).subscribe(res => {
+        
+        if (res['ok']) {
+          resolve(res);
+        }
+        else {
+          resolve(false);
+        }
+      })
+    });
+  }
+
 }
