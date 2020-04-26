@@ -23,9 +23,6 @@ export class LoginPage implements OnInit {
   }
 
   onSubmitLogin() {
-    console.log("aqui");
-
-
     this.auth.login(this.loginUser.email, this.loginUser.password).then(res => {
       if (res) {
 

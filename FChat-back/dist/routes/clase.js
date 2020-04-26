@@ -4,7 +4,6 @@ const express_1 = require("express");
 const clase_model_1 = require("../models/clase.model");
 const claseRoutes = express_1.Router();
 claseRoutes.post('/create', (req, res) => {
-    console.log(req);
     const clase = {
         email: req.body.email,
         nombre: req.body.nombre,
@@ -27,8 +26,6 @@ claseRoutes.post('/create', (req, res) => {
 claseRoutes.get('/getClasesByEmail', (req, res) => {
     let email = req.headers.email;
     clase_model_1.Clase.find({ email: email }, (err, listadoClases) => {
-        if (err)
-            throw err;
         let listadoClasesDevolver = [];
         //Se mapean las clases
         listadoClases.forEach(clases => {
@@ -86,7 +83,6 @@ claseRoutes.get('/getAll', (req, res) => {
     clase_model_1.Clase.find((err, resClase) => {
         if (err)
             throw err;
-        console.log(res);
         if (!resClase) {
             return res.json({
                 ok: false,
@@ -97,6 +93,25 @@ claseRoutes.get('/getAll', (req, res) => {
             res.json({
                 ok: true,
                 data: resClase
+            });
+        }
+    });
+});
+claseRoutes.delete('/delete', (req, res) => {
+    //TODO:Eliminar también CHATS ABIERTOS QUE CONTENGAN ESTA CLASE.
+    let codigo = req.headers.codigo;
+    clase_model_1.Clase.deleteOne({ codigo: codigo }, function (err) {
+        if (err) {
+            res.json({
+                ok: false,
+                mensaje: 'Ha habido un problema al eliminar la Clase'
+            });
+            throw (err);
+        }
+        else {
+            res.json({
+                ok: true,
+                mensaje: 'Clase eliminada con exito'
             });
         }
     });

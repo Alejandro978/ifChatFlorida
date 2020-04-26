@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonSlides, ToastController } from '@ionic/angular';
+import { IonSlides, ToastController, NavController } from '@ionic/angular';
 import { Profesor } from '../../models/profesor.model';
 import { Alumno } from '../../models/alumno.model';
 import { AlumnoService } from "../../services/alumno-services.service";
@@ -28,7 +28,7 @@ export class RegistroPage implements OnInit {
 
   avatarSelected: string;
 
-  constructor(private router: Router, private toastCtrl: ToastController, private alumnoService: AlumnoService, private profesorService: ProfesorService) {
+  constructor(private navCtrl: NavController, private router: Router, private toastCtrl: ToastController, private alumnoService: AlumnoService, private profesorService: ProfesorService) {
   }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class RegistroPage implements OnInit {
 
 
   crearProfesor() {
-    console.log(this.avatarSelected);
+    console.log("Crear profesor");
     this.profesor.idRol = 1;
     this.profesor.avatar = this.avatarSelected;
     console.log(this.profesor);
@@ -47,6 +47,8 @@ export class RegistroPage implements OnInit {
     this.profesorService.crearProfesor(this.profesor).then(res => {
       if (res) {
         this.toastSuccess();
+        this.navCtrl.navigateRoot('/login', { animated: true });
+
       }
       else {
         this.toastUnsuccess();
@@ -55,13 +57,16 @@ export class RegistroPage implements OnInit {
   }
 
   crearAlumno() {
-    this.alumno.idRol = 1;
+    console.log("Crear alumno");
+
+    this.alumno.idRol = 2;
     this.alumno.avatar = this.avatarSelected;
     console.log(this.alumno);
 
     this.alumnoService.crearAlumno(this.alumno).then(res => {
       if (res) {
         this.toastSuccess();
+        this.navCtrl.navigateRoot('/login', { animated: true });
       }
       else {
         this.toastUnsuccess();

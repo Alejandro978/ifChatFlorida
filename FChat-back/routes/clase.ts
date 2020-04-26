@@ -6,7 +6,6 @@ import { Clase } from "../models/clase.model";
 const claseRoutes = Router();
 
 claseRoutes.post('/create', (req: Request, res: Response) => {
-    console.log(req);
 
     const clase = {
         email: req.body.email,
@@ -38,7 +37,6 @@ claseRoutes.get('/getClasesByEmail', (req: Request, res: Response) => {
     let email: any = req.headers.email;
 
     Clase.find({ email: email }, (err, listadoClases) => {
-        if (err) throw err;
 
         let listadoClasesDevolver: any[] = [];
         //Se mapean las clases
@@ -107,10 +105,9 @@ claseRoutes.get('/getClasesByCodigo', (req: Request, res: Response) => {
 
 claseRoutes.get('/getAll', (req: Request, res: Response) => {
 
+
     Clase.find((err, resClase: any) => {
         if (err) throw err;
-
-        console.log(res);
 
         if (!resClase) {
             return res.json({
@@ -125,6 +122,31 @@ claseRoutes.get('/getAll', (req: Request, res: Response) => {
             });
         }
     });
+});
+
+
+claseRoutes.delete('/delete', (req: Request, res: Response) => {
+
+    //TODO:Eliminar también CHATS ABIERTOS QUE CONTENGAN ESTA CLASE.
+    let codigo: any = req.headers.codigo;
+
+    Clase.deleteOne({ codigo: codigo }, function (err) {
+        if (err) {
+            res.json({
+                ok: false,
+                mensaje: 'Ha habido un problema al eliminar la Clase'
+            });
+            throw (err);
+        }
+        else {
+            res.json({
+                ok: true,
+                mensaje: 'Clase eliminada con exito'
+            });
+        }
+
+    });
+
 });
 
 

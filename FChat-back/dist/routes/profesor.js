@@ -17,6 +17,7 @@ profesorRoutes.post('/create', (req, res) => {
         idRol: req.body.idRol
     };
     profesor_model_1.Profesor.create(profesor).then(profesorDb => {
+        console.log(profesor);
         //Si se consigue crear el usuario , la respuesta userDB será devuelta:
         const tokenProfesor = token_1.default.getJwtToken({
             email: profesorDb.email,

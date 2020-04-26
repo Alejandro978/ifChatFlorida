@@ -40,7 +40,7 @@ export class AuthService {
 
   async guardarToken(token: string, user: any, idRol: any, clases: string[]) {
     this.token = token;
-    let userInfo = [{ 'token': token, 'user': user, 'idRol': idRol, 'clases': clases }];
+    let userInfo = [{ 'token': token, 'user': user, 'idRol': idRol }];
     await this.storage.set('userInfo', userInfo);
   }
 }

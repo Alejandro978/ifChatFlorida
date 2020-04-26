@@ -14,7 +14,7 @@ export class ProfesorService {
 
   crearProfesor(profesor: Profesor) {
     return new Promise(resolve => {
-      this.http.post(`${URL}/alumno/create`, profesor).subscribe(res => {
+      this.http.post(`${URL}/profesor/create`, profesor).subscribe(res => {
         if (res['ok']) {
           resolve(true);
         }

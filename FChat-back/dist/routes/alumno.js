@@ -10,7 +10,6 @@ const token_1 = __importDefault(require("../classes/token"));
 const alumnoRoutes = express_1.Router();
 //Crear alumno
 alumnoRoutes.post('/create', (req, res) => {
-    console.log(req.body);
     const alumno = {
         email: req.body.email,
         password: bcrypt_1.default.hashSync(req.body.password, 10),
@@ -42,7 +41,6 @@ alumnoRoutes.post('/create', (req, res) => {
 });
 //Añadir clases al alumno:
 alumnoRoutes.put('/update', (req, res) => {
-    console.log(req.body);
     //Se comprueba si el usuario ya tiene el código clase registrado:
     alumno_model_1.Alumno.find({ email: req.body.email, clases: req.body.codigo }, function (err, result) {
         //Si es 0 no la tiene registrada por lo que la registrará
@@ -67,6 +65,49 @@ alumnoRoutes.put('/update', (req, res) => {
             res.json({
                 ok: false,
                 mensaje: 'Ya esta registrado a esta Clase...'
+            });
+        }
+    });
+});
+alumnoRoutes.get('/getCodigosClaseAlumno', (req, res) => {
+    let email = req.headers.email;
+    alumno_model_1.Alumno.findOne({ email: email }, (err, alumnoDb) => {
+        if (err)
+            throw err;
+        if (!alumnoDb) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existen usuarios con este email.'
+            });
+        }
+        else {
+            let clases = alumnoDb.clases;
+            res.json({
+                ok: true,
+                data: clases
+            });
+        }
+    });
+});
+alumnoRoutes.put('/eliminarCodigoClase', (req, res) => {
+    let email = req.body.email;
+    let codigo = [];
+    codigo.push(req.body.codigo);
+    console.log(email);
+    console.log(codigo);
+    alumno_model_1.Alumno.updateOne({ email: email }, { $pullAll: { clases: codigo } }, (err, data) => {
+        if (err)
+            throw err;
+        if (data.nModified > 0) {
+            res.json({
+                ok: true,
+                data: 'Clase eliminada con exito.'
+            });
+        }
+        else {
+            res.json({
+                ok: false,
+                data: 'Parece que no existe ninugna Clase con este Código.'
             });
         }
     });

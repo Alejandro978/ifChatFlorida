@@ -12,7 +12,6 @@ const alumnoRoutes = Router();
 
 //Crear alumno
 alumnoRoutes.post('/create', (req: Request, res: Response) => {
-    console.log(req.body);
 
     const alumno = {
         email: req.body.email,
@@ -51,16 +50,20 @@ alumnoRoutes.post('/create', (req: Request, res: Response) => {
 //Añadir clases al alumno:
 
 alumnoRoutes.put('/update', (req: any, res: Response) => {
-    console.log(req.body);
+
     //Se comprueba si el usuario ya tiene el código clase registrado:
     Alumno.find({ email: req.body.email, clases: req.body.codigo }, function (err, result) {
         //Si es 0 no la tiene registrada por lo que la registrará
-        
+
         if (result.length === 0) {
+
             Alumno.updateOne(
                 { email: req.body.email, clases: { $ne: req.body.codigo } },
                 { $push: { clases: [req.body.codigo] } },
                 function (err, result) {
+
+
+
                     if (err) {
                         res.json({
                             ok: false,
@@ -88,6 +91,56 @@ alumnoRoutes.put('/update', (req: any, res: Response) => {
 
 });
 
+alumnoRoutes.get('/getCodigosClaseAlumno', (req: Request, res: Response) => {
 
+    let email: any = req.headers.email;
+
+    Alumno.findOne({ email: email }, (err, alumnoDb) => {
+        if (err) throw err;
+        if (!alumnoDb) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existen usuarios con este email.'
+            })
+        }
+        else {
+            let clases = alumnoDb.clases;
+            res.json({
+                ok: true,
+                data: clases
+            });
+        }
+
+
+    });
+})
+
+alumnoRoutes.put('/eliminarCodigoClase', (req: Request, res: Response) => {
+
+    let email: any = req.body.email;
+    let codigo: any[] = [];
+    codigo.push(req.body.codigo);
+    console.log(email);
+    console.log(codigo);
+
+    Alumno.updateOne({ email: email }, { $pullAll: { clases: codigo } }, (err, data) => {
+        if (err) throw err;
+
+        if (data.nModified > 0) {
+            res.json({
+                ok: true,
+                data: 'Clase eliminada con exito.'
+            });
+        }
+        else{
+            res.json({
+                ok: false,
+                data: 'Parece que no existe ninugna Clase con este Código.'
+            });
+        }
+
+    });
+
+});
 
 export default alumnoRoutes;

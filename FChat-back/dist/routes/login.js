@@ -55,6 +55,7 @@ loginRoutes.post('/login', (req, res) => {
         //Si el profesor si existe
         else {
             if (profesorDb.compararPassword(body.password)) {
+                console.log(profesorDb);
                 const tokenProfesor = token_1.default.getJwtToken({
                     email: profesorDb.email,
                     nombre: profesorDb.nombre,

@@ -47,7 +47,7 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
                             token: tokenAlumno,
                             user: body,
                             idRol: '2',
-                            clases:alumnoDb.clases
+                            clases: alumnoDb.clases
                         });
                     }
                     else {
@@ -62,6 +62,7 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
         //Si el profesor si existe
         else {
             if (profesorDb.compararPassword(body.password)) {
+                console.log(profesorDb);
 
                 const tokenProfesor = Token.getJwtToken({
                     email: profesorDb.email,

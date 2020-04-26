@@ -61,6 +61,24 @@ export class ClaseService {
     });
   }
 
+  deleteClaseByCodigo(codigo: string) {
+    let data: any = { codigo };
+    console.log(data);
+
+    return new Promise(resolve => {
+      this.http.delete(`${URL}/clase/delete`, { headers: data }).subscribe(res => {
+
+        if (res['ok']) {
+          resolve(res);
+        }
+        else {
+          resolve(false);
+        }
+      })
+    });
+  }
+
+
 
   getAll() {
     return new Promise(resolve => {
@@ -70,6 +88,24 @@ export class ClaseService {
           resolve(res);
           console.log(res);
 
+        }
+        else {
+          resolve(false);
+        }
+      })
+    });
+  }
+
+  getCodigosClaseAlumno(email: any) {
+
+    let data: any = { email };
+
+
+    return new Promise(resolve => {
+      this.http.get(`${URL}/alumno/getCodigosClaseAlumno`, { headers: data }).subscribe(res => {
+
+        if (res['ok']) {
+          resolve(res);
         }
         else {
           resolve(false);

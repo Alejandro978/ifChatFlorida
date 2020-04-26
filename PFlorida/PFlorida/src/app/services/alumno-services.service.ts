@@ -26,6 +26,8 @@ export class AlumnoService {
 
   agregarClaseAlumnoService(codigo, email) {
     let data: any = { codigo, email }
+    console.log(data);
+    
     return new Promise(resolve => {
       this.http.put(`${URL}/alumno/update`, data).subscribe(res => {
         if (res['ok']) {

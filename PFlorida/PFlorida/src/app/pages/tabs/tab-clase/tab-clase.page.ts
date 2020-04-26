@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, AlertController, ToastController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController, ActionSheetController } from '@ionic/angular';
 
 import * as _ from 'lodash';
 import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.component';
@@ -14,8 +14,7 @@ import { AlumnoService } from 'src/app/services/alumno-services.service';
   templateUrl: 'tab-clase.page.html',
   styleUrls: ['tab-clase.page.scss'],
 })
-export class TabClasePage implements OnInit {
-
+export class TabClasePage {
   idRol: number;
   userInfo: any;
   rolesEnum: RolesEnum = new RolesEnum();
@@ -28,10 +27,12 @@ export class TabClasePage implements OnInit {
     private storage: Storage,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private alumnoService: AlumnoService
+    private alumnoService: AlumnoService,
+    public actionSheetController: ActionSheetController
+
   ) {
   }
-  async ngOnInit() {
+  async ionViewWillEnter() {
     await this.getUserInfo();
 
     if (this.idRol === this.rolesEnum.rolProfesor) {
@@ -55,18 +56,16 @@ export class TabClasePage implements OnInit {
   async getClasesAlumno() {
     this.claseService.getAll().then((res: any) => {
       if (res.data) {
-
         this.filtrarClasesAlumno(res.data);
       }
     });
   }
   async filtrarClasesAlumno(listadoClases: Clase[]) {
+    this.clases = [];
     listadoClases.forEach(clasesRegistrada => {
       this.codigoClasesAlumno.forEach((codigoClasesAlumno: string) => {
         if (clasesRegistrada.codigo === codigoClasesAlumno) {
           this.clases.push(clasesRegistrada);
-          console.log("AQUI");
-
         }
       });
     });
@@ -137,9 +136,10 @@ export class TabClasePage implements OnInit {
   }
 
   agregarClaseAlumno(codigo) {
-    this.alumnoService.agregarClaseAlumnoService(codigo, this.userInfo.email).then(res => {
+    this.alumnoService.agregarClaseAlumnoService(codigo, this.userInfo[0].user.email).then(res => {
       if (res) {
         this.toastRegistradoConExito();
+        this.getCodigosClase();
         this.getClasesAlumno();
       }
       else {
@@ -150,14 +150,20 @@ export class TabClasePage implements OnInit {
 
   async getUserInfo() {
     this.userInfo = await this.storage.get('userInfo');
-
     this.idRol = +this.userInfo[0].idRol;
 
     if (this.idRol === 2) {
-      this.codigoClasesAlumno = this.userInfo[0].clases;
-      console.log(this.codigoClasesAlumno);
-    }
+      await this.getCodigosClase();
 
+    }
+  }
+
+  async getCodigosClase() {
+    await this.claseService.getCodigosClaseAlumno(this.userInfo[0].user.email).then((res: any) => {
+      if (res) {
+        this.codigoClasesAlumno = res.data;
+      }
+    });
   }
 
   async toastCodigoInvalido() {
@@ -188,8 +194,51 @@ export class TabClasePage implements OnInit {
   }
 
   eliminarClaseProfesor(clase: Clase) {
-    console.log(clase);
+    let codigo = clase.codigo;
+
+    this.claseService.deleteClaseByCodigo(codigo).then(res => {
+      if (res) {
+        this.toastClaseEliminada();
+        this.getClasesProfesor();
+      }
+      else {
+        this.claseNoExistente();
+      }
+    });
   }
 
+  async toastClaseEliminada() {
+    const toast = await this.toastCtrl.create({
+      message: 'Clase eliminada con exito!',
+      duration: 2000
+    });
+    toast.present();
+  }
 
+  async claseNoExistente() {
+    const toast = await this.toastCtrl.create({
+      message: 'Parece que esta clase ya no existe!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Opciones',
+      buttons: [{
+        text: 'Desconectarse',
+        role: 'destructive',
+        icon: 'log-out',
+        handler: () => {
+          this.logout();
+        }
+      }]
+    });
+    await actionSheet.present();
+  }
+
+  logout() {
+    console.log("AQUI");
+  }
 }
