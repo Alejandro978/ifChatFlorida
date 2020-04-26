@@ -26,6 +26,7 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
 
                 //Si no lanza el throw con error se consulta si profesorDb existe:
                 if (!alumnoDb) {
+
                     return res.json({
                         ok: false,
                         mensaje: 'Usuario/Contraseña incorrectos'
@@ -38,14 +39,15 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
                         const tokenAlumno = Token.getJwtToken({
                             email: alumnoDb.email,
                             nombre: alumnoDb.nombre,
-                            avatar: alumnoDb.avatar
+                            avatar: alumnoDb.avatar,
                         });
 
                         res.json({
                             ok: true,
                             token: tokenAlumno,
                             user: body,
-                            idRol: '2'
+                            idRol: '2',
+                            clases:alumnoDb.clases
                         });
                     }
                     else {

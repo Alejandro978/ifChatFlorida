@@ -21,6 +21,7 @@ export class TabClasePage implements OnInit {
   rolesEnum: RolesEnum = new RolesEnum();
   clases: Clase[] = [];
   codigoClase: string;
+  codigoClasesAlumno: string[] = [];
   constructor(
     private modalCtrl: ModalController,
     private claseService: ClaseService,
@@ -41,25 +42,36 @@ export class TabClasePage implements OnInit {
     }
 
   }
-
+  //TODO:FALTA RECARGAR ESTE MÉTODO UNA VEZ AÑADIDA UNA CALSE NUEVA
   async getClasesProfesor() {
-    this.claseService.getClasesByEmail(this.userInfo.email).then((res: any) => {
+    this.claseService.getClasesByEmail(this.userInfo[0].user.email).then((res: any) => {
       if (res.data) {
         this.clases = res.data;
-
+        console.log(this.clases);
       }
     });
   }
 
   async getClasesAlumno() {
-    this.claseService.getClasesByCodigoClase(this.codigoClase).then((res: any) => {
+    this.claseService.getAll().then((res: any) => {
       if (res.data) {
-        this.clases = res.data;
 
+        this.filtrarClasesAlumno(res.data);
       }
     });
   }
+  async filtrarClasesAlumno(listadoClases: Clase[]) {
+    listadoClases.forEach(clasesRegistrada => {
+      this.codigoClasesAlumno.forEach((codigoClasesAlumno: string) => {
+        if (clasesRegistrada.codigo === codigoClasesAlumno) {
+          this.clases.push(clasesRegistrada);
+          console.log("AQUI");
 
+        }
+      });
+    });
+
+  }
 
   async crearClase() {
 
@@ -67,7 +79,7 @@ export class TabClasePage implements OnInit {
       this.modalCtrl.create({
         component: TabClaseModalComponent,
         componentProps: {
-          userInfo: this.userInfo,
+          userInfo: this.userInfo[0].user,
           idRol: this.idRol,
         }
       }).then((modal) => {
@@ -112,9 +124,8 @@ export class TabClasePage implements OnInit {
     }
   }
 
-  async consultarAsignacionClaseAlumno(codigo) {
-    console.log(codigo);
 
+  async consultarAsignacionClaseAlumno(codigo) {
     this.claseService.getClasesByCodigoClase(codigo).then((res: any) => {
       if (res.data) {
         this.agregarClaseAlumno(codigo);
@@ -129,6 +140,7 @@ export class TabClasePage implements OnInit {
     this.alumnoService.agregarClaseAlumnoService(codigo, this.userInfo.email).then(res => {
       if (res) {
         this.toastRegistradoConExito();
+        this.getClasesAlumno();
       }
       else {
         this.toastClaseRepetida();
@@ -137,9 +149,15 @@ export class TabClasePage implements OnInit {
   }
 
   async getUserInfo() {
-    this.userInfo = await this.storage.get('user');
-    this.idRol = await this.storage.get('idRol');
-    this.idRol = +this.idRol;
+    this.userInfo = await this.storage.get('userInfo');
+
+    this.idRol = +this.userInfo[0].idRol;
+
+    if (this.idRol === 2) {
+      this.codigoClasesAlumno = this.userInfo[0].clases;
+      console.log(this.codigoClasesAlumno);
+    }
+
   }
 
   async toastCodigoInvalido() {
@@ -163,6 +181,14 @@ export class TabClasePage implements OnInit {
       duration: 2000
     });
     toast.present();
+  }
+
+  eliminarClaseAlumno(clase: Clase) {
+    console.log(clase);
+  }
+
+  eliminarClaseProfesor(clase: Clase) {
+    console.log(clase);
   }
 
 

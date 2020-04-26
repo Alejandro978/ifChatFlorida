@@ -33,13 +33,14 @@ loginRoutes.post('/login', (req, res) => {
                         const tokenAlumno = token_1.default.getJwtToken({
                             email: alumnoDb.email,
                             nombre: alumnoDb.nombre,
-                            avatar: alumnoDb.avatar
+                            avatar: alumnoDb.avatar,
                         });
                         res.json({
                             ok: true,
                             token: tokenAlumno,
                             user: body,
-                            idRol: '2'
+                            idRol: '2',
+                            clases: alumnoDb.clases
                         });
                     }
                     else {

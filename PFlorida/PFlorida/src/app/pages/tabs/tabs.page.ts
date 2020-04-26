@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tabs',
@@ -7,13 +8,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
+  userInfo: any;
+  constructor(public router: Router,
+    private storage: Storage
+  ) {
 
-  constructor(public router: Router) { }
+  }
 
   ngOnInit() {
-    console.log("asd");
     this.router.navigate(['/tabs/clase']);
-    
   }
 
 }

@@ -53,7 +53,6 @@ export class TabClaseModalComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log(this.idRol);
 
     // if (this.idRol === this.rolesEnum.rolProfesor) {
 
@@ -115,10 +114,8 @@ export class TabClaseModalComponent implements OnInit {
 
       if (res.data) {
         this.claseFiltrada = res.data;
-        console.log(this.claseFiltrada);
       }
       else {
-        console.log("asdasd");
       }
     });
   }

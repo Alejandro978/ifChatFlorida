@@ -28,7 +28,6 @@ export class AlumnoService {
     let data: any = { codigo, email }
     return new Promise(resolve => {
       this.http.put(`${URL}/alumno/update`, data).subscribe(res => {
-        console.log(res);
         if (res['ok']) {
           resolve(true);
         }

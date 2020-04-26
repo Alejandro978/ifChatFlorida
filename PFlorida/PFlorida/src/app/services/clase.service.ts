@@ -16,8 +16,6 @@ export class ClaseService {
   crearClase(clase: Clase) {
     return new Promise(resolve => {
       this.http.post(`${URL}/clase/create`, clase).subscribe(res => {
-        console.log(res);
-
         if (res['ok']) {
           resolve(true);
         }
@@ -49,11 +47,29 @@ export class ClaseService {
 
   getClasesByCodigoClase(codigo: string) {
     let data: any = { codigo };
+
     return new Promise(resolve => {
       this.http.get(`${URL}/clase/getClasesByCodigo`, { headers: data }).subscribe(res => {
-        
+
         if (res['ok']) {
           resolve(res);
+        }
+        else {
+          resolve(false);
+        }
+      })
+    });
+  }
+
+
+  getAll() {
+    return new Promise(resolve => {
+      this.http.get(`${URL}/clase/getAll`).subscribe(res => {
+
+        if (res['ok']) {
+          resolve(res);
+          console.log(res);
+
         }
         else {
           resolve(false);

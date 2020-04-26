@@ -36,7 +36,7 @@ claseRoutes.get('/getClasesByEmail', (req, res) => {
                 email: clases.email,
                 nombre: clases.nombre,
                 avatar: clases.avatar,
-                codigo: clases.avatar
+                codigo: clases.codigo
             };
             listadoClasesDevolver.push(clase);
         });
@@ -78,6 +78,25 @@ claseRoutes.get('/getClasesByCodigo', (req, res) => {
             res.json({
                 ok: true,
                 data: clase
+            });
+        }
+    });
+});
+claseRoutes.get('/getAll', (req, res) => {
+    clase_model_1.Clase.find((err, resClase) => {
+        if (err)
+            throw err;
+        console.log(res);
+        if (!resClase) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existen clases con este código.'
+            });
+        }
+        else {
+            res.json({
+                ok: true,
+                data: resClase
             });
         }
     });

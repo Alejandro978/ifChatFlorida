@@ -42,12 +42,7 @@ alumnoRoutes.post('/create', (req, res) => {
 });
 //Añadir clases al alumno:
 alumnoRoutes.put('/update', (req, res) => {
-    //Si verificaToken es correcto req.usuario obtendrá los datos del usuario logeado
-    // res.json({
-    //     ok: true,
-    //     alumno: req.usuario
-    // });
-    //Si
+    console.log(req.body);
     //Se comprueba si el usuario ya tiene el código clase registrado:
     alumno_model_1.Alumno.find({ email: req.body.email, clases: req.body.codigo }, function (err, result) {
         //Si es 0 no la tiene registrada por lo que la registrará
