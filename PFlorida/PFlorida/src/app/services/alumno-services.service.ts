@@ -27,7 +27,7 @@ export class AlumnoService {
   agregarClaseAlumnoService(codigo, email) {
     let data: any = { codigo, email }
     console.log(data);
-    
+
     return new Promise(resolve => {
       this.http.put(`${URL}/alumno/update`, data).subscribe(res => {
         if (res['ok']) {
@@ -39,5 +39,41 @@ export class AlumnoService {
       })
     });
   }
+
+  //Se ejecuta cuando el Alumno elimina uno de sus códigos clase...
+  eliminarCodigoClase(codigo, email) {
+    let data: any = { codigo, email }
+    console.log(data);
+
+    return new Promise(resolve => {
+      this.http.put(`${URL}/alumno/eliminarCodigoClase`, data).subscribe(res => {
+        if (res['ok']) {
+          resolve(true);
+        }
+        else {
+          resolve(false);
+        }
+      })
+    });
+  }
+
+  //Se ejecutará cuando el Profesor elimine una clase , se eliminará el código de clase
+  //a todos los alumnos
+  eliminarCodigosClase(codigo) {
+    let data: any = { codigo }
+
+    return new Promise(resolve => {
+      this.http.put(`${URL}/alumno/eliminarCodigosClase`, data).subscribe(res => {
+        if (res['ok']) {
+          resolve(true);
+        }
+        else {
+          resolve(false);
+        }
+      })
+    });
+  }
+
+
 
 }

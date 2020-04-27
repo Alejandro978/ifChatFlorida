@@ -46,6 +46,10 @@
           <ion-icon slot="icon-only" (click)="eliminarClaseProfesor(clase)" name="trash"></ion-icon>
         </ion-item-option>
 
+        <ion-item-option *ngIf="idRol === rolesEnum.rolProfesor" color="success">
+          <ion-icon slot="icon-only" (click)="mostrarUsuariosRegistrados(clase.codigo)" name="people-circle-outline"></ion-icon>
+        </ion-item-option>
+
         <ion-item-option *ngIf="idRol === rolesEnum.rolAlumno" color="danger">
           <ion-icon slot="icon-only" (click)="eliminarClaseAlumno(clase)" name="trash"></ion-icon>
         </ion-item-option>

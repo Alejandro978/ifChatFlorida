@@ -86,10 +86,9 @@ alumnoRoutes.put('/update', (req: any, res: Response) => {
             })
         }
     });
-
-
-
 });
+
+
 
 alumnoRoutes.get('/getCodigosClaseAlumno', (req: Request, res: Response) => {
 
@@ -115,6 +114,7 @@ alumnoRoutes.get('/getCodigosClaseAlumno', (req: Request, res: Response) => {
     });
 })
 
+//Se ejecuta cuando un alumno elimina una de las clases a la que esta registrada...
 alumnoRoutes.put('/eliminarCodigoClase', (req: Request, res: Response) => {
 
     let email: any = req.body.email;
@@ -136,6 +136,32 @@ alumnoRoutes.put('/eliminarCodigoClase', (req: Request, res: Response) => {
             res.json({
                 ok: false,
                 data: 'Parece que no existe ninugna Clase con este Código.'
+            });
+        }
+
+    });
+
+});
+
+//Se ejecuta cuando un profesor elimina una clase, se le elimina a los demás usuarios...
+alumnoRoutes.put('/eliminarCodigosClase', (req: Request, res: Response) => {
+
+    let codigo: any[] = [];
+    codigo.push(req.body.codigo);
+
+    Alumno.updateMany({ idRol: 2 }, { $pullAll: { clases: codigo } }, (err, data) => {
+        if (err) throw err;
+
+        if (data.nModified > 0) {
+            res.json({
+                ok: true,
+                data: 'Se han eliminado todos los registros de la clase....'
+            });
+        }
+        else{
+            res.json({
+                ok: false,
+                data: 'Parece que no existe este codigo de clase para este Usuario...'
             });
         }
 

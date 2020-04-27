@@ -89,6 +89,7 @@ alumnoRoutes.get('/getCodigosClaseAlumno', (req, res) => {
         }
     });
 });
+//Se ejecuta cuando un alumno elimina una de las clases a la que esta registrada...
 alumnoRoutes.put('/eliminarCodigoClase', (req, res) => {
     let email = req.body.email;
     let codigo = [];
@@ -108,6 +109,27 @@ alumnoRoutes.put('/eliminarCodigoClase', (req, res) => {
             res.json({
                 ok: false,
                 data: 'Parece que no existe ninugna Clase con este Código.'
+            });
+        }
+    });
+});
+//Se ejecuta cuando un profesor elimina una clase, se le elimina a los demás usuarios...
+alumnoRoutes.put('/eliminarCodigosClase', (req, res) => {
+    let codigo = [];
+    codigo.push(req.body.codigo);
+    alumno_model_1.Alumno.updateMany({ idRol: 2 }, { $pullAll: { clases: codigo } }, (err, data) => {
+        if (err)
+            throw err;
+        if (data.nModified > 0) {
+            res.json({
+                ok: true,
+                data: 'Se han eliminado todos los registros de la clase....'
+            });
+        }
+        else {
+            res.json({
+                ok: false,
+                data: 'Parece que no existe este codigo de clase para este Usuario...'
             });
         }
     });

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, AlertController, ToastController, ActionSheetController } from '@ionic/angular';
+import { ModalController, AlertController, ToastController, ActionSheetController, LoadingController } from '@ionic/angular';
 
 import * as _ from 'lodash';
 import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.component';
@@ -21,6 +21,7 @@ export class TabClasePage {
   clases: Clase[] = [];
   codigoClase: string;
   codigoClasesAlumno: string[] = [];
+  public loading: any;
   constructor(
     private modalCtrl: ModalController,
     private claseService: ClaseService,
@@ -28,18 +29,16 @@ export class TabClasePage {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private alumnoService: AlumnoService,
-    public actionSheetController: ActionSheetController
-
+    public actionSheetController: ActionSheetController,
+    public loadingController: LoadingController
   ) {
   }
   async ionViewWillEnter() {
+    //Desde este método si es rol alumno se obtienen las clases del profesor
     await this.getUserInfo();
 
     if (this.idRol === this.rolesEnum.rolProfesor) {
       await this.getClasesProfesor();
-    }
-    else {
-      await this.getClasesAlumno();
     }
 
   }
@@ -55,6 +54,7 @@ export class TabClasePage {
 
   async getClasesAlumno() {
     this.claseService.getAll().then((res: any) => {
+      // this.presentLoading('Loading...');
       if (res.data) {
         this.filtrarClasesAlumno(res.data);
       }
@@ -138,9 +138,8 @@ export class TabClasePage {
   agregarClaseAlumno(codigo) {
     this.alumnoService.agregarClaseAlumnoService(codigo, this.userInfo[0].user.email).then(res => {
       if (res) {
-        this.toastRegistradoConExito();
         this.getCodigosClase();
-        this.getClasesAlumno();
+        this.toastRegistradoConExito();
       }
       else {
         this.toastClaseRepetida();
@@ -162,6 +161,7 @@ export class TabClasePage {
     await this.claseService.getCodigosClaseAlumno(this.userInfo[0].user.email).then((res: any) => {
       if (res) {
         this.codigoClasesAlumno = res.data;
+        this.getClasesAlumno();
       }
     });
   }
@@ -190,7 +190,19 @@ export class TabClasePage {
   }
 
   eliminarClaseAlumno(clase: Clase) {
-    console.log(clase);
+
+    this.alumnoService.eliminarCodigoClase(clase.codigo, this.userInfo[0].user.email).then(res => {
+      console.log(res);
+      if (res) {
+        this.toastClaseEliminada();
+        this.getCodigosClase();
+        this.getClasesAlumno();
+      }
+      else {
+        this.toastClaseNoExistente();
+      }
+
+    })
   }
 
   eliminarClaseProfesor(clase: Clase) {
@@ -200,9 +212,10 @@ export class TabClasePage {
       if (res) {
         this.toastClaseEliminada();
         this.getClasesProfesor();
+        this.alumnoService.eliminarCodigosClase(codigo);
       }
       else {
-        this.claseNoExistente();
+        this.toastClaseNoExistente();
       }
     });
   }
@@ -215,7 +228,9 @@ export class TabClasePage {
     toast.present();
   }
 
-  async claseNoExistente() {
+
+
+  async toastClaseNoExistente() {
     const toast = await this.toastCtrl.create({
       message: 'Parece que esta clase ya no existe!',
       duration: 2000
@@ -240,5 +255,17 @@ export class TabClasePage {
 
   logout() {
     console.log("AQUI");
+  }
+
+  async presentLoading(message: string) {
+    this.loading = await this.loadingController.create({
+      message: message,
+      duration: 2000
+    });
+    return await this.loading.present();
+  }
+
+  mostrarUsuariosRegistrados(codigo: string) {
+    console.log(codigo);
   }
 }
