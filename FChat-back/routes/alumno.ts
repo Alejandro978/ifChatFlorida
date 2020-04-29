@@ -114,6 +114,34 @@ alumnoRoutes.get('/getCodigosClaseAlumno', (req: Request, res: Response) => {
     });
 })
 
+//Se obtiene listado de alumnos que pertenezcan a una clase:
+alumnoRoutes.get('/getAlumnosByCodigo', (req: Request, res: Response) => {
+
+    let codigo: any = req.headers.codigo;
+
+    Alumno.find({ clases: { $in: ["123"] } }, (err, data) => {
+
+        let listadoAlumnos: any[] = [];
+        //Se mapean los alumnos
+        data.forEach(dataAlumno => {
+            const alumno = {
+                email: dataAlumno.email,
+                nombre: dataAlumno.nombre,
+                avatar: dataAlumno.avatar,
+            };
+
+            listadoAlumnos.push(alumno);
+
+        });
+
+        return res.json({
+            ok: true,
+            alumnos: listadoAlumnos
+        })
+
+    })
+});
+
 //Se ejecuta cuando un alumno elimina una de las clases a la que esta registrada...
 alumnoRoutes.put('/eliminarCodigoClase', (req: Request, res: Response) => {
 
@@ -132,7 +160,7 @@ alumnoRoutes.put('/eliminarCodigoClase', (req: Request, res: Response) => {
                 data: 'Clase eliminada con exito.'
             });
         }
-        else{
+        else {
             res.json({
                 ok: false,
                 data: 'Parece que no existe ninugna Clase con este Código.'
@@ -158,7 +186,7 @@ alumnoRoutes.put('/eliminarCodigosClase', (req: Request, res: Response) => {
                 data: 'Se han eliminado todos los registros de la clase....'
             });
         }
-        else{
+        else {
             res.json({
                 ok: false,
                 data: 'Parece que no existe este codigo de clase para este Usuario...'

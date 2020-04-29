@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage';
 import { RolesEnum } from '../../../models/enums/rolesEnum';
 import { Clase } from '../../../models/clase.model';
 import { AlumnoService } from 'src/app/services/alumno-services.service';
+import { TabAlumnosClasePage } from './tab-alumnos-clase/tab-alumnos-clase.page';
 
 @Component({
   selector: 'app-tab-clase',
@@ -265,7 +266,15 @@ export class TabClasePage {
     return await this.loading.present();
   }
 
-  mostrarUsuariosRegistrados(codigo: string) {
-    console.log(codigo);
+  async mostrarUsuarios(codigo: string) {
+
+    this.modalCtrl.create({
+      component: TabAlumnosClasePage,
+      componentProps: {
+        codigo:codigo,
+      }
+    }).then((modal) => {
+      modal.present();
+    });
   }
 }

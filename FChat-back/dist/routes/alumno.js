@@ -89,6 +89,26 @@ alumnoRoutes.get('/getCodigosClaseAlumno', (req, res) => {
         }
     });
 });
+//Se obtiene listado de alumnos que pertenezcan a una clase:
+alumnoRoutes.get('/getAlumnosByCodigo', (req, res) => {
+    let codigo = req.headers.codigo;
+    alumno_model_1.Alumno.find({ clases: { $in: ["123"] } }, (err, data) => {
+        let listadoAlumnos = [];
+        //Se mapean los alumnos
+        data.forEach(dataAlumno => {
+            const alumno = {
+                email: dataAlumno.email,
+                nombre: dataAlumno.nombre,
+                avatar: dataAlumno.avatar,
+            };
+            listadoAlumnos.push(alumno);
+        });
+        return res.json({
+            ok: true,
+            alumnos: listadoAlumnos
+        });
+    });
+});
 //Se ejecuta cuando un alumno elimina una de las clases a la que esta registrada...
 alumnoRoutes.put('/eliminarCodigoClase', (req, res) => {
     let email = req.body.email;

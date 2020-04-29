@@ -11,7 +11,7 @@
 <ion-content [fullscreen]="true">
   <ion-list>
     <ion-item-sliding *ngFor="let clase of clases">
-      <ion-item (click)="openChat(chat)">
+      <ion-item>
         <ion-avatar slot="start">
           <ion-img src="/assets/avatarsClases/av-1.png"></ion-img>
         </ion-avatar>
@@ -47,7 +47,7 @@
         </ion-item-option>
 
         <ion-item-option *ngIf="idRol === rolesEnum.rolProfesor" color="success">
-          <ion-icon slot="icon-only" (click)="mostrarUsuariosRegistrados(clase.codigo)" name="people-circle-outline"></ion-icon>
+          <ion-icon slot="icon-only" (click)="mostrarUsuarios(clase.codigo)" name="people-circle-outline"></ion-icon>
         </ion-item-option>
 
         <ion-item-option *ngIf="idRol === rolesEnum.rolAlumno" color="danger">

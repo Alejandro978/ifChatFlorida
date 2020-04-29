@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TabClasePage } from './tab-clase.page';
 import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.component';
+import { TabAlumnosClasePage } from './tab-alumnos-clase/tab-alumnos-clase.page';
 
 
 @NgModule({
-  entryComponents: [TabClaseModalComponent],
+  entryComponents: [TabClaseModalComponent, TabAlumnosClasePage],
   imports: [
     CommonModule,
     FormsModule,
@@ -20,6 +21,6 @@ import { TabClaseModalComponent } from './tab-clase-modal/tab-clase-modal.compon
       }
     ])
   ],
-  declarations: [TabClasePage, TabClaseModalComponent],
+  declarations: [TabClasePage, TabClaseModalComponent, TabAlumnosClasePage],
 })
 export class TabClasePageModule { }
