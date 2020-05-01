@@ -8,6 +8,7 @@ const alumno_1 = __importDefault(require("./routes/alumno"));
 const profesor_1 = __importDefault(require("./routes/profesor"));
 const login_1 = __importDefault(require("./routes/login"));
 const clase_1 = __importDefault(require("./routes/clase"));
+const chatRoom_1 = __importDefault(require("./routes/chatRoom"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
@@ -22,6 +23,7 @@ server.app.use('/profesor', profesor_1.default);
 server.app.use('/alumno', alumno_1.default);
 server.app.use('/clase', clase_1.default);
 server.app.use('/login', login_1.default);
+server.app.use('/chatRoom', chatRoom_1.default);
 //Configurar cors
 server.app.use(cors_1.default({ origin: true, credentials: true }));
 //Conectar bbdd

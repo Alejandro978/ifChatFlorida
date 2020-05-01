@@ -4,6 +4,7 @@ import alumnoRoutes from './routes/alumno';
 import profesorRoutes from './routes/profesor';
 import loginRoutes from './routes/login';
 import claseRoutes from './routes/clase';
+import chatRoomRoutes from './routes/chatRoom';
 
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
@@ -22,6 +23,8 @@ server.app.use('/profesor', profesorRoutes);
 server.app.use('/alumno', alumnoRoutes);
 server.app.use('/clase', claseRoutes);
 server.app.use('/login', loginRoutes);
+server.app.use('/chatRoom', chatRoomRoutes);
+
 
 //Configurar cors
 server.app.use(cors({ origin: true, credentials: true }));

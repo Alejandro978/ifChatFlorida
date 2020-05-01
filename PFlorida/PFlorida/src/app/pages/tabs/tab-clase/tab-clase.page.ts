@@ -41,7 +41,6 @@ export class TabClasePage {
     if (this.idRol === this.rolesEnum.rolProfesor) {
       await this.getClasesProfesor();
     }
-
   }
   //TODO:FALTA RECARGAR ESTE MÉTODO UNA VEZ AÑADIDA UNA CALSE NUEVA
   async getClasesProfesor() {
