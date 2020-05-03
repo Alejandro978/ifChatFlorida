@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController, ActionSheetController } from '@ionic/angular';
+import { ModalController, ActionSheetController, ToastController } from '@ionic/angular';
 import { ChatRoom } from 'src/app/models/chatRoom.model';
 import { ChatRoomService } from 'src/app/services/chatRoom-service';
 import { Storage } from '@ionic/storage';
+import { RolesEnum } from 'src/app/models/enums/rolesEnum';
 
 
 @Component({
@@ -10,24 +11,25 @@ import { Storage } from '@ionic/storage';
   templateUrl: 'tab-chat.page.html',
   styleUrls: ['tab-chat.page.scss'],
 })
-export class TabChatPage implements OnInit {
+export class TabChatPage {
 
   // chats: Chat[] = [];
   userInfo: any;
   idRol: number;
   chatRooms: ChatRoom[] = [];
+  rolesEnum: RolesEnum = new RolesEnum();
 
   constructor(
     public actionSheetController: ActionSheetController,
     private storage: Storage,
     private modalCtrl: ModalController,
+    private toastCtrl: ToastController,
     private chatRoomService: ChatRoomService
   ) { }
 
-  async ngOnInit() {
+  async ionViewWillEnter() {
     await this.getUserInfo();
     await this.getChatRoomsByEmail();
-
   }
 
   async getUserInfo() {
@@ -35,17 +37,10 @@ export class TabChatPage implements OnInit {
     this.idRol = +this.userInfo[0].idRol;
 
   }
-  // 
-  // onLogOut() {
-  //   this.auth.logout();
-  // }
 
-  // getChatRooms() {
-  // this.chatService.getChat().subscribe(chats => {
-  //   this.chats = chats;
-  // });
 
   async getChatRoomsByEmail() {
+    this.chatRooms = [];
     this.chatRoomService.getChatRoomsByEmail(this.userInfo[0].user.email, this.userInfo[0].idRol).then((res: any) => {
       if (res.data) {
         this.chatRooms = res.data;
@@ -68,18 +63,55 @@ export class TabChatPage implements OnInit {
     });
     await actionSheet.present();
   }
+
+  async eliminarChat(chat: ChatRoom) {
+    if (this.userInfo[0].idRol === this.rolesEnum.rolProfesor.toString()) {
+      this.chatRoomService.deleteChatRoomByEmails(chat.emailAlumno, this.userInfo[0].user.email).then(res => {
+        if (res) {
+          this.toastChatEliminado();
+          this.getChatRoomsByEmail();
+        }
+        else {
+          this.toastChatErrorEliminar();
+        }
+      });
+    }
+    else {
+      this.chatRoomService.deleteChatRoomByEmails(this.userInfo[0].user.email, chat.emailProfesor).then(res => {
+        if (res) {
+          this.toastChatEliminado();
+          this.getChatRoomsByEmail();
+        }
+        else {
+          this.toastChatErrorEliminar();
+        }
+      });
+
+    }
+  }
+async abriChat()
+{
+
 }
 
-// openChat(chat) {
-// this.modalCtrl.create({
-//   component: ChatModalComponent,
-//   componentProps: {
-//     chat: chat
-//   }
-// }).then((modal) => {
-//   modal.present();
-// })
-// }
+  async toastChatEliminado() {
+    const toast = await this.toastCtrl.create({
+      message: 'Chat eliminado con exito!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async toastChatErrorEliminar() {
+    const toast = await this.toastCtrl.create({
+      message: 'Ha ocurrido un error al eliminar el chat!',
+      duration: 2000
+    });
+    toast.present();
+  }
+}
+
+
 
 
 

@@ -1,4 +1,4 @@
-<!-- <ion-header [translucent]="true">
+<ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-button slot="end" fill="clear" (click)="presentActionSheet()">
       <ion-icon style="color:#ffff" name="menu"></ion-icon>
@@ -11,25 +11,45 @@
 
 <ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item-sliding *ngFor="let chat of chats">
+    <ion-item-sliding *ngFor="let chats of chatRooms">
 
-      <ion-item (click)="openChat(chat)">
-
+      <ion-item>
         <ion-avatar slot="start">
-          <ion-img [src]="chat.Img"></ion-img>
+          <ion-img src="/assets/avatarsClases/avatarChat.png"></ion-img>
         </ion-avatar>
 
         <ion-label>
-          <h2><b>{{chat.Nombre}}</b></h2>
-          <p>{{chat.Descripcion}}</p>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="5">
+                <p>Clase: <b>{{chats.clase}}</b></p>
+              </ion-col>
+
+              <ion-col size="7">
+                <div *ngIf="idRol === rolesEnum.rolProfesor">
+                  <p>Email:<b>{{chats.emailAlumno}}</b></p>
+                </div>
+
+                <div *ngIf="idRol === rolesEnum.rolAlumno">
+                  <p>Email:<b>{{chats.emailProfesor}}</b></p>
+                </div>
+              </ion-col>
+
+            </ion-row>
+
+          </ion-grid>
         </ion-label>
 
       </ion-item>
 
       <ion-item-options>
 
-        <ion-item-option color="danger" (click)="borrarChat()">
-          <ion-icon slot="icon-only" name="trash"></ion-icon>
+        <ion-item-option color="danger">
+          <ion-icon slot="icon-only" (click)="eliminarChat(chats)" name="trash"></ion-icon>
+        </ion-item-option>
+
+        <ion-item-option (click)="abriChat()" color="success">
+          <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
         </ion-item-option>
 
       </ion-item-options>
@@ -44,7 +64,4 @@
     </ion-fab-button>
   </ion-fab>
 
-</ion-content> -->
-<ion-content>
-  asd
 </ion-content>

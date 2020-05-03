@@ -47,14 +47,14 @@
         </ion-item-option>
 
         <ion-item-option *ngIf="idRol === rolesEnum.rolProfesor" color="success">
-          <ion-icon slot="icon-only" (click)="mostrarUsuarios(clase.codigo)" name="people-circle-outline"></ion-icon>
+          <ion-icon slot="icon-only" (click)="mostrarUsuarios(clase)" name="people-circle-outline"></ion-icon>
         </ion-item-option>
 
         <ion-item-option *ngIf="idRol === rolesEnum.rolAlumno" color="danger">
           <ion-icon slot="icon-only" (click)="eliminarClaseAlumno(clase)" name="trash"></ion-icon>
         </ion-item-option>
 
-        <ion-item-option *ngIf="idRol === rolesEnum.rolAlumno" color="success">
+        <ion-item-option *ngIf="idRol === rolesEnum.rolAlumno" color="success" (click)="abrirChat(clase)">
           <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
         </ion-item-option>
 

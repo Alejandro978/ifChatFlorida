@@ -9,14 +9,15 @@ import { Storage } from '@ionic/storage';
 })
 export class TabsPage implements OnInit {
   userInfo: any;
-  constructor(public router: Router,
+  constructor(
+    public router: Router,
     private storage: Storage
   ) {
 
   }
 
   ngOnInit() {
-    this.router.navigate(['/tabs/clase']);
+    this.router.navigate(['/tabs/chat']);
   }
 
 }

@@ -10,11 +10,10 @@ const chatRoomRoutes = Router();
 chatRoomRoutes.post('/create', (req: Request, res: Response) => {
 
     const chatRoom = {
-        emailAlumno: req.body.emailAlumno,
         emailProfesor: req.body.emailProfesor,
+        emailAlumno: req.body.emailAlumno,
         clase: req.body.clase,
-        avatar: req.body.avatar,
-        // mensajes: req.body.mensajes
+        mensajes: []
     }
     ChatRoom.create(chatRoom).then(profesorDb => {
 
@@ -71,11 +70,56 @@ chatRoomRoutes.get('/getChatRoomByEmail', (req: Request, res: Response) => {
             }
         });
     }
+});
+
+//Método para obtener salas que coincidan con email profesor y alumno
+//para comprobar si están repetidos...
+chatRoomRoutes.get('/getChatRoomByEmails', (req: Request, res: Response) => {
+    let emailProfesor: any = req.headers.emailprofesor;
+    let emailAlumno: any = req.headers.emailalumno;
+
+    ChatRoom.find({ emailProfesor: emailProfesor, emailAlumno: emailAlumno }, (err, chatRooms) => {
+        if (!chatRooms) {
+            return res.json({
+                ok: false,
+                mensaje: 'No existen clases para este profesor.'
+            })
+        }
+        else {
+            res.json({
+                ok: true,
+                data: chatRooms
+            });
+        }
+    });
+});
 
 
+chatRoomRoutes.delete('/delete', (req: Request, res: Response) => {
+
+    //TODO:Eliminar también CHATS ABIERTOS QUE CONTENGAN ESTA CLASE.
+    let emailAlumno: any = req.headers.emailalumno;
+    let emailProfesor: any = req.headers.emailprofesor;
+    console.log(emailAlumno);
+    console.log(emailProfesor);
 
 
+    ChatRoom.deleteOne({ emailAlumno: emailAlumno, emailProfesor: emailProfesor }, function (err) {
+        if (err) {
+            res.json({
+                ok: false,
+                mensaje: 'Ha habido un problema al eliminar la Clase'
+            });
+            throw (err);
+        }
+        else {
+            res.json({
+                ok: true,
+                mensaje: 'Sala de chat eliminada con exito'
+            });
+        }
 
+    });
 
 });
 

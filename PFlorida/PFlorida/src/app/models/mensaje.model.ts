@@ -1,5 +1,5 @@
 export class Mensaje {
-    Contenido: string;
-    Tipo: string;
-    Date: Date;
+    texto: string;
+    idRol: string;
+    date: Date;
 }

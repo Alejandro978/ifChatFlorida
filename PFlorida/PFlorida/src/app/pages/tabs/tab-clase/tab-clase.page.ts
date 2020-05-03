@@ -9,6 +9,9 @@ import { RolesEnum } from '../../../models/enums/rolesEnum';
 import { Clase } from '../../../models/clase.model';
 import { AlumnoService } from 'src/app/services/alumno-services.service';
 import { TabAlumnosClasePage } from './tab-alumnos-clase/tab-alumnos-clase.page';
+import { ChatRoomService } from 'src/app/services/chatRoom-service';
+import { ChatRoom } from 'src/app/models/chatRoom.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab-clase',
@@ -31,7 +34,9 @@ export class TabClasePage {
     private toastCtrl: ToastController,
     private alumnoService: AlumnoService,
     public actionSheetController: ActionSheetController,
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private chatRoomService: ChatRoomService,
+    public router: Router
   ) {
   }
   async ionViewWillEnter() {
@@ -166,28 +171,7 @@ export class TabClasePage {
     });
   }
 
-  async toastCodigoInvalido() {
-    const toast = await this.toastCtrl.create({
-      message: 'VAYA! Este Código clase no existe, introduzca otro!',
-      duration: 2000
-    });
-    toast.present();
-  }
 
-  async toastRegistradoConExito() {
-    const toast = await this.toastCtrl.create({
-      message: '¡Enhorabuena te has registrado con exito!',
-      duration: 2000
-    });
-    toast.present();
-  }
-  async toastClaseRepetida() {
-    const toast = await this.toastCtrl.create({
-      message: '¡Ya estás registrado a esta Clase!',
-      duration: 2000
-    });
-    toast.present();
-  }
 
   eliminarClaseAlumno(clase: Clase) {
 
@@ -220,23 +204,7 @@ export class TabClasePage {
     });
   }
 
-  async toastClaseEliminada() {
-    const toast = await this.toastCtrl.create({
-      message: 'Clase eliminada con exito!',
-      duration: 2000
-    });
-    toast.present();
-  }
 
-
-
-  async toastClaseNoExistente() {
-    const toast = await this.toastCtrl.create({
-      message: 'Parece que esta clase ya no existe!',
-      duration: 2000
-    });
-    toast.present();
-  }
 
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
@@ -265,15 +233,121 @@ export class TabClasePage {
     return await this.loading.present();
   }
 
-  async mostrarUsuarios(codigo: string) {
+  async mostrarUsuarios(clase: Clase) {
 
     this.modalCtrl.create({
       component: TabAlumnosClasePage,
       componentProps: {
-        codigo:codigo,
+        codigo: clase.codigo,
+        emailProfesor: this.userInfo[0].user.email,
+        nombreClase: clase.nombre
+
       }
     }).then((modal) => {
       modal.present();
     });
+  }
+
+  async abrirChat(clase: Clase) {
+    await this.comprobarChatRoomExistente(clase);
+  }
+
+  //Método para el alumno
+  async comprobarChatRoomExistente(clase: Clase) {
+    this.chatRoomService.getChatRoomsByEmails(this.userInfo[0].user.email, clase.email).then((res: any) => {
+      console.log(res.data.length);
+      if (res.data.length === 0) {
+        this.crearChatRoom(this.userInfo[0].user.email, clase);
+      }
+      else {
+        this.toastChatRoomRepetido(clase.nombre);
+        this.router.navigate(['/tabs/chat']);
+
+      }
+    });
+  }
+
+  async crearChatRoom(emailAlumno, clase: Clase) {
+    //Se crea el chatRoom y se mapea:
+    let chatRoom = new ChatRoom();
+    chatRoom.clase = clase.nombre;
+    chatRoom.emailAlumno = emailAlumno;
+    chatRoom.emailProfesor = clase.email;
+    this.chatRoomService.crearChatRoom(chatRoom).then((res: any) => {
+      if (res) {
+        this.toastChatRoomCreado(clase.nombre);
+        this.router.navigate(['/tabs/chat']);
+
+      }
+      else {
+        this.toastChatRoomError();
+      }
+    });
+  }
+
+  //Toasts ------------------------ >
+  async toastCodigoInvalido() {
+    const toast = await this.toastCtrl.create({
+      message: 'VAYA! Este Código clase no existe, introduzca otro!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async toastRegistradoConExito() {
+    const toast = await this.toastCtrl.create({
+      message: '¡Enhorabuena te has registrado con exito!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async toastClaseRepetida() {
+    const toast = await this.toastCtrl.create({
+      message: '¡Ya estás registrado a esta Clase!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async toastClaseEliminada() {
+    const toast = await this.toastCtrl.create({
+      message: 'Clase eliminada con exito!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+
+
+  async toastClaseNoExistente() {
+    const toast = await this.toastCtrl.create({
+      message: 'Parece que esta clase ya no existe!',
+      duration: 2000
+    });
+    toast.present();
+  }
+  async toastChatRoomRepetido(nombreClase) {
+    const toast = await this.toastCtrl.create({
+      message: 'Ya tienes un chat abierto para la clase de ' + nombreClase + '!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async toastChatRoomCreado(nombreClase) {
+    const toast = await this.toastCtrl.create({
+      message: 'Se ha creado un chat para la clase de ' + nombreClase + '!',
+      duration: 2000
+    });
+    toast.present();
+  }
+
+  async toastChatRoomError() {
+    const toast = await this.toastCtrl.create({
+      message: 'Parece que esta clase ya no existe...',
+      duration: 2000
+    });
+    toast.present();
   }
 }
