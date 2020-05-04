@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = require("mongoose");
 const mensajesSchema = new mongoose_1.Schema({
+    titulo: {
+        type: String,
+        required: [true, 'El texto es obligatorio']
+    },
     texto: {
         type: String,
         required: [true, 'El texto es obligatorio']
@@ -13,7 +17,11 @@ const mensajesSchema = new mongoose_1.Schema({
     date: {
         type: Date,
         required: [true, 'Fecha obligatoria']
-    }
+    },
+    enviadoPor: {
+        type: String,
+        required: [true, 'Enviado por es obligatorio']
+    },
 });
 const chatRoomSchema = new mongoose_1.Schema({
     emailAlumno: {

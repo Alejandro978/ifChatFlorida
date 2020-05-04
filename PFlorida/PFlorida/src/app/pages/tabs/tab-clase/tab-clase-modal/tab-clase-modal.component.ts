@@ -98,7 +98,7 @@ export class TabClaseModalComponent implements OnInit {
 
   async toastUnsuccess() {
     const toast = await this.toastCtrl.create({
-      message: 'VAYA! Este Código clase ya está siendo utilizado, introduzca otro!.',
+      message: 'VAYA! Este Código clase ya está siendo utilizado, introduzca otro!',
       duration: 2000
     });
     toast.present();

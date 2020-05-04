@@ -123,5 +123,39 @@ chatRoomRoutes.delete('/delete', (req: Request, res: Response) => {
 
 });
 
+//Añadir nuevos mensajes al chatRoom:
+
+chatRoomRoutes.put('/update', (req: any, res: Response) => {
+console.log(req.body);
+
+    // Se comprueba si el usuario ya tiene el código clase registrado:
+    ChatRoom.find({ emailAlumno: req.body.emailAlumno, emailProfesor: req.body.emailProfesor }, function (err, result) {
+        //La sala de chat existe por lo que intentará pusear los nuevos mensajes..
+        if (result.length > 0) {
+
+            ChatRoom.updateOne(
+                { emailAlumno: req.body.emailAlumno,emailProfesor:req.body.emailProfesor },
+                { $push: { mensajes: [req.body.mensaje] } },
+                function (err, result) {
+
+
+
+                    if (err) {
+                        res.json({
+                            ok: false,
+                            mensaje: err
+                        })
+                    } else {
+                        res.json({
+                            ok: true,
+                            mensaje: 'Clase registrada con exito'
+                        })
+                    }
+                }
+            );
+        }
+    });
+});
+
 
 export default chatRoomRoutes;

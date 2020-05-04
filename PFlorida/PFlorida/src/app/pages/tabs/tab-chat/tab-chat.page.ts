@@ -4,6 +4,7 @@ import { ChatRoom } from 'src/app/models/chatRoom.model';
 import { ChatRoomService } from 'src/app/services/chatRoom-service';
 import { Storage } from '@ionic/storage';
 import { RolesEnum } from 'src/app/models/enums/rolesEnum';
+import { TabChatModalComponent } from './tab-chat-modal/tab-chat-modal.page';
 
 
 @Component({
@@ -89,10 +90,27 @@ export class TabChatPage {
 
     }
   }
-async abriChat()
-{
+  async abriChat(chat: ChatRoom) {
+    let email: string;
+    if (this.idRol === 1) {
+      email = chat.emailAlumno;
+    }
+    else {
+      email = chat.emailProfesor;
+    }
+    this.modalCtrl.create({
+      component: TabChatModalComponent,
+      componentProps: {
+        idRol: this.idRol,
+        titulo: email,
+        emailProfesor: chat.emailProfesor,
+        emailAlumno: chat.emailAlumno
+      }
+    }).then((modal) => {
+      modal.present();
+    })
 
-}
+  }
 
   async toastChatEliminado() {
     const toast = await this.toastCtrl.create({

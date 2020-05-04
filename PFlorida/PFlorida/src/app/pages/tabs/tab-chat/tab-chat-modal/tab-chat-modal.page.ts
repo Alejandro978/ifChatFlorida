@@ -1,136 +1,132 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
-import { AlumnoService } from 'src/app/services/alumno-services.service';
-import { Alumno } from 'src/app/models/alumno.model';
+import { ModalController, AlertController, ToastController } from '@ionic/angular';
 import { ChatRoomService } from 'src/app/services/chatRoom-service';
-import { Clase } from 'src/app/models/clase.model';
-import { Router } from '@angular/router';
-import { ChatRoom } from 'src/app/models/chatRoom.model';
+import { VMensaje } from 'src/app/models/views/VMensaje.model';
+import { Mensaje } from 'src/app/models/mensaje.model';
 
 @Component({
-  selector: 'app-tab-alumnos-clase',
-  templateUrl: './tab-alumnos-clase.page.html',
-  styleUrls: ['./tab-alumnos-clase.page.scss'],
+  selector: 'app-tab-chat-modal',
+  templateUrl: './tab-chat-modal.page.html',
+  styleUrls: ['./tab-chat-modal.page.scss'],
 })
-export class TabAlumnosClasePage implements OnInit {
-  @Input() codigo: any;
-  @Input() emailProfesor: any;
-  @Input() nombreClase: any;
+export class TabChatModalComponent implements OnInit {
 
-
-  alumnos: Alumno[] = [];
+  @Input() idRol: any;
+  @Input() titulo: string;
+  @Input() emailAlumno: string;
+  @Input() emailProfesor: string;
+  texto: string;
+  mensajes: Mensaje[];
 
   constructor(
     private modalCtrl: ModalController,
-    public alumnoService: AlumnoService,
+    private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private chatRoomService: ChatRoomService,
-    public router: Router
+    private chatRoomService: ChatRoomService
   ) { }
 
   async ngOnInit() {
-    await this.getAlumnosClase();
+    await this.getChatRoomByEmails();
   }
 
   cerrar() {
     this.modalCtrl.dismiss();
   }
 
-  async getAlumnosClase() {
-    this.alumnoService.getAlumnosByCodigo(this.codigo).then((res: any) => {
-      this.alumnos = res.alumnos;
+  async abrirAlertMensaje() {
+    let alert = this.alertCtrl.create({
+      header: `Mensaje`,
+      inputs: [
+        {
+          name: 'titulo',
+          type: 'text',
+          placeholder: 'Titulo'
+        },
+        {
+          name: 'mensaje',
+          type: 'textarea',
+          placeholder: 'Mensaje'
+
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            this.alertCtrl.dismiss()
+          }
+        },
+        {
+          text: 'Aceptar',
+          handler: (data) => {
+            this.enviarMensaje(data.titulo, data.mensaje);
+          }
+        }
+      ]
+    });
+    await (await alert).present();
+  }
+
+
+  async getChatRoomByEmails() {
+    this.chatRoomService.getChatRoomsByEmails(this.emailAlumno, this.emailProfesor).then((res: any) => {
+      this.mensajes = res.data[0].mensajes;
     });
   }
 
-  async abrirChat(emailAlumno) {
-    await this.comprobarChatRoomExistente(emailAlumno);
-  }
 
-  //Método para el alumno
-  async comprobarChatRoomExistente(emailAlumno) {
-    this.chatRoomService.getChatRoomsByEmails(emailAlumno, this.emailProfesor).then((res: any) => {
-      console.log(res.data.length);
-      if (res.data.length === 0) {
-        this.crearChatRoom(emailAlumno, this.nombreClase);
+
+  async enviarMensaje(titulo, mensaje) {
+
+    if (!!titulo && !!mensaje) {
+      let datosMensaje: VMensaje = new VMensaje();
+      datosMensaje.emailAlumno = this.emailAlumno;
+      datosMensaje.emailProfesor = this.emailProfesor;
+      datosMensaje.idRol = this.idRol;
+      datosMensaje.texto = mensaje;
+      datosMensaje.titulo = titulo;
+      if (this.idRol === 1) {
+        datosMensaje.enviadoPor = this.emailProfesor;
       }
       else {
-        this.toastChatRoomRepetido();
-        this.router.navigate(['/tabs/chat']);
-        this.modalCtrl.dismiss();
+        datosMensaje.enviadoPor = this.emailAlumno;
       }
-    });
-  }
 
-  async crearChatRoom(emailAlumno, nombreClase) {
-    //Se crea el chatRoom y se mapea:
-    let chatRoom = new ChatRoom();
-    chatRoom.clase = nombreClase;
-    chatRoom.emailAlumno = emailAlumno;
-    chatRoom.emailProfesor = this.emailProfesor;
-    this.chatRoomService.crearChatRoom(chatRoom).then((res: any) => {
-      if (res) {
-        this.toastChatRoomCreado(emailAlumno);
-        this.router.navigate(['/tabs/chat']);
-        this.modalCtrl.dismiss();
-      }
-      else {
-        this.toastChatRoomError();
-      }
-    });
-  }
 
-  eliminarAlumnoClase(emailAlumno) {
-    this.alumnoService.eliminarCodigoClase(this.codigo, emailAlumno).then(res => {
-      console.log(res);
-
-      if (res) {
-        this.toastAlumnoEliminadoConExito();
-        this.modalCtrl.dismiss();
-      }
-      else {
-        this.toastAlumnoErrorEliminar();
-      }
-    });
+      this.chatRoomService.enviarMensaje(datosMensaje).then((res: any) => {
+        this.toastEnviado();
+        this.getChatRoomByEmails();
+      });
+    }
+    else {
+      await this.toastNoEnviado();
+    }
   }
 
 
-  async toastChatRoomRepetido() {
+  async toastNoEnviado() {
     const toast = await this.toastCtrl.create({
-      message: 'Ya tienes un chat abierto para este Alumno!',
+      message: 'Titulo y Descripción obligatorios, Vuelve a intentarlo!!',
       duration: 2000
     });
     toast.present();
   }
 
-  async toastChatRoomCreado(emailAlumno) {
+  async toastEnviado() {
     const toast = await this.toastCtrl.create({
-      message: 'Se ha creado un chat para el alumno' + emailAlumno + '!',
+      message: 'Mensaje enviado correctamente!!',
       duration: 2000
     });
     toast.present();
   }
 
-  async toastChatRoomError() {
-    const toast = await this.toastCtrl.create({
-      message: 'Parece que alumno ya no existe...',
-      duration: 2000
-    });
-    toast.present();
+  getDate(date) {
+    let fechaDevolver = new Date(date);
+    // console.log(prueba.getDate());
+    // return '';
+    return fechaDevolver.getDate() + "/" + fechaDevolver.getMonth() + "/" + fechaDevolver.getFullYear();
+
   }
 
-  async toastAlumnoEliminadoConExito() {
-    const toast = await this.toastCtrl.create({
-      message: 'Se ha Eliminado al alumno con exito!',
-      duration: 2000
-    });
-    toast.present();
-  }
-
-  async toastAlumnoErrorEliminar() {
-    const toast = await this.toastCtrl.create({
-      message: 'Parece que este alumno ya no existe..',
-      duration: 2000
-    });
-    toast.present();
-  }
 }

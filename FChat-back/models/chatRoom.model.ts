@@ -1,6 +1,10 @@
 import { Schema, model, Document } from 'mongoose';
 
 const mensajesSchema = new Schema({
+    titulo: {
+        type: String,
+        required: [true, 'El texto es obligatorio']
+    },
     texto: {
         type: String,
         required: [true, 'El texto es obligatorio']
@@ -12,7 +16,11 @@ const mensajesSchema = new Schema({
     date: {
         type: Date,
         required: [true, 'Fecha obligatoria']
-    }
+    },
+    enviadoPor: {
+        type: String,
+        required: [true, 'Enviado por es obligatorio']
+    },
 })
 
 const chatRoomSchema = new Schema({

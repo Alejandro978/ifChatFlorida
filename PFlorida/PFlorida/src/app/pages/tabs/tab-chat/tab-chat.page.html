@@ -48,7 +48,7 @@
           <ion-icon slot="icon-only" (click)="eliminarChat(chats)" name="trash"></ion-icon>
         </ion-item-option>
 
-        <ion-item-option (click)="abriChat()" color="success">
+        <ion-item-option (click)="abriChat(chats)" color="success">
           <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
         </ion-item-option>
 
@@ -58,10 +58,6 @@
 
   </ion-list>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="medium">
-      <ion-icon name="chatbubble-ellipses-sharp"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+
 
 </ion-content>

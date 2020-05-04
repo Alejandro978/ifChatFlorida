@@ -1,53 +1,28 @@
 <ion-header>
   <ion-toolbar color="tertiary">
-    <ion-button slot="start" fill="clear" (click)="cerrar()">
-      <ion-icon style="color:#fff;font-size: 25px;" name="arrow-back">
-
-      </ion-icon>
+    <ion-button slot="start" fill="clear" (click)="cerrar()" color="dark">
+      <ion-icon name="close"></ion-icon>
     </ion-button>
-    <ion-title>Listado alumnos por Clase</ion-title>
+    <ion-title>{{titulo}}</ion-title>
   </ion-toolbar>
 </ion-header>
+<ion-content>
+  <ion-card [ngClass]="{'estiloAlumno':mensaje.idRol=='2','estiloProfesor':mensaje.idRol=='1'}"
+    *ngFor="let mensaje of mensajes">
 
-<ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item-sliding *ngFor="let alumno of alumnos">
-      <ion-item>
-        <ion-avatar slot="start">
-          <ion-img src="/assets/avatarsClases/av-1.png"></ion-img>
-        </ion-avatar>
-
-        <ion-label>
-          <ion-grid>
-            <ion-row>
-
-              <ion-col size="6">
-                <h2><b>{{alumno.nombre}}</b></h2>
-              </ion-col>
-
-              <ion-col size="6">
-                <p>{{alumno.email}}</p>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-label>
-
-      </ion-item>
-
-      <ion-item-options>
-        <ion-item-option color="danger">
-          <ion-icon slot="icon-only" name="trash" (click)="eliminarAlumnoClase(alumno.email)"></ion-icon>
-        </ion-item-option>
-
-        <ion-item-option color="success" (click)="abrirChat(alumno.email)">
-          <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
-        </ion-item-option>
-
-      </ion-item-options>
-
-    </ion-item-sliding>
-
-  </ion-list>
-
-
+    <ion-card-header>
+      <ion-card-title><b>{{mensaje.titulo}}</b></ion-card-title>
+      <ion-card-subtitle><b>Enviado por: {{mensaje.enviadoPor}}</b></ion-card-subtitle>
+      <ion-card-subtitle><b>Fecha de envio: {{getDate(mensaje.date)}}</b></ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <b>{{mensaje.texto}}</b>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
+
+<ion-fab (click)="abrirAlertMensaje()" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button color="primary">
+    <ion-icon name="mail"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

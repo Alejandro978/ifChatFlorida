@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { TabAlumnosClasePage } from './tab-alumnos-clase.page';
+import { TabChatModalComponent } from './tab-chat-modal.page';
 
 @NgModule({
   imports: [
@@ -10,6 +10,6 @@ import { TabAlumnosClasePage } from './tab-alumnos-clase.page';
     FormsModule,
     IonicModule,
   ],
-  declarations: [TabAlumnosClasePage]
+  declarations: [TabChatModalComponent]
 })
-export class TabAlumnosClasePageModule {}
+export class TabChatModalModule {}
