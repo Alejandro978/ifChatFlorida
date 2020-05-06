@@ -16,6 +16,10 @@ const routes: Routes = [
         {
           path: 'clase',
           loadChildren: () => import('../tabs/tab-clase/tab-clase.module').then(m => m.TabClasePageModule)
+        },
+        {
+          path: 'calendar',
+          loadChildren: () => import('../tabs/tab-calendar/tab-calendar.module').then(m => m.TabCalendarPageModule)
         }
       ]
   },

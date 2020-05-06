@@ -92,7 +92,7 @@ alumnoRoutes.get('/getCodigosClaseAlumno', (req, res) => {
 //Se obtiene listado de alumnos que pertenezcan a una clase:
 alumnoRoutes.get('/getAlumnosByCodigo', (req, res) => {
     let codigo = req.headers.codigo;
-    alumno_model_1.Alumno.find({ clases: { $in: ["123"] } }, (err, data) => {
+    alumno_model_1.Alumno.find({ clases: { $in: [codigo] } }, (err, data) => {
         let listadoAlumnos = [];
         //Se mapean los alumnos
         data.forEach(dataAlumno => {

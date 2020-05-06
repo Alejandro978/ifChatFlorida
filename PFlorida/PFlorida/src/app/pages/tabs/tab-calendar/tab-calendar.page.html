@@ -4,44 +4,36 @@
       <ion-icon style="color:#ffff" name="menu"></ion-icon>
     </ion-button>
     <ion-title>
-      Chats
+      Agenda
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <ion-item-sliding *ngFor="let chats of chatRooms">
 
+  <ion-list>
+    <ion-item-sliding *ngFor="let nota of notas">
       <ion-item>
         <ion-avatar slot="start">
-          <ion-img src="/assets/avatarsClases/avatarChat.png"></ion-img>
+          <ion-img src="/assets/avatars/todoIcon.png"></ion-img>
         </ion-avatar>
 
         <ion-label>
           <ion-grid>
             <ion-row>
-              <ion-col size="12">
-                <div *ngIf="chats.nombreProfesor">
-                  <p><b>{{chats.clase}} ( {{chats.nombreProfesor}} )</b></p>
-                </div>
 
-                <div *ngIf="chats.nombreAlumno">
-                  <p><b>{{chats.clase}} ( {{chats.nombreAlumno}} )</b></p>
-                </div>
+              <ion-col size="8">
+                <h2><b>{{nota.titulo}}</b></h2>
               </ion-col>
 
-              <ion-col size="12">
-                <div *ngIf="idRol === rolesEnum.rolProfesor">
-                  <p><b>Email:{{chats.emailAlumno}}</b></p>
-                </div>
-
-                <div *ngIf="idRol === rolesEnum.rolAlumno">
-                  <p><b>Email:{{chats.emailProfesor}}</b></p>
-                </div>
+              <ion-col size="4">
+                <h2><b>{{getDate(nota.fecha)}}</b></h2>
               </ion-col>
+
 
             </ion-row>
+            <p><b>{{nota.descripcion}}</b></p>
+
 
           </ion-grid>
         </ion-label>
@@ -49,21 +41,20 @@
       </ion-item>
 
       <ion-item-options>
-
         <ion-item-option color="danger">
-          <ion-icon slot="icon-only" (click)="eliminarChat(chats)" name="trash"></ion-icon>
+          <ion-icon slot="icon-only" (click)="eliminarNotas(clase)" name="trash"></ion-icon>
         </ion-item-option>
 
-        <ion-item-option (click)="abriChat(chats)" color="success">
-          <ion-icon slot="icon-only" name="chatbubble"></ion-icon>
-        </ion-item-option>
-
+        <!-- <ion-item-option color="success">
+          <ion-icon slot="icon-only" (click)="eliminarNotas(clase)" name="pencil"></ion-icon>
+        </ion-item-option>-->
       </ion-item-options>
-
     </ion-item-sliding>
-
   </ion-list>
 
-
-
+  <ion-fab (click)="crearNota()" vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="medium">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

@@ -117,7 +117,7 @@ alumnoRoutes.get('/getAlumnosByCodigo', (req: Request, res: Response) => {
 
     let codigo: any = req.headers.codigo;
 
-    Alumno.find({ clases: { $in: ["123"] } }, (err, data) => {
+    Alumno.find({ clases: { $in: [codigo] } }, (err, data) => {
 
         let listadoAlumnos: any[] = [];
         //Se mapean los alumnos

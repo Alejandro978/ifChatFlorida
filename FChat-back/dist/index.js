@@ -12,6 +12,7 @@ const chatRoom_1 = __importDefault(require("./routes/chatRoom"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
+const notas_1 = __importDefault(require("./routes/notas"));
 const server = new server_1.default();
 //Middleware se ejecuta siempre antes de lanzar la petición a una de las 'Rutas de la app'
 //Se encarga de transformar la información devuleta a un JSON legible.
@@ -24,6 +25,7 @@ server.app.use('/alumno', alumno_1.default);
 server.app.use('/clase', clase_1.default);
 server.app.use('/login', login_1.default);
 server.app.use('/chatRoom', chatRoom_1.default);
+server.app.use('/nota', notas_1.default);
 //Configurar cors
 server.app.use(cors_1.default({ origin: true, credentials: true }));
 //Conectar bbdd

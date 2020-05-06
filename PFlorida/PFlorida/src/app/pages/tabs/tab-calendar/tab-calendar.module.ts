@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { TabChatPage } from './tab-chat.page';
-import { TabChatModalComponent } from './tab-chat-modal/tab-chat-modal.page';
+import { TabCalendarPage } from './tab-calendar.page';
+import { TabNotaModalComponent } from './tab-nota-modal/tab-nota-modal.component';
 
 
 @NgModule({
-  entryComponents: [TabChatModalComponent],
+  entryComponents: [TabNotaModalComponent],
 
   imports: [
     CommonModule,
@@ -17,10 +17,10 @@ import { TabChatModalComponent } from './tab-chat-modal/tab-chat-modal.page';
     RouterModule.forChild([
       {
         path: '',
-        component: TabChatPage
+        component: TabCalendarPage
       }
     ])
   ],
-  declarations: [TabChatPage, TabChatModalComponent]
+  declarations: [TabCalendarPage, TabNotaModalComponent]
 })
-export class TabChatPageModule { }
+export class TabCalendarPageModule { }

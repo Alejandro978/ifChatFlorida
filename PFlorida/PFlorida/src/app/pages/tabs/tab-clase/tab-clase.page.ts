@@ -25,7 +25,9 @@ export class TabClasePage {
   clases: Clase[] = [];
   codigoClase: string;
   codigoClasesAlumno: string[] = [];
+
   public loading: any;
+
   constructor(
     private modalCtrl: ModalController,
     private claseService: ClaseService,
@@ -39,6 +41,7 @@ export class TabClasePage {
     public router: Router
   ) {
   }
+  
   async ionViewWillEnter() {
     //Desde este método si es rol alumno se obtienen las clases del profesor
     await this.getUserInfo();

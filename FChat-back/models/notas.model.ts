@@ -16,9 +16,9 @@ const notasSchema = new Schema({
         type: String,
         required: [true, 'El nombre es obligatorio']
     },
-    prioridad: {
-        type: Number,
-        required: [true, 'El rol es obligatorio']
+    fecha: {
+        type: Date,
+        required: [true, 'Fecha obligatoria']
     },
 });
 
@@ -28,7 +28,7 @@ interface INotas extends Document {
     titulo: string,
     descripcion: string,
     email: string,
-    prioridad: string
+    fecha: Date
 
     compararPassword(password: string): boolean;
 }

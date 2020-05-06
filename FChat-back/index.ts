@@ -9,6 +9,7 @@ import chatRoomRoutes from './routes/chatRoom';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import notasRoutes from './routes/notas';
 
 const server = new Server();
 
@@ -24,6 +25,8 @@ server.app.use('/alumno', alumnoRoutes);
 server.app.use('/clase', claseRoutes);
 server.app.use('/login', loginRoutes);
 server.app.use('/chatRoom', chatRoomRoutes);
+server.app.use('/nota', notasRoutes);
+
 
 
 //Configurar cors

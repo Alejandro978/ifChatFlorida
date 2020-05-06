@@ -11,8 +11,8 @@ import { ToastController, NavController } from '@ionic/angular';
 export class LoginPage implements OnInit {
 
   loginUser = {
-    email: 'alumno@gmail.com',
-    password: 'alumno'
+    email: '',
+    password: ''
   }
   email: string;
   password: string;

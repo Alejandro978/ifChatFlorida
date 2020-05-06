@@ -15,9 +15,9 @@ const notasSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'El nombre es obligatorio']
     },
-    prioridad: {
-        type: Number,
-        required: [true, 'El rol es obligatorio']
+    fecha: {
+        type: Date,
+        required: [true, 'Fecha obligatoria']
     },
 });
 exports.Notas = mongoose_1.model('Notas', notasSchema);
