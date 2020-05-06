@@ -13,7 +13,9 @@ chatRoomRoutes.post('/create', (req: Request, res: Response) => {
         emailProfesor: req.body.emailProfesor,
         emailAlumno: req.body.emailAlumno,
         clase: req.body.clase,
-        mensajes: []
+        mensajes: [],
+        nombreAlumno:req.body.nombreAlumno,
+        nombreProfesor:req.body.nombreProfesor
     }
     ChatRoom.create(chatRoom).then(profesorDb => {
 

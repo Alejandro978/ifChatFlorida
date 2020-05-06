@@ -42,16 +42,16 @@ export class TabAlumnosClasePage implements OnInit {
     });
   }
 
-  async abrirChat(emailAlumno) {
-    await this.comprobarChatRoomExistente(emailAlumno);
+  async abrirChat(emailAlumno,nombreAlumno) {
+    await this.comprobarChatRoomExistente(emailAlumno,nombreAlumno);
   }
 
   //Método para el alumno
-  async comprobarChatRoomExistente(emailAlumno) {
+  async comprobarChatRoomExistente(emailAlumno,nombreAlumno) {
     this.chatRoomService.getChatRoomsByEmails(emailAlumno, this.emailProfesor).then((res: any) => {
       console.log(res.data.length);
       if (res.data.length === 0) {
-        this.crearChatRoom(emailAlumno, this.nombreClase);
+        this.crearChatRoom(emailAlumno, this.nombreClase,nombreAlumno);
       }
       else {
         this.toastChatRoomRepetido();
@@ -61,12 +61,14 @@ export class TabAlumnosClasePage implements OnInit {
     });
   }
 
-  async crearChatRoom(emailAlumno, nombreClase) {
+  async crearChatRoom(emailAlumno, nombreClase,nombreAlumno) {
     //Se crea el chatRoom y se mapea:
     let chatRoom = new ChatRoom();
     chatRoom.clase = nombreClase;
     chatRoom.emailAlumno = emailAlumno;
     chatRoom.emailProfesor = this.emailProfesor;
+    chatRoom.nombreAlumno = nombreAlumno;
+
     this.chatRoomService.crearChatRoom(chatRoom).then((res: any) => {
       if (res) {
         this.toastChatRoomCreado(emailAlumno);

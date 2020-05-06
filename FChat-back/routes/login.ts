@@ -2,6 +2,7 @@ import { Router, Request, Response } from "express";
 import { Alumno } from "../models/alumno.model";
 import { Profesor } from "../models/profesor.model";
 import Token from "../classes/token";
+import { verificaToken } from "../middlewares/autenticacion";
 
 
 
@@ -47,7 +48,8 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
                             token: tokenAlumno,
                             user: body,
                             idRol: '2',
-                            clases: alumnoDb.clases
+                            clases: alumnoDb.clases,
+                            nombreAlumno: alumnoDb.nombre
                         });
                     }
                     else {
@@ -74,7 +76,8 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
                     ok: true,
                     token: tokenProfesor,
                     user: body,
-                    idRol: '1'
+                    idRol: '1',
+                    nombreProfesor: profesorDb.nombre,
                 });
             }
             else {
@@ -85,6 +88,16 @@ loginRoutes.post('/login', (req: Request, res: Response) => {
             }
         }
 
+    })
+})
+
+loginRoutes.get('/', [verificaToken], (req: any, res: Response) => {
+
+    const usuario = req.usuario;
+
+    res.json({
+        ok: true,
+        usuario
     })
 })
 

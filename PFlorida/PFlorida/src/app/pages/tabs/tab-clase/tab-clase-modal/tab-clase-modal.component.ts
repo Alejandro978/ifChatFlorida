@@ -16,6 +16,8 @@ import { RolesEnum } from '../../../../models/enums/rolesEnum';
 export class TabClaseModalComponent implements OnInit {
   @Input() userInfo: any;
   @Input() idRol: any;
+  @Input() nombreProfesor: any;
+
   clase: Clase = new Clase();
   claseFiltrada: Clase = null;
   codigoClase: string;
@@ -63,6 +65,7 @@ export class TabClaseModalComponent implements OnInit {
   }
   crearClase() {
     this.clase.email = this.userInfo.email;
+    this.clase.nombreProfesor = this.nombreProfesor;
     this.claseService.crearClase(this.clase).then(res => {
       if (res) {
         this.toastSuccess();

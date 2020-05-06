@@ -18,6 +18,10 @@ const claseSchema = new mongoose_1.Schema({
     avatar: {
         type: String,
         deault: 'av-4.png'
-    }
+    },
+    nombreProfesor: {
+        type: String,
+        deault: 'av-4.png'
+    },
 });
 exports.Clase = mongoose_1.model('Clases', claseSchema);

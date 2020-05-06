@@ -4,4 +4,5 @@ export class Clase {
     nombre:string;
     codigo: string;
     avatar:string;
+    nombreProfesor:string;
 }

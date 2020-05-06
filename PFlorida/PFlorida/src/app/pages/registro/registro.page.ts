@@ -5,6 +5,7 @@ import { Profesor } from '../../models/profesor.model';
 import { Alumno } from '../../models/alumno.model';
 import { AlumnoService } from "../../services/alumno-services.service";
 import { ProfesorService } from "../../services/profesor-services.service";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registro',
@@ -17,7 +18,8 @@ export class RegistroPage implements OnInit {
 
   titulo: string = "Registrar profesor";
 
-
+  formProfesor: FormGroup;
+  formAlumno: FormGroup;
 
   profesor: Profesor = new Profesor();
   alumno: Alumno = new Alumno();
@@ -28,10 +30,22 @@ export class RegistroPage implements OnInit {
 
   avatarSelected: string;
 
-  constructor(private navCtrl: NavController, private router: Router, private toastCtrl: ToastController, private alumnoService: AlumnoService, private profesorService: ProfesorService) {
+  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private router: Router, private toastCtrl: ToastController, private alumnoService: AlumnoService, private profesorService: ProfesorService) {
+
   }
 
   ngOnInit() {
+    this.formProfesor = this.formBuilder.group({
+      emailProfesor: ['', Validators.email],
+      passwordProfesor: ['', Validators.required],
+      nombreProfesor: ['', Validators.required]
+    });
+
+    this.formAlumno = this.formBuilder.group({
+      emailAlumno: ['', Validators.email],
+      passwordAlumno: ['', Validators.required],
+      nombreAlumno: ['', Validators.required]
+    });
     //Cancelamos el movimiento del slide
     // this.slides.lockSwipes(true);
 
@@ -39,7 +53,6 @@ export class RegistroPage implements OnInit {
 
 
   crearProfesor() {
-    console.log("Crear profesor");
     this.profesor.idRol = 1;
     this.profesor.avatar = this.avatarSelected;
     console.log(this.profesor);

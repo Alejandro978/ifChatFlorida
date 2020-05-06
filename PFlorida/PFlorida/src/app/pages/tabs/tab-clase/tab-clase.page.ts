@@ -85,6 +85,7 @@ export class TabClasePage {
         componentProps: {
           userInfo: this.userInfo[0].user,
           idRol: this.idRol,
+          nombreProfesor: this.userInfo[0].nombreProfesor
         }
       }).then((modal) => {
         modal.present();
@@ -273,6 +274,8 @@ export class TabClasePage {
     chatRoom.clase = clase.nombre;
     chatRoom.emailAlumno = emailAlumno;
     chatRoom.emailProfesor = clase.email;
+    chatRoom.nombreProfesor = clase.nombreProfesor;
+    
     this.chatRoomService.crearChatRoom(chatRoom).then((res: any) => {
       if (res) {
         this.toastChatRoomCreado(clase.nombre);

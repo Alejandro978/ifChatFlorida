@@ -4,11 +4,13 @@ const express_1 = require("express");
 const clase_model_1 = require("../models/clase.model");
 const claseRoutes = express_1.Router();
 claseRoutes.post('/create', (req, res) => {
+    console.log(req.body.nombreProfesor);
     const clase = {
         email: req.body.email,
         nombre: req.body.nombre,
         codigo: req.body.codigo,
         avatar: req.body.avatar,
+        nombreProfesor: req.body.nombreProfesor,
     };
     clase_model_1.Clase.create(clase).then(claseDb => {
         //Si se consigue crear el usuario , la respuesta userDB será devuelta:

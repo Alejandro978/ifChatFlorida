@@ -22,7 +22,7 @@
         <!-- Avatar selector  -->
         <app-avatar-selector (avatarSelected)="avatarSelected = $event "></app-avatar-selector>
 
-        <form>
+        <form [formGroup]="formProfesor">
           <ion-row>
             <ion-col>
 
@@ -30,17 +30,21 @@
 
                 <ion-item>
                   <ion-label>Email</ion-label>
-                  <ion-input [(ngModel)]="profesor.email" name="email" type="text" required></ion-input>
+                  <ion-input [(ngModel)]="profesor.email" formControlName="emailProfesor" type="text" required>
+                  </ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Contraseña</ion-label>
-                  <ion-input [(ngModel)]="profesor.password" name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="profesor.password" formControlName="passwordProfesor" type="password"
+                    required>
+                  </ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Nombre</ion-label>
-                  <ion-input [(ngModel)]="profesor.nombre" name="nombre" type="text" required></ion-input>
+                  <ion-input [(ngModel)]="profesor.nombre" formControlName="nombreProfesor" type="text" required>
+                  </ion-input>
                 </ion-item>
 
               </ion-list>
@@ -49,7 +53,8 @@
 
           <ion-row>
             <ion-col>
-              <ion-button (click)="crearProfesor()" type="submit" color="tertiary" shape="round">
+              <ion-button [disabled]="!this.formProfesor.valid" (click)="crearProfesor()" type="submit" color="tertiary"
+                shape="round">
                 Registrar profesor
               </ion-button>
 
@@ -74,7 +79,7 @@
         <!-- Avatar selector -->
         <app-avatar-selector (avatarSelected)="avatarSelected = $event "></app-avatar-selector>
 
-        <form>
+        <form [formGroup]="formAlumno">
           <ion-row>
             <ion-col>
 
@@ -82,17 +87,19 @@
 
                 <ion-item>
                   <ion-label>Email</ion-label>
-                  <ion-input [(ngModel)]="alumno.email" name="email" type="email" required></ion-input>
+                  <ion-input [(ngModel)]="alumno.email" formControlName="emailAlumno" type="email" required></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Contraseña</ion-label>
-                  <ion-input [(ngModel)]="alumno.password" name="password" type="password" required></ion-input>
+                  <ion-input [(ngModel)]="alumno.password" formControlName="passwordAlumno" type="password" required>
+                  </ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label>Nombre</ion-label>
-                  <ion-input [(ngModel)]="alumno.nombre" name="nombre" type="text" required></ion-input>
+                  <ion-input [(ngModel)]="alumno.nombre" formControlName="nombreAlumno" type="text" required>
+                  </ion-input>
                 </ion-item>
 
               </ion-list>
@@ -101,7 +108,8 @@
 
           <ion-row>
             <ion-col>
-              <ion-button (click)="crearAlumno()" type="submit" color="tertiary" shape="round">
+              <ion-button [disabled]="!this.formAlumno.valid" (click)="crearAlumno()" type="submit" color="tertiary"
+                shape="round">
                 Registrar Alumno
               </ion-button>
             </ion-col>

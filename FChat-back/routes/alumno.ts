@@ -62,8 +62,6 @@ alumnoRoutes.put('/update', (req: any, res: Response) => {
                 { $push: { clases: [req.body.codigo] } },
                 function (err, result) {
 
-
-
                     if (err) {
                         res.json({
                             ok: false,

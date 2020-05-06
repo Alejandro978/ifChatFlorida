@@ -7,6 +7,7 @@ const express_1 = require("express");
 const alumno_model_1 = require("../models/alumno.model");
 const profesor_model_1 = require("../models/profesor.model");
 const token_1 = __importDefault(require("../classes/token"));
+const autenticacion_1 = require("../middlewares/autenticacion");
 const loginRoutes = express_1.Router();
 loginRoutes.post('/login', (req, res) => {
     const body = req.body;
@@ -40,7 +41,8 @@ loginRoutes.post('/login', (req, res) => {
                             token: tokenAlumno,
                             user: body,
                             idRol: '2',
-                            clases: alumnoDb.clases
+                            clases: alumnoDb.clases,
+                            nombreAlumno: alumnoDb.nombre
                         });
                     }
                     else {
@@ -65,7 +67,8 @@ loginRoutes.post('/login', (req, res) => {
                     ok: true,
                     token: tokenProfesor,
                     user: body,
-                    idRol: '1'
+                    idRol: '1',
+                    nombreProfesor: profesorDb.nombre,
                 });
             }
             else {
@@ -75,6 +78,13 @@ loginRoutes.post('/login', (req, res) => {
                 });
             }
         }
+    });
+});
+loginRoutes.get('/', [autenticacion_1.verificaToken], (req, res) => {
+    const usuario = req.usuario;
+    res.json({
+        ok: true,
+        usuario
     });
 });
 exports.default = loginRoutes;

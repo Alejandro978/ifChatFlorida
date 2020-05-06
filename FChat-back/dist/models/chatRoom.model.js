@@ -36,6 +36,14 @@ const chatRoomSchema = new mongoose_1.Schema({
         type: String,
         required: [true, 'El correo es obligatorio']
     },
+    nombreAlumno: {
+        type: String,
+        required: [false, 'El correo es obligatorio']
+    },
+    nombreProfesor: {
+        type: String,
+        required: [false, 'El correo es obligatorio']
+    },
     mensajes: [mensajesSchema]
 });
 exports.ChatRoom = mongoose_1.model('ChatRoom', chatRoomSchema);

@@ -6,13 +6,14 @@ import { Clase } from "../models/clase.model";
 const claseRoutes = Router();
 
 claseRoutes.post('/create', (req: Request, res: Response) => {
+    console.log(req.body.nombreProfesor);
 
     const clase = {
         email: req.body.email,
         nombre: req.body.nombre,
         codigo: req.body.codigo,
         avatar: req.body.avatar,
-
+        nombreProfesor: req.body.nombreProfesor,
     }
 
     Clase.create(clase).then(claseDb => {

@@ -23,22 +23,35 @@ export class LoginPage implements OnInit {
   }
 
   onSubmitLogin() {
-    this.auth.login(this.loginUser.email, this.loginUser.password).then(res => {
-      if (res) {
+    if (!!this.loginUser && !!this.loginUser.password) {
+      this.auth.login(this.loginUser.email, this.loginUser.password).then(res => {
+        if (res) {
 
-        this.navCtrl.navigateRoot('/tabs', { animated: true });
-      }
-      else {
-        this.toastUnsuccess();
+          this.navCtrl.navigateRoot('/tabs', { animated: true });
+        }
+        else {
+          this.toastUnsuccess();
 
-      }
-    });
-
+        }
+      });
+    }
+    else {
+      this.toastDatosNull();
+    }
   }
 
   async toastUnsuccess() {
     const toast = await this.toastCtrl.create({
       message: 'Usuario / Contraseña incorrectos.',
+      duration: 2000
+    });
+
+    toast.present();
+  }
+
+  async toastDatosNull() {
+    const toast = await this.toastCtrl.create({
+      message: 'Introduce un correo y una contraseña para entrar a la aplicación.',
       duration: 2000
     });
 

@@ -18,7 +18,12 @@ const claseSchema = new Schema({
     avatar: {
         type: String,
         deault: 'av-4.png'
-    }
+    },
+    nombreProfesor: {
+        type: String,
+        deault: 'av-4.png'
+    },
+
 
 });
 
@@ -27,6 +32,7 @@ interface IClase extends Document {
     nombre: string,
     codigo: string,
     avatar: string,
+    nombreProfesor: string
 }
 
 export const Clase = model<IClase>('Clases', claseSchema); 

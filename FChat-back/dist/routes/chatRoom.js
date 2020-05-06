@@ -8,7 +8,9 @@ chatRoomRoutes.post('/create', (req, res) => {
         emailProfesor: req.body.emailProfesor,
         emailAlumno: req.body.emailAlumno,
         clase: req.body.clase,
-        mensajes: []
+        mensajes: [],
+        nombreAlumno: req.body.nombreAlumno,
+        nombreProfesor: req.body.nombreProfesor
     };
     chatRoom_model_1.ChatRoom.create(chatRoom).then(profesorDb => {
         //Si se consigue crear el usuario , la respuesta userDB será devuelta:
