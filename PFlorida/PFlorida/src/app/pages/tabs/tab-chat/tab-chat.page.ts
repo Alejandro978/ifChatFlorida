@@ -20,6 +20,7 @@ export class TabChatPage {
   chatRooms: ChatRoom[] = [];
   rolesEnum: RolesEnum = new RolesEnum();
   titulo: string = "Chat";
+  avatar:string;
   constructor(
     public actionSheetController: ActionSheetController,
     private storage: Storage,
@@ -38,7 +39,7 @@ export class TabChatPage {
   async getUserInfo() {
     this.userInfo = await this.storage.get('userInfo');
     this.idRol = +this.userInfo[0].idRol;
-
+    this.avatar = this.userInfo[0].avatar;
   }
 
 

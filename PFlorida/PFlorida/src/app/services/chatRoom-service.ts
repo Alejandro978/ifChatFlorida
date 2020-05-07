@@ -32,8 +32,8 @@ export class ChatRoomService {
   }
 
   //Método para comprobar si una chatroom ya está creada -->
-  getChatRoomsByEmails(emailAlumno: string, emailProfesor: string) {
-    let data: any = { emailProfesor, emailAlumno };
+  getChatRoomsByEmails(emailAlumno: string, emailProfesor: string,codigoClase:string) {
+    let data: any = { emailProfesor, emailAlumno, codigoClase };
     return new Promise(resolve => {
       this.http.get(`${URL}/chatRoom/getChatRoomByEmails`, { headers: data }).subscribe(res => {
 
@@ -50,6 +50,7 @@ export class ChatRoomService {
   crearChatRoom(chatRoom: ChatRoom) {
     return new Promise(resolve => {
       this.http.post(`${URL}/chatRoom/create`, chatRoom).subscribe(res => {
+        console.log(res);
         if (res['ok']) {
           resolve(true);
         }

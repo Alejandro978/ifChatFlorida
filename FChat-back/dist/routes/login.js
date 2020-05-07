@@ -42,7 +42,8 @@ loginRoutes.post('/login', (req, res) => {
                             user: body,
                             idRol: '2',
                             clases: alumnoDb.clases,
-                            nombreAlumno: alumnoDb.nombre
+                            nombreAlumno: alumnoDb.nombre,
+                            avatar: alumnoDb.avatar
                         });
                     }
                     else {
@@ -69,6 +70,7 @@ loginRoutes.post('/login', (req, res) => {
                     user: body,
                     idRol: '1',
                     nombreProfesor: profesorDb.nombre,
+                    avatar: profesorDb.avatar
                 });
             }
             else {

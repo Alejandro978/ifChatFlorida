@@ -21,6 +21,7 @@ const mensajesSchema = new Schema({
         type: String,
         required: [true, 'Enviado por es obligatorio']
     },
+   
 })
 
 const chatRoomSchema = new Schema({
@@ -45,6 +46,10 @@ const chatRoomSchema = new Schema({
         type: String,
         required: [false, 'El correo es obligatorio']
     },
+    codigoClase: {
+        type: String,
+        required: [true, 'Código clase obligatorio']
+    },
 
     mensajes: [mensajesSchema]
 });
@@ -56,7 +61,8 @@ interface IChatRoom extends Document {
     clase: string,
     mensajes: [],
     nombreAlumno: string,
-    nombreProfesor: string
+    nombreProfesor: string,
+    codigoClase:string;
 }
 
 export const ChatRoom = model<IChatRoom>('ChatRoom', chatRoomSchema); 

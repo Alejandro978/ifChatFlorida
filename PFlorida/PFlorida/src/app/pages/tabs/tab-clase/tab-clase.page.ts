@@ -27,6 +27,7 @@ export class TabClasePage {
   codigoClasesAlumno: string[] = [];
   claseExistente: boolean = false;
   titulo: string = "Clases";
+  avatar: string;
   public loading: any;
 
   constructor(
@@ -56,7 +57,6 @@ export class TabClasePage {
     this.claseService.getClasesByEmail(this.userInfo[0].user.email).then((res: any) => {
       if (res.data) {
         this.clases = res.data;
-        console.log(this.clases);
       }
     });
   }
@@ -160,7 +160,7 @@ export class TabClasePage {
   async getUserInfo() {
     this.userInfo = await this.storage.get('userInfo');
     this.idRol = +this.userInfo[0].idRol;
-
+    this.avatar = this.userInfo[0].avatar;
     if (this.idRol === 2) {
       await this.getCodigosClase();
 
@@ -237,7 +237,9 @@ export class TabClasePage {
 
   //Método para el alumno
   async comprobarChatRoomExistente(clase: Clase) {
-    this.chatRoomService.getChatRoomsByEmails(this.userInfo[0].user.email, clase.email).then((res: any) => {
+    console.log(clase);
+
+    this.chatRoomService.getChatRoomsByEmails(this.userInfo[0].user.email, clase.email, clase.codigo).then((res: any) => {
       if (res.data.length === 0) {
         this.crearChatRoom(this.userInfo[0].user.email, clase);
       }
@@ -269,6 +271,7 @@ export class TabClasePage {
     chatRoom.emailProfesor = clase.email;
     chatRoom.nombreProfesor = clase.nombreProfesor;
     chatRoom.nombreAlumno = this.userInfo[0].nombreAlumno;
+    chatRoom.codigoClase = clase.codigo;
 
 
     this.chatRoomService.crearChatRoom(chatRoom).then((res: any) => {

@@ -9,17 +9,19 @@ const chatRoomRoutes = Router();
 
 chatRoomRoutes.post('/create', (req: Request, res: Response) => {
 
+    console.log(req.body);
+
     const chatRoom = {
         emailProfesor: req.body.emailProfesor,
         emailAlumno: req.body.emailAlumno,
         clase: req.body.clase,
         mensajes: [],
-        nombreAlumno:req.body.nombreAlumno,
-        nombreProfesor:req.body.nombreProfesor
+        nombreAlumno: req.body.nombreAlumno,
+        nombreProfesor: req.body.nombreProfesor,
+        codigoClase: req.body.codigoClase
     }
-    ChatRoom.create(chatRoom).then(profesorDb => {
 
-        //Si se consigue crear el usuario , la respuesta userDB será devuelta:
+    ChatRoom.create(chatRoom).then(chatRoomDb => {
 
         res.json({
             ok: true,
@@ -29,7 +31,8 @@ chatRoomRoutes.post('/create', (req: Request, res: Response) => {
     }).catch(err => {
         res.json({
             ok: false,
-            err
+            res: err
+
         })
     })
 
@@ -79,8 +82,11 @@ chatRoomRoutes.get('/getChatRoomByEmail', (req: Request, res: Response) => {
 chatRoomRoutes.get('/getChatRoomByEmails', (req: Request, res: Response) => {
     let emailProfesor: any = req.headers.emailprofesor;
     let emailAlumno: any = req.headers.emailalumno;
+    let codigoClase: any = req.headers.codigoclase;
 
-    ChatRoom.find({ emailProfesor: emailProfesor, emailAlumno: emailAlumno }, (err, chatRooms) => {
+    console.log(req.headers);
+
+    ChatRoom.find({ emailProfesor: emailProfesor, emailAlumno: emailAlumno, codigoClase: codigoClase }, (err, chatRooms) => {
         if (!chatRooms) {
             return res.json({
                 ok: false,
@@ -127,7 +133,7 @@ chatRoomRoutes.delete('/delete', (req: Request, res: Response) => {
 //Añadir nuevos mensajes al chatRoom:
 
 chatRoomRoutes.put('/update', (req: any, res: Response) => {
-console.log(req.body);
+    console.log(req.body);
 
     // Se comprueba si el usuario ya tiene el código clase registrado:
     ChatRoom.find({ emailAlumno: req.body.emailAlumno, emailProfesor: req.body.emailProfesor }, function (err, result) {
@@ -135,7 +141,7 @@ console.log(req.body);
         if (result.length > 0) {
 
             ChatRoom.updateOne(
-                { emailAlumno: req.body.emailAlumno,emailProfesor:req.body.emailProfesor },
+                { emailAlumno: req.body.emailAlumno, emailProfesor: req.body.emailProfesor },
                 { $push: { mensajes: [req.body.mensaje] } },
                 function (err, result) {
 
@@ -155,7 +161,7 @@ console.log(req.body);
                 }
             );
         }
-        else{
+        else {
             res.json({
                 ok: false,
                 mensaje: '¡El Chat fué eliminado!'

@@ -7,4 +7,5 @@ export class ChatRoom {
     emailAlumno: string;
     clase: string;
     mensajes:Mensaje[];
+    codigoClase:string;
 }

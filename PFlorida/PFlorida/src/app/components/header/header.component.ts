@@ -10,6 +10,7 @@ import { Storage } from '@ionic/storage';
 export class HeaderComponent implements OnInit {
 
   @Input() titulo: string;
+  @Input() avatar: string;
 
   constructor(
     public actionSheetController: ActionSheetController,

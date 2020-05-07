@@ -15,7 +15,7 @@ export class TabCalendarPage {
   userInfo: any;
   notas: Nota[] = [];
   titulo: string = "Agenda";
-
+  avatar:string;
   constructor(
     private storage: Storage,
     private modalCtrl: ModalController,
@@ -26,7 +26,6 @@ export class TabCalendarPage {
   }
 
   async ionViewWillEnter() {
- 
     await this.getUserInfo();
     await this.getNotasByeMail();
 
@@ -66,6 +65,7 @@ export class TabCalendarPage {
 
   async getUserInfo() {
     this.userInfo = await this.storage.get('userInfo');
+    this.avatar = this.userInfo[0].avatar;
   }
 
   getDate(date) {

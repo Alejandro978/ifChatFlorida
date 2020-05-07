@@ -1,5 +1,5 @@
 
-<app-header [titulo]="titulo"></app-header>
+<app-header [titulo]="titulo" [avatar]="avatar"></app-header>
 <ion-content [fullscreen]="true">
   <ion-list>
     <ion-item-sliding *ngFor="let clase of clases">
@@ -12,11 +12,11 @@
           <ion-grid>
             <ion-row>
 
-              <ion-col size="8">
+              <ion-col size="6">
                 <h2><b>{{clase.nombre}}</b></h2>
               </ion-col>
 
-              <ion-col size="4">
+              <ion-col size="6">
                 <p><b>Código: {{clase.codigo}}</b></p>
               </ion-col>
             </ion-row>

@@ -4,16 +4,17 @@ const express_1 = require("express");
 const chatRoom_model_1 = require("../models/chatRoom.model");
 const chatRoomRoutes = express_1.Router();
 chatRoomRoutes.post('/create', (req, res) => {
+    console.log(req.body);
     const chatRoom = {
         emailProfesor: req.body.emailProfesor,
         emailAlumno: req.body.emailAlumno,
         clase: req.body.clase,
         mensajes: [],
         nombreAlumno: req.body.nombreAlumno,
-        nombreProfesor: req.body.nombreProfesor
+        nombreProfesor: req.body.nombreProfesor,
+        codigoClase: req.body.codigoClase
     };
-    chatRoom_model_1.ChatRoom.create(chatRoom).then(profesorDb => {
-        //Si se consigue crear el usuario , la respuesta userDB será devuelta:
+    chatRoom_model_1.ChatRoom.create(chatRoom).then(chatRoomDb => {
         res.json({
             ok: true,
             res: "Creado con exito"
@@ -21,7 +22,7 @@ chatRoomRoutes.post('/create', (req, res) => {
     }).catch(err => {
         res.json({
             ok: false,
-            err
+            res: err
         });
     });
 });
@@ -66,7 +67,9 @@ chatRoomRoutes.get('/getChatRoomByEmail', (req, res) => {
 chatRoomRoutes.get('/getChatRoomByEmails', (req, res) => {
     let emailProfesor = req.headers.emailprofesor;
     let emailAlumno = req.headers.emailalumno;
-    chatRoom_model_1.ChatRoom.find({ emailProfesor: emailProfesor, emailAlumno: emailAlumno }, (err, chatRooms) => {
+    let codigoClase = req.headers.codigoclase;
+    console.log(req.headers);
+    chatRoom_model_1.ChatRoom.find({ emailProfesor: emailProfesor, emailAlumno: emailAlumno, codigoClase: codigoClase }, (err, chatRooms) => {
         if (!chatRooms) {
             return res.json({
                 ok: false,

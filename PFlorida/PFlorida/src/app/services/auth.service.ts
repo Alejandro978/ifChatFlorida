@@ -26,7 +26,7 @@ export class AuthService {
         console.log(res);
         if (res['ok']) {
           console.log(res);
-          this.guardarToken(res['token'], res['user'], res['idRol'], res['clases'], res['nombreProfesor'], res['nombreAlumno']);
+          this.guardarToken(res['token'], res['user'], res['idRol'], res['clases'], res['nombreProfesor'], res['nombreAlumno'], res['avatar']);
           resolve(true);
         }
         else {
@@ -40,9 +40,9 @@ export class AuthService {
 
   }
 
-  async guardarToken(token: string, user: any, idRol: any, clases: string[], nombreProfesor: string, nombreAlumno: string) {
+  async guardarToken(token: string, user: any, idRol: any, clases: string[], nombreProfesor: string, nombreAlumno: string, avatar) {
     this.token = token;
-    let userInfo = [{ 'token': token, 'user': user, 'idRol': idRol, 'nombreProfesor': nombreProfesor, 'nombreAlumno': nombreAlumno }];
+    let userInfo = [{ 'token': token, 'user': user, 'idRol': idRol, 'nombreProfesor': nombreProfesor, 'nombreAlumno': nombreAlumno, 'avatar': avatar }];
     await this.storage.set('userInfo', userInfo);
   }
 
