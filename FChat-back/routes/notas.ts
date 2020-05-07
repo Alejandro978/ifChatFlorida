@@ -17,6 +17,7 @@ notasRoutes.post('/create', (req: Request, res: Response) => {
     }
 
     Notas.create(notas).then(notaDb => {
+console.log(notaDb);
 
         res.json({
             ok: true,
@@ -26,7 +27,7 @@ notasRoutes.post('/create', (req: Request, res: Response) => {
     }).catch(err => {
         res.json({
             ok: false,
-            err
+            res: "No se pudo crear la nota"
         })
     })
 

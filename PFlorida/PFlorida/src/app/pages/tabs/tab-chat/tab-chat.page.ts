@@ -55,20 +55,7 @@ export class TabChatPage {
 
   }
 
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Opciones',
-      buttons: [{
-        text: 'Desconectarse',
-        role: 'destructive',
-        icon: 'log-out',
-        handler: () => {
-          console.log("Desconectarse");
-        }
-      }]
-    });
-    await actionSheet.present();
-  }
+
 
   async eliminarChat(chat: ChatRoom) {
     if (this.userInfo[0].idRol === this.rolesEnum.rolProfesor.toString()) {

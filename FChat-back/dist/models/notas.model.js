@@ -4,7 +4,6 @@ const mongoose_1 = require("mongoose");
 const notasSchema = new mongoose_1.Schema({
     titulo: {
         type: String,
-        unique: true,
         required: [true, 'El correo es obligatorio']
     },
     descripcion: {

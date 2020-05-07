@@ -40,6 +40,8 @@ export class TabNotaModalComponent implements OnInit {
     console.log(this.nota);
     this.nota.email = this.email;
     this.notasService.crearNota(this.nota).then(res => {
+      console.log(res);
+      
       if (res) {
         this.toastSuccess();
         this.modalCtrl.dismiss(true);

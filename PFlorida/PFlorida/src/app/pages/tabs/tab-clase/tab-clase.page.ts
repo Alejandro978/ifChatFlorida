@@ -181,7 +181,6 @@ export class TabClasePage {
   eliminarClaseAlumno(clase: Clase) {
 
     this.alumnoService.eliminarCodigoClase(clase.codigo, this.userInfo[0].user.email).then(res => {
-      console.log(res);
       if (res) {
         this.toastClaseEliminada();
         this.getCodigosClase();
@@ -207,27 +206,6 @@ export class TabClasePage {
         this.toastClaseNoExistente();
       }
     });
-  }
-
-
-
-  async presentActionSheet() {
-    const actionSheet = await this.actionSheetController.create({
-      header: 'Opciones',
-      buttons: [{
-        text: 'Desconectarse',
-        role: 'destructive',
-        icon: 'log-out',
-        handler: () => {
-          this.logout();
-        }
-      }]
-    });
-    await actionSheet.present();
-  }
-
-  logout() {
-    console.log("AQUI");
   }
 
   async presentLoading(message: string) {
@@ -260,7 +238,6 @@ export class TabClasePage {
   //Método para el alumno
   async comprobarChatRoomExistente(clase: Clase) {
     this.chatRoomService.getChatRoomsByEmails(this.userInfo[0].user.email, clase.email).then((res: any) => {
-      console.log(res.data.length);
       if (res.data.length === 0) {
         this.crearChatRoom(this.userInfo[0].user.email, clase);
       }

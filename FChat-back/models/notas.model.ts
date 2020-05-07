@@ -5,7 +5,6 @@ const notasSchema = new Schema({
 
     titulo: {
         type: String,
-        unique: true,
         required: [true, 'El correo es obligatorio']
     },
     descripcion: {
@@ -29,8 +28,6 @@ interface INotas extends Document {
     descripcion: string,
     email: string,
     fecha: Date
-
-    compararPassword(password: string): boolean;
 }
 
 export const Notas = model<INotas>('Notas', notasSchema); 

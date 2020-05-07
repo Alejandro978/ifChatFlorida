@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ActionSheetController } from '@ionic/angular';
+import { ActionSheetController, NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,10 @@ export class HeaderComponent implements OnInit {
   @Input() titulo: string;
 
   constructor(
-    public actionSheetController: ActionSheetController
+    public actionSheetController: ActionSheetController,
+    private storage: Storage,
+    private navCtrl: NavController
+
   ) {
   }
 
@@ -34,6 +38,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-
+    this.navCtrl.navigateRoot('/login', { animated: true });
+    this.storage.clear();
   }
 }

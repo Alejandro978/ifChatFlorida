@@ -47,7 +47,8 @@ claseRoutes.get('/getClasesByEmail', (req: Request, res: Response) => {
                 email: clases.email,
                 nombre: clases.nombre,
                 avatar: clases.avatar,
-                codigo: clases.codigo
+                codigo: clases.codigo,
+                nombreProfesor:clases.nombreProfesor
             };
 
             listadoClasesDevolver.push(clase);
