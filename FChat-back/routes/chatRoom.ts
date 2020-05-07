@@ -99,7 +99,6 @@ chatRoomRoutes.get('/getChatRoomByEmails', (req: Request, res: Response) => {
 
 chatRoomRoutes.delete('/delete', (req: Request, res: Response) => {
 
-    //TODO:Eliminar también CHATS ABIERTOS QUE CONTENGAN ESTA CLASE.
     let emailAlumno: any = req.headers.emailalumno;
     let emailProfesor: any = req.headers.emailprofesor;
     console.log(emailAlumno);
@@ -155,6 +154,12 @@ console.log(req.body);
                     }
                 }
             );
+        }
+        else{
+            res.json({
+                ok: false,
+                mensaje: '¡El Chat fué eliminado!'
+            })
         }
     });
 });

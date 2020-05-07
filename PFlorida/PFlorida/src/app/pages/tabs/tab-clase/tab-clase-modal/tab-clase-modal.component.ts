@@ -4,6 +4,7 @@ import { Clase } from '../../../../models/clase.model';
 import { ClaseService } from '../../../../services/clase.service';
 import { Storage } from '@ionic/storage';
 import { RolesEnum } from '../../../../models/enums/rolesEnum';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 
 
@@ -17,6 +18,7 @@ export class TabClaseModalComponent implements OnInit {
   @Input() userInfo: any;
   @Input() idRol: any;
   @Input() nombreProfesor: any;
+  formClase: FormGroup;
 
   clase: Clase = new Clase();
   claseFiltrada: Clase = null;
@@ -49,12 +51,17 @@ export class TabClaseModalComponent implements OnInit {
     private claseService: ClaseService,
     private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private formBuilder: FormBuilder
   ) {
 
   }
 
   async ngOnInit() {
+    this.formClase = this.formBuilder.group({
+      nombre: ['', Validators.required],
+      codigo: ['', Validators.required]
+    });
 
     // if (this.idRol === this.rolesEnum.rolProfesor) {
 

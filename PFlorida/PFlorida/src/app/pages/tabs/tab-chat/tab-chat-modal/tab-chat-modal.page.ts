@@ -3,6 +3,7 @@ import { ModalController, AlertController, ToastController } from '@ionic/angula
 import { ChatRoomService } from 'src/app/services/chatRoom-service';
 import { VMensaje } from 'src/app/models/views/VMensaje.model';
 import { Mensaje } from 'src/app/models/mensaje.model';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab-chat-modal',
@@ -17,7 +18,7 @@ export class TabChatModalComponent implements OnInit {
   @Input() emailProfesor: string;
   texto: string;
   mensajes: Mensaje[];
-
+  subscription: Subscription;
   constructor(
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
@@ -27,9 +28,15 @@ export class TabChatModalComponent implements OnInit {
 
   async ngOnInit() {
     await this.getChatRoomByEmails();
+
+    const source = interval(3000);
+    const text = 'Your Text Here';
+    this.subscription = source.subscribe(val => this.getChatRoomByEmails());
+
   }
 
   cerrar() {
+    this.subscription.unsubscribe();
     this.modalCtrl.dismiss();
   }
 
@@ -95,8 +102,15 @@ export class TabChatModalComponent implements OnInit {
 
 
       this.chatRoomService.enviarMensaje(datosMensaje).then((res: any) => {
-        this.toastEnviado();
-        this.getChatRoomByEmails();
+        if (res) {
+          this.toastEnviado();
+          this.getChatRoomByEmails();
+        }
+        else {
+          this.modalCtrl.dismiss(true);
+          this.toastChatroomEliminado();
+
+        }
       });
     }
     else {
@@ -120,6 +134,14 @@ export class TabChatModalComponent implements OnInit {
     });
     toast.present();
   }
+  async toastChatroomEliminado() {
+    const toast = await this.toastCtrl.create({
+      message: 'Parece que este ChatRoom ya no existe...!!',
+      duration: 2000
+    });
+    toast.present();
+  }
+  
 
   getDate(date) {
     let fechaDevolver = new Date(date);

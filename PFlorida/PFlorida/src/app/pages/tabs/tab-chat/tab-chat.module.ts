@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TabChatPage } from './tab-chat.page';
 import { TabChatModalComponent } from './tab-chat-modal/tab-chat-modal.page';
+import { ComponentsModule } from 'src/app/components/components.module';
 
 
 @NgModule({
@@ -14,6 +15,7 @@ import { TabChatModalComponent } from './tab-chat-modal/tab-chat-modal.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    ComponentsModule,
     RouterModule.forChild([
       {
         path: '',

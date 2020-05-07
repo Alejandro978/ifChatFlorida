@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+
+    <ion-item color="primary">
+      <ion-avatar style="margin-right: 10px;" item-left>
+        <ion-img style="border: 2px black solid;" src="/assets/avatars/av-1.png"></ion-img>
+      </ion-avatar>
+        <h2 style="margin-top: 10px;">{{titulo}}</h2>
+    </ion-item>
+
+    <ion-button slot="end" fill="clear" (click)="presentActionSheet()">
+      <ion-icon style="color:#ffff" name="menu"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>

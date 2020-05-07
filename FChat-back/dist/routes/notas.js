@@ -41,4 +41,22 @@ notasRoutes.get('/getNotasByEmail', (req, res) => {
         }
     });
 });
+notasRoutes.delete('/delete', (req, res) => {
+    let _id = req.headers._id;
+    notas_model_1.Notas.deleteOne({ _id: _id }, function (err) {
+        if (err) {
+            res.json({
+                ok: false,
+                mensaje: 'Ha habido un problema al eliminar la Nota'
+            });
+            throw (err);
+        }
+        else {
+            res.json({
+                ok: true,
+                mensaje: 'Nota eliminada con exito'
+            });
+        }
+    });
+});
 exports.default = notasRoutes;

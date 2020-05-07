@@ -25,7 +25,8 @@ export class TabClasePage {
   clases: Clase[] = [];
   codigoClase: string;
   codigoClasesAlumno: string[] = [];
-
+  claseExistente: boolean = false;
+  titulo: string = "Clases";
   public loading: any;
 
   constructor(
@@ -41,7 +42,7 @@ export class TabClasePage {
     public router: Router
   ) {
   }
-  
+
   async ionViewWillEnter() {
     //Desde este método si es rol alumno se obtienen las clases del profesor
     await this.getUserInfo();
@@ -244,8 +245,8 @@ export class TabClasePage {
       componentProps: {
         codigo: clase.codigo,
         emailProfesor: this.userInfo[0].user.email,
-        nombreClase: clase.nombre
-
+        nombreClase: clase.nombre,
+        nombreProfesor: this.userInfo[0].nombreProfesor
       }
     }).then((modal) => {
       modal.present();
@@ -253,7 +254,7 @@ export class TabClasePage {
   }
 
   async abrirChat(clase: Clase) {
-    await this.comprobarChatRoomExistente(clase);
+    await this.claseExiste(clase.codigo, clase);
   }
 
   //Método para el alumno
@@ -271,6 +272,18 @@ export class TabClasePage {
     });
   }
 
+  async claseExiste(codigoClase, clase) {
+    this.claseService.getClasesByCodigoClase(codigoClase).then(res => {
+      if (res) {
+        this.comprobarChatRoomExistente(clase);
+      }
+      else {
+        this.toastClaseNoExistente();
+        this.getClasesAlumno();
+      }
+    })
+  }
+
   async crearChatRoom(emailAlumno, clase: Clase) {
     //Se crea el chatRoom y se mapea:
     let chatRoom = new ChatRoom();
@@ -278,7 +291,9 @@ export class TabClasePage {
     chatRoom.emailAlumno = emailAlumno;
     chatRoom.emailProfesor = clase.email;
     chatRoom.nombreProfesor = clase.nombreProfesor;
-    
+    chatRoom.nombreAlumno = this.userInfo[0].nombreAlumno;
+
+
     this.chatRoomService.crearChatRoom(chatRoom).then((res: any) => {
       if (res) {
         this.toastChatRoomCreado(clase.nombre);

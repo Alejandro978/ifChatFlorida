@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-button slot="end" fill="clear" (click)="presentActionSheet()">
       <ion-icon style="color:#ffff" name="menu"></ion-icon>
@@ -7,7 +7,9 @@
       Clase
     </ion-title>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
+
+<app-header [titulo]="titulo"></app-header>
 <ion-content [fullscreen]="true">
   <ion-list>
     <ion-item-sliding *ngFor="let clase of clases">

@@ -30,7 +30,7 @@
         </ion-col>
       </ion-row>
 
-      <form>
+      <form [formGroup]="formClase">
         <ion-row>
           <ion-col>
 
@@ -38,15 +38,13 @@
 
               <ion-item>
                 <ion-label>Nombre:</ion-label>
-                <ion-input [(ngModel)]="clase.nombre" name="nombre" type="text" required></ion-input>
+                <ion-input [(ngModel)]="clase.nombre" formControlName="nombre" type="text" required></ion-input>
               </ion-item>
 
               <ion-item>
                 <ion-label>Código Clase:</ion-label>
-                <ion-input [(ngModel)]="clase.codigo" name="contrasenya" type="text" required></ion-input>
+                <ion-input [(ngModel)]="clase.codigo" formControlName="codigo" type="text" required></ion-input>
               </ion-item>
-
-
 
             </ion-list>
           </ion-col>
@@ -54,7 +52,7 @@
 
         <ion-row style="text-align: center;">
           <ion-col>
-            <ion-button (click)="crearClase()" type="submit" color="tertiary" shape="round">
+            <ion-button [disabled]="!this.formClase.valid" (click)="crearClase()" type="submit" color="tertiary" shape="round">
               Crear clase
             </ion-button>
           </ion-col>

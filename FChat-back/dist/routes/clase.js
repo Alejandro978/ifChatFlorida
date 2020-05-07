@@ -100,7 +100,6 @@ claseRoutes.get('/getAll', (req, res) => {
     });
 });
 claseRoutes.delete('/delete', (req, res) => {
-    //TODO:Eliminar también CHATS ABIERTOS QUE CONTENGAN ESTA CLASE.
     let codigo = req.headers.codigo;
     clase_model_1.Clase.deleteOne({ codigo: codigo }, function (err) {
         if (err) {

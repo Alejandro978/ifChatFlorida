@@ -128,7 +128,6 @@ claseRoutes.get('/getAll', (req: Request, res: Response) => {
 
 claseRoutes.delete('/delete', (req: Request, res: Response) => {
 
-    //TODO:Eliminar también CHATS ABIERTOS QUE CONTENGAN ESTA CLASE.
     let codigo: any = req.headers.codigo;
 
     Clase.deleteOne({ codigo: codigo }, function (err) {

@@ -19,7 +19,7 @@ export class TabChatPage {
   idRol: number;
   chatRooms: ChatRoom[] = [];
   rolesEnum: RolesEnum = new RolesEnum();
-
+  titulo: string = "Chat";
   constructor(
     public actionSheetController: ActionSheetController,
     private storage: Storage,
@@ -33,6 +33,8 @@ export class TabChatPage {
     await this.getChatRoomsByEmail();
   }
 
+
+
   async getUserInfo() {
     this.userInfo = await this.storage.get('userInfo');
     this.idRol = +this.userInfo[0].idRol;
@@ -42,12 +44,15 @@ export class TabChatPage {
 
   async getChatRoomsByEmail() {
     this.chatRooms = [];
+
     this.chatRoomService.getChatRoomsByEmail(this.userInfo[0].user.email, this.userInfo[0].idRol).then((res: any) => {
       if (res.data) {
         this.chatRooms = res.data;
         console.log(this.chatRooms);
       }
     });
+
+
   }
 
   async presentActionSheet() {
@@ -108,6 +113,12 @@ export class TabChatPage {
       }
     }).then((modal) => {
       modal.present();
+
+      modal.onDidDismiss().then(created => {
+        if (created) {
+          this.getChatRoomsByEmail();
+        }
+      });
     })
 
   }

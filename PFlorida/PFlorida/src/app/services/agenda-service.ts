@@ -41,4 +41,21 @@ export class AgendaService {
     });
   }
 
+  deleteNotaById(_id: string) {
+    let data: any = { _id };
+    console.log(data);
+
+    return new Promise(resolve => {
+      this.http.delete(`${URL}/nota/delete`, { headers: data }).subscribe(res => {
+
+        if (res['ok']) {
+          resolve(res);
+        }
+        else {
+          resolve(false);
+        }
+      })
+    });
+  }
+
 }
