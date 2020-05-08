@@ -50,7 +50,7 @@ export class TabAlumnosClasePage implements OnInit {
 
   //Método para el alumno
   async comprobarChatRoomExistente(emailAlumno, nombreAlumno) {
-    this.chatRoomService.getChatRoomsByEmails(emailAlumno, this.emailProfesor).then((res: any) => {
+    this.chatRoomService.getChatRoomsByEmails(emailAlumno, this.emailProfesor,this.codigo).then((res: any) => {
       console.log(res.data.length);
       if (res.data.length === 0) {
         this.crearChatRoom(emailAlumno, this.nombreClase, nombreAlumno);

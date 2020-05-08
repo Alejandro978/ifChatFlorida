@@ -97,7 +97,8 @@ export class TabChatPage {
         idRol: this.idRol,
         titulo: email,
         emailProfesor: chat.emailProfesor,
-        emailAlumno: chat.emailAlumno
+        emailAlumno: chat.emailAlumno,
+        codigoClase:chat.codigoClase
       }
     }).then((modal) => {
       modal.present();

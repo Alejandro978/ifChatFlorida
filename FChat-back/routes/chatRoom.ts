@@ -139,6 +139,7 @@ chatRoomRoutes.put('/update', (req: any, res: Response) => {
     ChatRoom.find({ emailAlumno: req.body.emailAlumno, emailProfesor: req.body.emailProfesor }, function (err, result) {
         //La sala de chat existe por lo que intentará pusear los nuevos mensajes..
         if (result.length > 0) {
+            console.log("AQUI");
 
             ChatRoom.updateOne(
                 { emailAlumno: req.body.emailAlumno, emailProfesor: req.body.emailProfesor },

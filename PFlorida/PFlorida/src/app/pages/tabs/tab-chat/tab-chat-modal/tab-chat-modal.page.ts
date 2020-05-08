@@ -16,6 +16,8 @@ export class TabChatModalComponent implements OnInit {
   @Input() titulo: string;
   @Input() emailAlumno: string;
   @Input() emailProfesor: string;
+  @Input() codigoClase: string;
+
   texto: string;
   mensajes: Mensaje[];
   subscription: Subscription;
@@ -77,7 +79,7 @@ export class TabChatModalComponent implements OnInit {
 
 
   async getChatRoomByEmails() {
-    this.chatRoomService.getChatRoomsByEmails(this.emailAlumno, this.emailProfesor).then((res: any) => {
+    this.chatRoomService.getChatRoomsByEmails(this.emailAlumno, this.emailProfesor,this.codigoClase).then((res: any) => {
       this.mensajes = res.data[0].mensajes;
     });
   }
