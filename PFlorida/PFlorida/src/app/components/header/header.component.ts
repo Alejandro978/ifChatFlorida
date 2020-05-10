@@ -11,6 +11,8 @@ export class HeaderComponent implements OnInit {
 
   @Input() titulo: string;
   @Input() avatar: string;
+  @Input() nombre: string;
+
 
   constructor(
     public actionSheetController: ActionSheetController,

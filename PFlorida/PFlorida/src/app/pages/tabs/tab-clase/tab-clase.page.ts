@@ -12,6 +12,7 @@ import { TabAlumnosClasePage } from './tab-alumnos-clase/tab-alumnos-clase.page'
 import { ChatRoomService } from 'src/app/services/chatRoom-service';
 import { ChatRoom } from 'src/app/models/chatRoom.model';
 import { Router } from '@angular/router';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 
 @Component({
   selector: 'app-tab-clase',
@@ -28,6 +29,7 @@ export class TabClasePage {
   claseExistente: boolean = false;
   titulo: string = "Clases";
   avatar: string;
+  nombre: string;
   public loading: any;
 
   constructor(
@@ -40,7 +42,8 @@ export class TabClasePage {
     public actionSheetController: ActionSheetController,
     public loadingController: LoadingController,
     private chatRoomService: ChatRoomService,
-    public router: Router
+    public router: Router,
+    private uiService: UiServiceService
   ) {
   }
 
@@ -140,7 +143,7 @@ export class TabClasePage {
         this.agregarClaseAlumno(codigo);
       }
       else {
-        this.toastCodigoInvalido();
+        this.uiService.presentAlert('Parece que no existe una Clase con este código, introduzca otro!')
       }
     });
   }
@@ -163,7 +166,10 @@ export class TabClasePage {
     this.avatar = this.userInfo[0].avatar;
     if (this.idRol === 2) {
       await this.getCodigosClase();
-
+      this.nombre = this.userInfo[0].nombreAlumno;
+    }
+    else {
+      this.nombre = this.userInfo[0].nombreProfesor;
     }
   }
 
@@ -281,20 +287,12 @@ export class TabClasePage {
 
       }
       else {
-        this.toastChatRoomError();
+        this.uiService.presentAlert('Parece que esta clase ha sido eliminada');
       }
     });
   }
 
   //Toasts ------------------------ >
-  async toastCodigoInvalido() {
-    const toast = await this.toastCtrl.create({
-      message: 'VAYA! Este Código clase no existe, introduzca otro!',
-      duration: 2000
-    });
-    toast.present();
-  }
-
   async toastRegistradoConExito() {
     const toast = await this.toastCtrl.create({
       message: '¡Enhorabuena te has registrado con exito!',
@@ -318,8 +316,6 @@ export class TabClasePage {
     });
     toast.present();
   }
-
-
 
   async toastClaseNoExistente() {
     const toast = await this.toastCtrl.create({

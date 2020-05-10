@@ -36,13 +36,13 @@ export class RegistroPage implements OnInit {
 
   ngOnInit() {
     this.formProfesor = this.formBuilder.group({
-      emailProfesor: ['', Validators.email],
+      emailProfesor: ['', [Validators.required, Validators.email]],
       passwordProfesor: ['', Validators.required],
       nombreProfesor: ['', Validators.required]
     });
 
     this.formAlumno = this.formBuilder.group({
-      emailAlumno: ['', Validators.email],
+      emailAlumno: ['', [Validators.required, Validators.email]],
       passwordAlumno: ['', Validators.required],
       nombreAlumno: ['', Validators.required]
     });

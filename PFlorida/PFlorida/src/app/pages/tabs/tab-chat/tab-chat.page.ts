@@ -20,7 +20,9 @@ export class TabChatPage {
   chatRooms: ChatRoom[] = [];
   rolesEnum: RolesEnum = new RolesEnum();
   titulo: string = "Chat";
-  avatar:string;
+  avatar: string;
+  nombre: string;
+
   constructor(
     public actionSheetController: ActionSheetController,
     private storage: Storage,
@@ -40,6 +42,12 @@ export class TabChatPage {
     this.userInfo = await this.storage.get('userInfo');
     this.idRol = +this.userInfo[0].idRol;
     this.avatar = this.userInfo[0].avatar;
+    if (this.idRol === 1) {
+      this.nombre = this.userInfo[0].nombreProfesor;
+    }
+    else {
+      this.nombre = this.userInfo[0].nombreAlumno;
+    }
   }
 
 
@@ -98,7 +106,7 @@ export class TabChatPage {
         titulo: email,
         emailProfesor: chat.emailProfesor,
         emailAlumno: chat.emailAlumno,
-        codigoClase:chat.codigoClase
+        codigoClase: chat.codigoClase
       }
     }).then((modal) => {
       modal.present();

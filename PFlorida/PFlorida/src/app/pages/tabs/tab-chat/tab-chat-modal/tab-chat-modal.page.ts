@@ -4,6 +4,7 @@ import { ChatRoomService } from 'src/app/services/chatRoom-service';
 import { VMensaje } from 'src/app/models/views/VMensaje.model';
 import { Mensaje } from 'src/app/models/mensaje.model';
 import { interval, Subscription } from 'rxjs';
+import { UiServiceService } from 'src/app/services/ui-service.service';
 
 @Component({
   selector: 'app-tab-chat-modal',
@@ -25,7 +26,8 @@ export class TabChatModalComponent implements OnInit {
     private modalCtrl: ModalController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
-    private chatRoomService: ChatRoomService
+    private chatRoomService: ChatRoomService,
+    private uiService:UiServiceService
   ) { }
 
   async ngOnInit() {
@@ -110,7 +112,7 @@ export class TabChatModalComponent implements OnInit {
         }
         else {
           this.modalCtrl.dismiss(true);
-          this.toastChatroomEliminado();
+          this.uiService.presentAlert('Parece que este chat ha sido Eliminado');
 
         }
       });
@@ -136,19 +138,9 @@ export class TabChatModalComponent implements OnInit {
     });
     toast.present();
   }
-  async toastChatroomEliminado() {
-    const toast = await this.toastCtrl.create({
-      message: 'Parece que este ChatRoom ya no existe...!!',
-      duration: 2000
-    });
-    toast.present();
-  }
-  
 
   getDate(date) {
     let fechaDevolver = new Date(date);
-    // console.log(prueba.getDate());
-    // return '';
     return fechaDevolver.getDate() + "/" + fechaDevolver.getMonth() + "/" + fechaDevolver.getFullYear();
 
   }

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { ToastController, NavController } from '@ionic/angular';
+import { UiServiceService } from 'src/app/services/ui-service.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -16,37 +18,31 @@ export class LoginPage implements OnInit {
   }
   email: string;
   password: string;
-
-  constructor(private navCtrl: NavController, private auth: AuthService, private toastCtrl: ToastController) { }
+  formLogin: FormGroup;
+  constructor(private formBuilder: FormBuilder, private navCtrl: NavController, private auth: AuthService, private toastCtrl: ToastController, private uiService: UiServiceService) { }
 
   ngOnInit() {
+    this.formLogin = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+
   }
 
   onSubmitLogin() {
     if (!!this.loginUser && !!this.loginUser.password) {
-      this.auth.login(this.loginUser.email, this.loginUser.password).then(res => {
+      this.auth.login(this.loginUser.email, this.loginUser.password).then((res: any) => {
         if (res) {
-
           this.navCtrl.navigateRoot('/tabs', { animated: true });
         }
         else {
-          this.toastUnsuccess();
-
+          this.uiService.presentAlert('Usuario o contraseña incorrectos');
         }
       });
     }
     else {
       this.toastDatosNull();
     }
-  }
-
-  async toastUnsuccess() {
-    const toast = await this.toastCtrl.create({
-      message: 'Usuario / Contraseña incorrectos.',
-      duration: 2000
-    });
-
-    toast.present();
   }
 
   async toastDatosNull() {
