@@ -13,7 +13,7 @@
   <ion-grid fixed>
 
 
-    <form>
+    <form [formGroup]="formNota">
       <ion-row>
         <ion-col>
 
@@ -21,17 +21,20 @@
 
             <ion-item>
               <ion-label>Titulo</ion-label>
-              <ion-input [(ngModel)]="nota.titulo" name="nombre" type="text" required></ion-input>
+              <ion-input [(ngModel)]="nota.titulo" formControlName="nombre" type="text" required></ion-input>
             </ion-item>
 
             <ion-item>
               <ion-label>Descripción</ion-label>
-              <ion-textarea [(ngModel)]="nota.descripcion" type="textarea" name="descripcion"></ion-textarea>
+              <ion-textarea [(ngModel)]="nota.descripcion" type="textarea" formControlName="descripcion">
+              </ion-textarea>
             </ion-item>
 
             <ion-item>
               <ion-label>Fecha evento</ion-label>
-              <ion-datetime  displayFormat="DD/MM/YYYY" placeholder="Select Date" [(ngModel)]="nota.fecha" [ngModelOptions]="{standalone: true}"></ion-datetime>
+              <ion-datetime cancelText="Cancelar" doneText="Aceptar" displayFormat="DD/MM/YYYY"
+                placeholder="Selecciona una Fecha" [(ngModel)]="nota.fecha" [ngModelOptions]="{standalone: true}">
+              </ion-datetime>
             </ion-item>
           </ion-list>
         </ion-col>
@@ -39,7 +42,7 @@
 
       <ion-row style="text-align: center;">
         <ion-col>
-          <ion-button (click)="crearNota()" type="submit" color="tertiary" shape="round">
+          <ion-button [disabled]="!formNota.valid" (click)="crearNota()" type="submit" color="tertiary" shape="round">
             Crear nota
           </ion-button>
         </ion-col>

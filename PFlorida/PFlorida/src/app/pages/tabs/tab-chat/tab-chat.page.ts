@@ -43,10 +43,10 @@ export class TabChatPage {
     this.idRol = +this.userInfo[0].idRol;
     this.avatar = this.userInfo[0].avatar;
     if (this.idRol === 1) {
-      this.nombre = this.userInfo[0].nombreProfesor;
+      this.nombre = "Profesor/a: "+ this.userInfo[0].nombreProfesor;
     }
     else {
-      this.nombre = this.userInfo[0].nombreAlumno;
+      this.nombre = "Alumn@: "+ this.userInfo[0].nombreAlumno;
     }
   }
 

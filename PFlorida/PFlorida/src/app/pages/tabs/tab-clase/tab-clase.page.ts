@@ -166,10 +166,10 @@ export class TabClasePage {
     this.avatar = this.userInfo[0].avatar;
     if (this.idRol === 2) {
       await this.getCodigosClase();
-      this.nombre = this.userInfo[0].nombreAlumno;
+      this.nombre = "Alumn@: " + this.userInfo[0].nombreAlumno;
     }
     else {
-      this.nombre = this.userInfo[0].nombreProfesor;
+      this.nombre = "Profesor/a: " + this.userInfo[0].nombreProfesor;
     }
   }
 
