@@ -18,6 +18,9 @@ export class TabChatModalComponent implements OnInit {
   @Input() emailAlumno: string;
   @Input() emailProfesor: string;
   @Input() codigoClase: string;
+  @Input() nombreProfesor: string;
+  @Input() nombreAlumno: string;
+
 
   texto: string;
   mensajes: Mensaje[];
@@ -31,6 +34,9 @@ export class TabChatModalComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    console.log(this.nombreAlumno);
+    console.log(this.nombreProfesor);
+    
     await this.getChatRoomByEmails();
 
     const source = interval(3000);

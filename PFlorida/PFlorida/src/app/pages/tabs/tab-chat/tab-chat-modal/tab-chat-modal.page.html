@@ -10,13 +10,37 @@
   <ion-card [ngClass]="{'estiloAlumno':mensaje.idRol=='2','estiloProfesor':mensaje.idRol=='1'}"
     *ngFor="let mensaje of mensajes">
 
-    <ion-card-header>
-      <ion-card-title><b>{{mensaje.titulo}}</b></ion-card-title>
-      <ion-card-subtitle><b>Enviado por: {{mensaje.enviadoPor}}</b></ion-card-subtitle>
-      <ion-card-subtitle><b>Fecha de envio: {{getDate(mensaje.date)}}</b></ion-card-subtitle>
+    <ion-card-header style="padding: 0px;">
+      <ion-grid style="padding: 0px;">
+        <ion-row>
+          <ion-col size="7">
+            <ion-card-title><b>{{mensaje.titulo}}</b></ion-card-title>
+          </ion-col>
+
+          <ion-col size="3">
+            <b> {{getDate(mensaje.date)}}</b>
+          </ion-col>
+
+          <ion-col size="1">
+            <div *ngIf="mensaje.idRol === 1">
+              <ion-icon name="school"></ion-icon>
+            </div>
+
+            <div *ngIf="mensaje.idRol === 2">
+              <ion-icon name="ribbon"></ion-icon>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-header>
-    <ion-card-content>
-      <b>{{mensaje.texto}}</b>
+    <ion-card-content style="padding: 0px;">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <b>{{mensaje.texto}}</b>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-card-content>
   </ion-card>
 </ion-content>

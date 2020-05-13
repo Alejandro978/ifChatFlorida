@@ -143,7 +143,7 @@ export class TabClasePage {
         this.agregarClaseAlumno(codigo);
       }
       else {
-        this.uiService.presentAlert('Parece que no existe una Clase con este código, introduzca otro!')
+        this.uiService.presentAlert('Parece que no existe una Clase con este código, introduzca otro')
       }
     });
   }
@@ -223,6 +223,7 @@ export class TabClasePage {
   }
 
   async mostrarUsuarios(clase: Clase) {
+console.log(clase.codigo);
 
     this.modalCtrl.create({
       component: TabAlumnosClasePage,

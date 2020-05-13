@@ -31,6 +31,8 @@ export class TabAlumnosClasePage implements OnInit {
   ) { }
 
   async ngOnInit() {
+    console.log(this.codigo);
+
     await this.getAlumnosClase();
   }
 
@@ -50,7 +52,7 @@ export class TabAlumnosClasePage implements OnInit {
 
   //Método para el alumno
   async comprobarChatRoomExistente(emailAlumno, nombreAlumno) {
-    this.chatRoomService.getChatRoomsByEmails(emailAlumno, this.emailProfesor,this.codigo).then((res: any) => {
+    this.chatRoomService.getChatRoomsByEmails(emailAlumno, this.emailProfesor, this.codigo).then((res: any) => {
       console.log(res.data.length);
       if (res.data.length === 0) {
         this.crearChatRoom(emailAlumno, this.nombreClase, nombreAlumno);
@@ -71,6 +73,7 @@ export class TabAlumnosClasePage implements OnInit {
     chatRoom.emailProfesor = this.emailProfesor;
     chatRoom.nombreAlumno = nombreAlumno;
     chatRoom.nombreProfesor = this.nombreProfesor;
+    chatRoom.codigoClase = this.codigo;
     this.chatRoomService.crearChatRoom(chatRoom).then((res: any) => {
       if (res) {
         this.toastChatRoomCreado(emailAlumno);
@@ -116,7 +119,7 @@ export class TabAlumnosClasePage implements OnInit {
 
   async toastChatRoomError() {
     const toast = await this.toastCtrl.create({
-      message: 'Parece que alumno ya no existe...',
+      message: 'Parece que el alumno ya no existe...',
       duration: 2000
     });
     toast.present();
