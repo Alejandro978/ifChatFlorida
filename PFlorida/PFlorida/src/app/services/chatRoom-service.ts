@@ -82,7 +82,7 @@ export class ChatRoomService {
     let emailProfesor = datosMensaje.emailProfesor;
     let mensaje = new Mensaje();
     mensaje.date = new Date();
-    mensaje.date.setMonth(mensaje.date.getMonth() + 1);
+    mensaje.date.setMonth(mensaje.date.getMonth());
     mensaje.idRol = datosMensaje.idRol.toString();
     mensaje.texto = datosMensaje.texto;
     mensaje.titulo = datosMensaje.titulo;

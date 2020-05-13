@@ -20,6 +20,8 @@ export class TabChatModalComponent implements OnInit {
   @Input() codigoClase: string;
   @Input() nombreProfesor: string;
   @Input() nombreAlumno: string;
+  @Input() nombreClase: string;
+  mensaje: string;
 
 
   texto: string;
@@ -30,13 +32,13 @@ export class TabChatModalComponent implements OnInit {
     private alertCtrl: AlertController,
     private toastCtrl: ToastController,
     private chatRoomService: ChatRoomService,
-    private uiService:UiServiceService
+    private uiService: UiServiceService
   ) { }
 
   async ngOnInit() {
     console.log(this.nombreAlumno);
     console.log(this.nombreProfesor);
-    
+
     await this.getChatRoomByEmails();
 
     const source = interval(3000);
@@ -77,7 +79,7 @@ export class TabChatModalComponent implements OnInit {
         {
           text: 'Aceptar',
           handler: (data) => {
-            this.enviarMensaje(data.titulo, data.mensaje);
+            // this.enviarMensaje(data.titulo, data.mensaje);
           }
         }
       ]
@@ -87,22 +89,22 @@ export class TabChatModalComponent implements OnInit {
 
 
   async getChatRoomByEmails() {
-    this.chatRoomService.getChatRoomsByEmails(this.emailAlumno, this.emailProfesor,this.codigoClase).then((res: any) => {
+    this.chatRoomService.getChatRoomsByEmails(this.emailAlumno, this.emailProfesor, this.codigoClase).then((res: any) => {
       this.mensajes = res.data[0].mensajes;
     });
   }
 
 
 
-  async enviarMensaje(titulo, mensaje) {
-
-    if (!!titulo && !!mensaje) {
+  async enviarMensaje() {
+    this.titulo = "sinValor";
+    if (!!this.titulo && !!this.mensaje) {
       let datosMensaje: VMensaje = new VMensaje();
       datosMensaje.emailAlumno = this.emailAlumno;
       datosMensaje.emailProfesor = this.emailProfesor;
       datosMensaje.idRol = this.idRol;
-      datosMensaje.texto = mensaje;
-      datosMensaje.titulo = titulo;
+      datosMensaje.texto = this.mensaje;
+      datosMensaje.titulo = this.titulo;
       if (this.idRol === 1) {
         datosMensaje.enviadoPor = this.emailProfesor;
       }
@@ -113,8 +115,8 @@ export class TabChatModalComponent implements OnInit {
 
       this.chatRoomService.enviarMensaje(datosMensaje).then((res: any) => {
         if (res) {
-          this.toastEnviado();
           this.getChatRoomByEmails();
+          this.mensaje = "";
         }
         else {
           this.modalCtrl.dismiss(true);
@@ -124,7 +126,7 @@ export class TabChatModalComponent implements OnInit {
       });
     }
     else {
-      await this.toastNoEnviado();
+      // await this.toastNoEnviado();
     }
   }
 

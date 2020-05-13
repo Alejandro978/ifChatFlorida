@@ -108,7 +108,8 @@ export class TabChatPage {
         emailAlumno: chat.emailAlumno,
         codigoClase: chat.codigoClase,
         nombreProfesor:chat.nombreProfesor,
-        nombreAlumno:chat.nombreAlumno
+        nombreAlumno:chat.nombreAlumno,
+        nombreClase:chat.clase
       }
     }).then((modal) => {
       modal.present();

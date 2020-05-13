@@ -3,9 +3,10 @@
     <ion-button slot="start" fill="clear" (click)="cerrar()" color="dark">
       <ion-icon name="close"></ion-icon>
     </ion-button>
-    <ion-title>{{titulo}}</ion-title>
+    <ion-title>Clase de {{nombreClase}}</ion-title>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <ion-card [ngClass]="{'estiloAlumno':mensaje.idRol=='2','estiloProfesor':mensaje.idRol=='1'}"
     *ngFor="let mensaje of mensajes">
@@ -13,21 +14,12 @@
     <ion-card-header style="padding: 0px;">
       <ion-grid style="padding: 0px;">
         <ion-row>
-          <ion-col size="7">
-            <ion-card-title><b>{{mensaje.titulo}}</b></ion-card-title>
-          </ion-col>
-
-          <ion-col size="3">
-            <b> {{getDate(mensaje.date)}}</b>
-          </ion-col>
-
-          <ion-col size="1">
+          <ion-col size="12">
             <div *ngIf="mensaje.idRol === 1">
-              <ion-icon name="school"></ion-icon>
+              <b>{{nombreProfesor}} </b>
             </div>
-
             <div *ngIf="mensaje.idRol === 2">
-              <ion-icon name="ribbon"></ion-icon>
+              <b>{{nombreAlumno}}</b>
             </div>
           </ion-col>
         </ion-row>
@@ -36,8 +28,15 @@
     <ion-card-content style="padding: 0px;">
       <ion-grid>
         <ion-row>
-          <ion-col>
+          <ion-col size="12">
             <b>{{mensaje.texto}}</b>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <div style="text-align: right;">
+              {{mensaje.date | date:'dd/MM/yyyy hh:mm'}}
+            </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -45,8 +44,18 @@
   </ion-card>
 </ion-content>
 
-<ion-fab (click)="abrirAlertMensaje()" vertical="bottom" horizontal="end" slot="fixed">
+<ion-footer padding>
+  <ion-item>
+    <ion-textarea [(ngModel)]="mensaje">
+    </ion-textarea>
+    <ion-button (click)="enviarMensaje()" color="success">
+      <ion-icon name="send"></ion-icon>
+    </ion-button>
+  </ion-item>
+</ion-footer>
+
+<!-- <ion-fab (click)="abrirAlertMensaje()" vertical="bottom" horizontal="end" slot="fixed">
   <ion-fab-button color="primary">
     <ion-icon name="mail"></ion-icon>
   </ion-fab-button>
-</ion-fab>
+</ion-fab> -->
